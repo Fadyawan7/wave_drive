@@ -11,7 +11,17 @@ class AppColors {
   static const black20 = Color(0xFF20232D);
   static const black16 = Color(0xFF16181F);
   static const black33 = Color(0xFF333333);
-
+  static const primarycolor = Color(0xff003366);
+  static const blackcolor = Color(0xff000000);
+  static const whitecolor = Color(0xffffffff);
+  static const graycolor = Colors.grey;
+  static const inputboxcolor = Color(0xffF8F8F8);
+  static const strockcolor = Color(0xffE7E7E7);
+  static const boxbgcolor = Color(0xffE7F3FF);
+  static const liteprimarycolor = Color(0xffAED6FF);
+  static const redcolor = Colors.red;
+  static const chatboxcolor = Color(0xffF0F1F6);
+  static const bgdrawer = Color(0xffFEFEFE);
   static const primary = Colors.black;
   static const darkPrimary = Color(0xFF111111);
   static const lightPrimary = Color(0xFF5299FE);
@@ -41,11 +51,6 @@ class AppColors {
       Color.fromARGB(255, 0, 0, 0), // #057FD7
     ],
   );
-
-
-
-
-
 
   static const outlinebuttongradient = LinearGradient(
     begin: AlignmentGeometry.topCenter,

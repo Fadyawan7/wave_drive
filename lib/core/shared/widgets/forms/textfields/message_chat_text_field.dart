@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
-import 'package:wave_drive/core/shared/widgets/cards/glass_card.dart';
+import 'package:wave_drive/core/shared/widgets/forms/textfields/glass_door.dart';
 
 class MessageChatTextField extends StatelessWidget {
   const MessageChatTextField({

@@ -1,0 +1,145 @@
+import 'package:extended_image/extended_image.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
+
+
+enum LoadState {
+  //loading
+  loading,
+  //completed
+  completed,
+  //failed
+  failed
+}
+
+mixin ExtendedImageState {
+  void reLoadImage();
+  ImageInfo? get extendedImageInfo;
+  LoadState get extendedImageLoadState;
+
+  ///return widget which from LoadStateChanged function immediately
+  late bool returnLoadStateChangedWidget;
+
+  ImageProvider get imageProvider;
+
+  bool get invertColors;
+
+  Object? get imageStreamKey;
+
+  ExtendedImage get imageWidget;
+
+  Widget get completedWidget;
+
+  ImageChunkEvent? get loadingProgress;
+
+  int? get frameNumber;
+
+  bool get wasSynchronouslyLoaded;
+
+  ExtendedImageSlidePageState? get slidePageState;
+
+  Object? get lastException;
+  StackTrace? get lastStack;
+}
+
+enum ExtendedImageMode {
+  //just show image
+  none,
+  //support be to zoom,scroll
+  gesture,
+  //support be to crop,rotate,flip
+  editor
+}
+
+///get type from T
+Type typeOf<T>() => T;
+
+double clampScale(double scale, double min, double max) {
+  return scale.clamp(min, max);
+}
+
+/// Returns a value indicating whether two instances of Double represent the same value.
+///
+/// [value] equal to [other] will return `true`, otherwise, `false`.
+///
+/// If [value] or [other] is not finite (`NaN` or infinity), throws an [UnsupportedError].
+// bool doubleEqual(double value, double other) {
+//   return doubleCompare(value, other) == 0;
+// }
+
+/// Compare two double-precision values.
+/// Returns an integer that indicates whether [value] is less than, equal to, or greater than [other].
+///
+/// [value] less than [other] will return `-1`
+/// [value] equal to [other] will return `0`
+/// [value] greater than [other] will return `1`
+///
+/// If [value] or [other] is not finite (`NaN` or infinity), throws an [UnsupportedError].
+// int doubleCompare(double value, double other,
+//     {double precision = precisionErrorTolerance}) {
+//   if (value.isNaN || other.isNaN) {
+//     throw UnsupportedError('Compared with Infinity or NaN');
+//   }
+//   final double n = value - other;
+//   if (n.abs() < precision) {
+//     return 0;
+//   }
+//   return n < 0 ? -1 : 1;
+// }
+
+extension DoubleExtension on double {
+  bool get isZero => abs() < precisionErrorTolerance;
+  int compare(double other, {double precision = precisionErrorTolerance}) {
+    if (isNaN || other.isNaN) {
+      throw UnsupportedError('Compared with Infinity or NaN');
+    }
+    final double n = this - other;
+    if (n.abs() < precision) {
+      return 0;
+    }
+    return n < 0 ? -1 : 1;
+  }
+
+  bool greaterThan(double other, {double precision = precisionErrorTolerance}) {
+    return compare(other, precision: precision) > 0;
+  }
+
+  bool lessThan(double other, {double precision = precisionErrorTolerance}) {
+    return compare(other, precision: precision) < 0;
+  }
+
+  bool equalTo(double other, {double precision = precisionErrorTolerance}) {
+    return compare(other, precision: precision) == 0;
+  }
+
+  bool greaterThanOrEqualTo(double other,
+      {double precision = precisionErrorTolerance}) {
+    return compare(other, precision: precision) >= 0;
+  }
+
+  bool lessThanOrEqualTo(double other,
+      {double precision = precisionErrorTolerance}) {
+    return compare(other, precision: precision) <= 0;
+  }
+}
+
+extension RectExtension on Rect {
+  bool beyond(Rect other) {
+    return DoubleExtension(left).lessThan(other.left) ||
+        DoubleExtension(right).greaterThan(other.right) ||
+        DoubleExtension(top).lessThan(other.top) ||
+        DoubleExtension(bottom).greaterThan(other.bottom);
+  }
+
+  bool topIsSame(Rect other) => DoubleExtension(top).equalTo(other.top);
+  bool leftIsSame(Rect other) => DoubleExtension(left).equalTo(other.left);
+  bool rightIsSame(Rect other) => DoubleExtension(right).equalTo(other.right);
+  bool bottomIsSame(Rect other) => DoubleExtension(bottom).equalTo(other.bottom);
+
+  bool isSame(Rect other) =>
+      topIsSame(other) &&
+      leftIsSame(other) &&
+      rightIsSame(other) &&
+      bottomIsSame(other);
+}

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wave_drive/core/shared/utils/link_formatter.dart';
 import 'package:wave_drive/core/shared/widgets/images/app_network_image.dart';
-import 'package:rocco_mobile_plugins/rocco_mobile_plugins.dart';
 
 class AppImage extends StatelessWidget {
   const AppImage({
@@ -40,7 +39,7 @@ class AppImage extends StatelessWidget {
   final double? width;
   final double? compressionRatio;
   final BlendMode? colorBlendMode;
-  final Function(ExtendedImageState)? loadStateChanged;
+  final Function()? loadStateChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +72,6 @@ class AppImage extends StatelessWidget {
         fit: fit ?? BoxFit.cover,
         compressionRatio: compressionRatio,
         errorWidget: errorWidget,
-        loadStateChanged: loadStateChanged,
         loadingWidget: loadingWidget,
       );
     }

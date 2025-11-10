@@ -11,7 +11,6 @@ import 'package:wave_drive/core/shared/widgets/buttons/link_button.dart';
 import 'package:wave_drive/core/shared/widgets/forms/textfields/app_search_text_field.dart';
 import 'package:wave_drive/core/shared/widgets/gap.dart';
 import 'package:wave_drive/core/shared/widgets/images/country_flag_widget.dart';
-import 'package:rocco_mobile_plugins/rocco_mobile_plugins.dart';
 
 class FormBuilderCountryPicker extends StatefulWidget {
   const FormBuilderCountryPicker({
@@ -55,13 +54,10 @@ class _FormBuilderCountryPickerState extends State<FormBuilderCountryPicker> {
   @override
   void initState() {
     if (!widget.initialValue.isNullOrEmpty) {
-      _selectedCountry =
-          countries.firstWhereOrNull(
-            (element) =>
-                element.name.toLowerCase() ==
-                widget.initialValue?.toLowerCase(),
-          ) ??
-          CountryCode.fromCode('PK')!;
+     _selectedCountry = countries.firstWhere(
+  (element) => element.name.toLowerCase() == widget.initialValue?.toLowerCase(),
+  orElse: () => CountryCode.fromCode('PK')!,
+);
     }
     super.initState();
   }

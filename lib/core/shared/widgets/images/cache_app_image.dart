@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wave_drive/core/shared/utils/link_formatter.dart';
-import 'package:rocco_mobile_plugins/rocco_mobile_plugins.dart';
+import 'package:wave_drive/core/shared/utils/utils.dart';
 
 class CacheAppImage extends StatelessWidget {
   const CacheAppImage({

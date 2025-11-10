@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
-import 'package:rocco_mobile_plugins/rocco_mobile_plugins.dart';
 
 class CircleCheckbox extends StatefulWidget {
   const CircleCheckbox({
@@ -74,9 +73,9 @@ class _CircleCheckboxState extends State<CircleCheckbox> {
                 borderRadius: BorderRadius.circular(99.0),
               ),
               child: _selected
-                  ? const Icon(
-                      Bootstrap.check,
-                      size: 18.0,
+                  ? Icon(
+                      Icons.check, // ✅ Replaced Bootstrap.check
+                      size: 14.0,
                       color: AppColors.white,
                     )
                   : const SizedBox.shrink(),
@@ -86,8 +85,7 @@ class _CircleCheckboxState extends State<CircleCheckbox> {
             const SizedBox(width: 8.0),
             Text(
               widget.label!,
-              style:
-                  widget.textStyle ??
+              style: widget.textStyle ??
                   AppTextStyles.textMed16.copyWith(color: AppColors.gray),
             ),
           ],

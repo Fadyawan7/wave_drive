@@ -1,3 +1,4 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -209,6 +210,52 @@ class AppTextStyles {
     fontWeight: FontWeight.w500,
   );
 
+
+static TextStyle get heading1 => GoogleFonts.poppins(
+        fontSize: 24,
+        fontWeight: FontWeight.w600,
+        color: AppColors.whitecolor,
+      );
+  static TextStyle get logotext => GoogleFonts.poppins(
+        fontSize: 35,
+        fontWeight: FontWeight.bold,
+        color: AppColors.primarycolor,
+      );
+  static TextStyle get bodytext => GoogleFonts.poppins(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: AppColors.blackcolor,
+      );
+  static TextStyle get bodytext1 => GoogleFonts.poppins(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: AppColors.blackcolor,
+      );
+  static TextStyle get litetext => GoogleFonts.poppins(
+        fontSize: 14,
+        fontWeight: FontWeight.w300,
+        color: AppColors.blackcolor,
+      );
+  static TextStyle get litebuttontext => GoogleFonts.poppins(
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        color: AppColors.primarycolor,
+      );
+  static TextStyle get homeprimarytext => GoogleFonts.poppins(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: AppColors.primarycolor,
+      );
+  static TextStyle get homesecoundarytext => GoogleFonts.poppins(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: AppColors.blackcolor,
+      );
+  static TextStyle get inputLabel => GoogleFonts.poppins(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: Colors.grey,
+      );
   //  gilroyTextStyles
 
   static const _defaultTextStyle = TextStyle(

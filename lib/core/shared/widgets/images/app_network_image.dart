@@ -1,9 +1,9 @@
 // import 'dart:io';
 
+import 'package:extended_image/extended_image.dart';
 import 'package:wave_drive/core/shared/utils/image_header.dart';
 import 'package:flutter/material.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
-import 'package:rocco_mobile_plugins/rocco_mobile_plugins.dart';
 
 class AppNetworkImage extends StatelessWidget {
   const AppNetworkImage(
