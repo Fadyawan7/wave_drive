@@ -600,4 +600,9 @@ class AppImages {
   static const String reward = "assets/images/reward.svg";
   static const String persion = "assets/images/persion.svg";
   static const String persionadd = "assets/images/persionadd.svg";
+
+
+  //.....................
+
+  
 }

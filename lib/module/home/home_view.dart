@@ -1,31 +1,48 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wave_drive/core/shared/widgets/custom_drawer/custom_drawer.dart';
 
 // widgets (UI only placeholders)
 import 'widgets/bottom_sheet_widget.dart';
 import 'widgets/driver_prefrences_bottom_sheet.dart';
 import 'widgets/online_status_toggle.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  final Completer<GoogleMapController> _controller = Completer();
+
+  static const CameraPosition _kCameraposition = CameraPosition(
+    target: LatLng(59.3293, 18.0686),
+    zoom: 14.0,
+  );
   @override
   Widget build(BuildContext context) {
     final buildMylocationButton = _buildMylocationButton(context);
 
     return Scaffold(
-      body: Stack(
+      drawer: const CustomDrawer(),
+      body: 
+      
+      Stack(
         children: [
           // Background placeholder instead of Google Map
           Positioned.fill(
-            child: Container(
-              color: Colors.grey[300],
-              child: const Center(
-                child: Icon(Icons.map, size: 100, color: Colors.grey),
-              ),
+            child: GoogleMap(
+              initialCameraPosition: _kCameraposition,
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+              },
             ),
           ),
-
           // Top bar
           Positioned(
             top: 20,
@@ -33,9 +50,13 @@ class HomeView extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                _menuButton(),
+                Builder(
+                  builder: (context) {
+                    return _menuButton(context);
+                  },
+                ),
                 const Gap(40),
-                 OnlineStatusToggle(),
+                OnlineStatusToggle(),
               ],
             ),
           ),
@@ -65,46 +86,50 @@ class HomeView extends StatelessWidget {
                       'Other Action',
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),
 
           // Bottom sheet placeholder
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 180,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 8,
-                    spreadRadius: 2,
-                  )
-                ],
-              ),
-              child: const Center(
-                child: Text(
-                  "Bottom Sheet Placeholder",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                ),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   bottom: 0,
+          //   left: 0,
+          //   right: 0,
+          //   child: Container(
+          //     height: 180,
+          //     decoration: const BoxDecoration(
+          //       color: Colors.white,
+          //       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          //       boxShadow: [
+          //         BoxShadow(
+          //           color: Colors.black12,
+          //           blurRadius: 8,
+          //           spreadRadius: 2,
+          //         ),
+          //       ],
+          //     ),
+          //     child: const Center(
+          //       child: Text(
+          //         "Bottom Sheet Placeholder",
+          //         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
+   
+   
     );
   }
 
   /// Menu button placeholder
-  Widget _menuButton() {
+  Widget _menuButton(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Scaffold.of(context).openDrawer();
+      },
       child: Container(
         height: 44,
         width: 44,
@@ -126,11 +151,15 @@ class HomeView extends StatelessWidget {
 
   /// Floating icon widget
   Widget _buildFloatingIconImage(
-      BuildContext context, String imagePath, String label) {
+    BuildContext context,
+    String imagePath,
+    String label,
+  ) {
     return InkWell(
       onTap: () {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('$label tapped')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('$label tapped')));
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(88),
@@ -154,9 +183,9 @@ class HomeView extends StatelessWidget {
   Widget _buildMylocationButton(BuildContext context) {
     return InkWell(
       onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('My location tapped')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('My location tapped')));
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(88),
