@@ -1,13 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wave_drive/core/shared/widgets/custom_drawer/custom_drawer.dart';
 
 // widgets (UI only placeholders)
-import 'widgets/bottom_sheet_widget.dart';
-import 'widgets/driver_prefrences_bottom_sheet.dart';
 import 'widgets/online_status_toggle.dart';
 
 class HomeView extends StatefulWidget {
@@ -25,14 +24,28 @@ class _HomeViewState extends State<HomeView> {
     zoom: 14.0,
   );
   @override
+  void initState() {
+    super.initState();
+
+    // 👇 Make status bar transparent
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent, // transparent status bar
+        statusBarIconBrightness:
+            Brightness.dark, // use light if background is dark
+        statusBarBrightness: Brightness.light,
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     final buildMylocationButton = _buildMylocationButton(context);
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       drawer: const CustomDrawer(),
-      body: 
-      
-      Stack(
+      body: Stack(
         children: [
           // Background placeholder instead of Google Map
           Positioned.fill(
@@ -45,7 +58,7 @@ class _HomeViewState extends State<HomeView> {
           ),
           // Top bar
           Positioned(
-            top: 20,
+            top: 50,
             left: 16,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -119,8 +132,6 @@ class _HomeViewState extends State<HomeView> {
           // ),
         ],
       ),
-   
-   
     );
   }
 
@@ -135,7 +146,7 @@ class _HomeViewState extends State<HomeView> {
         width: 44,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(25),
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
