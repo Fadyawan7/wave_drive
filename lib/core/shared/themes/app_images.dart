@@ -600,4 +600,13 @@ class AppImages {
   static const String reward = "assets/images/reward.svg";
   static const String persion = "assets/images/persion.svg";
   static const String persionadd = "assets/images/persionadd.svg";
+
+  /////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////
+  //////////////////////BASIT IMAGES///////////////////////
+
+  static const String earnMore = "assets/images/EarnMore.png";
+  static const String earnedCard = "assets/images/earnthisweek.png";
+  static const String scheduleCalender = "assets/images/schedule.png";
+  static const String rideSummaryMap = "assets/images/rideSummary.png";
 }

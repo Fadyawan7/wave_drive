@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 
 // widgets (UI only placeholders)
 import 'widgets/bottom_sheet_widget.dart';
@@ -11,6 +12,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool showWavepopup = false;
     final buildMylocationButton = _buildMylocationButton(context);
 
     return Scaffold(
@@ -32,11 +34,7 @@ class HomeView extends StatelessWidget {
             left: 16,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                _menuButton(),
-                const Gap(40),
-                 OnlineStatusToggle(),
-              ],
+              children: [_menuButton(), const Gap(40), OnlineStatusToggle()],
             ),
           ),
 
@@ -65,37 +63,31 @@ class HomeView extends StatelessWidget {
                       'Other Action',
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),
-
-          // Bottom sheet placeholder
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 180,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 8,
-                    spreadRadius: 2,
-                  )
-                ],
-              ),
-              child: const Center(
-                child: Text(
-                  "Bottom Sheet Placeholder",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                ),
-              ),
-            ),
-          ),
+          showWavepopup == true
+              ? Positioned(
+                  bottom: 20,
+                  left: 20,
+                  right: 20,
+                  child: Container(
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Automatic approval is disabled. You get runs from Wave',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.bodytext1,
+                      ),
+                    ),
+                  ),
+                )
+              : BottomSheetWidget(),
         ],
       ),
     );
@@ -126,11 +118,15 @@ class HomeView extends StatelessWidget {
 
   /// Floating icon widget
   Widget _buildFloatingIconImage(
-      BuildContext context, String imagePath, String label) {
+    BuildContext context,
+    String imagePath,
+    String label,
+  ) {
     return InkWell(
       onTap: () {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('$label tapped')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('$label tapped')));
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(88),
@@ -154,9 +150,9 @@ class HomeView extends StatelessWidget {
   Widget _buildMylocationButton(BuildContext context) {
     return InkWell(
       onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('My location tapped')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('My location tapped')));
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(88),
