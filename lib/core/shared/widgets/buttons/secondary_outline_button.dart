@@ -43,7 +43,7 @@ class _SecondaryOutlineButtonState extends State<SecondaryOutlineButton> {
         onTap: () {},
         splashFactory: InkRipple.splashFactory,
         borderRadius: BorderRadius.circular(widget.radius),
-        overlayColor: MaterialStateColor.resolveWith(
+        overlayColor: WidgetStateColor.resolveWith(
           (states) => AppColors.stroke.withOpacity(.2),
         ),
         child: Ink(

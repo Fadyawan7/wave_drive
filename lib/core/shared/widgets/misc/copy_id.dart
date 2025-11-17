@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:wave_drive/core/shared/themes/themes.dart';
 import 'package:wave_drive/core/shared/widgets/gap.dart';
-import 'package:wave_drive/core/shared/widgets/images/app_image.dart';
 
 class CopyId extends StatelessWidget {
   const CopyId({

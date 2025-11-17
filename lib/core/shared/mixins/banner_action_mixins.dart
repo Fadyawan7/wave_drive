@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:wave_drive/core/routes/app_navigator.dart';
 import 'package:wave_drive/core/shared/extensions/extensions.dart';
-import 'package:wave_drive/injector_setup.dart';
 
 mixin BannerActionsMixin {
   void onTapBanner(BuildContext context, String? link, bool isInternalLink) {

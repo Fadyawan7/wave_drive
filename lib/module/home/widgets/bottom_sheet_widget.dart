@@ -4,6 +4,9 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
+import 'package:wave_drive/module/home/acceptance_rate_view.dart';
+import 'package:wave_drive/module/home/driver_score_view.dart';
+import 'package:wave_drive/module/home/widgets/user_request_bottom_sheet.dart';
 
 class BottomSheetWidget extends StatelessWidget {
   const BottomSheetWidget({super.key});
@@ -39,13 +42,19 @@ class BottomSheetWidget extends StatelessWidget {
               // Offer Card
               GestureDetector(
                 onTap: () {
-                  // Get.toNamed('user_request_view');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const UserRequestBottomsheet(),
+                    ),
+                  );
                 },
                 child: Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: AppColors.whitecolor,
                     borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: AppColors.strockcolor, width: 1),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.05),
@@ -61,15 +70,19 @@ class BottomSheetWidget extends StatelessWidget {
                         'assets/images/percentage_icon.png',
                         width: 24,
                         height: 24,
-                        color: Color(0xFF002D72), // optional tint
+                        color: AppColors.primarycolor,
                       ),
                       const Gap(12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Get 50kr for 5 rides",
-                                style: AppTextStyles.homeprimarytext),
+                            Text(
+                              "Get 50kr for 5 rides",
+                              style: AppTextStyles.homeprimarytext.copyWith(
+                                color: AppColors.primarycolor,
+                              ),
+                            ),
                             const SizedBox(height: 4),
                             Text(
                               "Start riding today!",
@@ -78,10 +91,7 @@ class BottomSheetWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Text(
-                        "1/5",
-                        style: AppTextStyles.homeprimarytext,
-                      ),
+                      Text("1/5", style: AppTextStyles.homeprimarytext),
                     ],
                   ),
                 ),
@@ -103,21 +113,28 @@ class BottomSheetWidget extends StatelessWidget {
                       title: "Driver Score",
                       valueWidget: Row(
                         children: [
-                          const Icon(Icons.military_tech,
-                              color: Color(0xFF002D72)),
+                          const Icon(
+                            Icons.military_tech,
+                            color: AppColors.primarycolor,
+                          ),
                           Gap(4),
                           Text(
                             "Copter",
                             style: GoogleFonts.poppins(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: const Color(0xFF002D72),
+                              color: AppColors.primarycolor,
                             ),
-                          )
+                          ),
                         ],
                       ),
                       onTap: () {
-                        // Get.toNamed('driver_score_view');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DriverScoreView(),
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -130,7 +147,12 @@ class BottomSheetWidget extends StatelessWidget {
                 title: "Acceptance Rate",
                 value: "99%",
                 onTap: () {
-                  // Get.toNamed('accept_rate_view');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AcceptanceRateView(),
+                    ),
+                  );
                 },
               ),
             ],
@@ -140,7 +162,7 @@ class BottomSheetWidget extends StatelessWidget {
     );
   }
 
-// Helper method
+  // Helper method
   Widget _infoCard({
     required String title,
     String? value,
@@ -154,6 +176,7 @@ class BottomSheetWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.whitecolor,
           borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.strockcolor, width: 1),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05), // light grey/black shadow
@@ -177,7 +200,7 @@ class BottomSheetWidget extends StatelessWidget {
               ],
             ),
             Spacer(),
-            const Icon(Icons.chevron_right, color: Colors.black54)
+            const Icon(Icons.chevron_right, color: Colors.black54),
           ],
         ),
       ),

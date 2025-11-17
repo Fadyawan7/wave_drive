@@ -191,8 +191,7 @@ class _ExpandableTextState extends State<ExpandableText> {
                   }
 
                   return RichText(
-                    text: textSpan,
-                    textScaleFactor: textScaleFactor,
+                    text: textSpan, textScaler: TextScaler.linear(textScaleFactor),
                   );
                 },
               ),
@@ -203,8 +202,7 @@ class _ExpandableTextState extends State<ExpandableText> {
             Align(
               alignment: Alignment.bottomRight,
               child: RichText(
-                text: _linkText,
-                textScaleFactor: textScaleFactor,
+                text: _linkText, textScaler: TextScaler.linear(textScaleFactor),
               ),
             ),
           ],

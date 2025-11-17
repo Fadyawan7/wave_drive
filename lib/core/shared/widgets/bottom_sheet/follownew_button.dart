@@ -52,7 +52,7 @@ class _FollowNewButtonState extends State<FollowNewButton> {
         },
         splashFactory: InkRipple.splashFactory,
         borderRadius: BorderRadius.circular(widget.radius),
-        overlayColor: MaterialStateColor.resolveWith(
+        overlayColor: WidgetStateColor.resolveWith(
           (states) => AppColors.stroke.withOpacity(.2),
         ),
         child: Ink(

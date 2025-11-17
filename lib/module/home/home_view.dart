@@ -1,76 +1,39 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:wave_drive/core/shared/widgets/custom_drawer/custom_drawer.dart';
+import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 
 // widgets (UI only placeholders)
+import 'widgets/bottom_sheet_widget.dart';
 import 'widgets/online_status_toggle.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
-  final Completer<GoogleMapController> _controller = Completer();
-
-  static const CameraPosition _kCameraposition = CameraPosition(
-    target: LatLng(59.3293, 18.0686),
-    zoom: 14.0,
-  );
-  @override
-  void initState() {
-    super.initState();
-
-    // 👇 Make status bar transparent
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent, // transparent status bar
-        statusBarIconBrightness:
-            Brightness.dark, // use light if background is dark
-        statusBarBrightness: Brightness.light,
-      ),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
+    bool showWavepopup = false;
     final buildMylocationButton = _buildMylocationButton(context);
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      drawer: const CustomDrawer(),
       body: Stack(
         children: [
           // Background placeholder instead of Google Map
           Positioned.fill(
-            child: GoogleMap(
-              initialCameraPosition: _kCameraposition,
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
+            child: Container(
+              color: Colors.grey[300],
+              child: const Center(
+                child: Icon(Icons.map, size: 100, color: Colors.grey),
+              ),
             ),
           ),
+
           // Top bar
           Positioned(
-            top: 50,
+            top: 20,
             left: 16,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Builder(
-                  builder: (context) {
-                    return _menuButton(context);
-                  },
-                ),
-                const Gap(40),
-                OnlineStatusToggle(),
-              ],
+              children: [_menuButton(), const Gap(40), OnlineStatusToggle()],
             ),
           ),
 
@@ -103,50 +66,42 @@ class _HomeViewState extends State<HomeView> {
               ],
             ),
           ),
-
-          // Bottom sheet placeholder
-          // Positioned(
-          //   bottom: 0,
-          //   left: 0,
-          //   right: 0,
-          //   child: Container(
-          //     height: 180,
-          //     decoration: const BoxDecoration(
-          //       color: Colors.white,
-          //       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-          //       boxShadow: [
-          //         BoxShadow(
-          //           color: Colors.black12,
-          //           blurRadius: 8,
-          //           spreadRadius: 2,
-          //         ),
-          //       ],
-          //     ),
-          //     child: const Center(
-          //       child: Text(
-          //         "Bottom Sheet Placeholder",
-          //         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-          //       ),
-          //     ),
-          //   ),
-          // ),
+          showWavepopup == true
+              ? Positioned(
+                  bottom: 20,
+                  left: 20,
+                  right: 20,
+                  child: Container(
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Automatic approval is disabled. You get runs from Wave',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.bodytext1,
+                      ),
+                    ),
+                  ),
+                )
+              : BottomSheetWidget(),
         ],
       ),
     );
   }
 
   /// Menu button placeholder
-  Widget _menuButton(BuildContext context) {
+  Widget _menuButton() {
     return InkWell(
-      onTap: () {
-        Scaffold.of(context).openDrawer();
-      },
+      onTap: () {},
       child: Container(
         height: 44,
         width: 44,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
               color: Colors.black12,

@@ -1,13 +1,10 @@
 import 'dart:async';
 
-import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:wave_drive/app.dart';
-import 'package:wave_drive/core/data/local/hive_storage.dart';
 import 'package:wave_drive/core/shared/utils/app_logger.dart';
-import 'package:wave_drive/injector_setup.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 

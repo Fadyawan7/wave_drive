@@ -23,6 +23,17 @@ class _InfoExpansionTileState extends State<InfoExpansionTile> {
   bool isExpanded = false; // local expansion state
 
   @override
+  void didUpdateWidget(InfoExpansionTile oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Rebuild when widget properties change
+    if (oldWidget.icon != widget.icon ||
+        oldWidget.title != widget.title ||
+        oldWidget.content != widget.content) {
+      setState(() {});
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
@@ -47,6 +58,8 @@ class _InfoExpansionTileState extends State<InfoExpansionTile> {
           title: Text(widget.title, style: AppTextStyles.bodytext1),
           trailing: Icon(
             isExpanded ? Icons.expand_less : Icons.expand_more,
+            size: 28,
+            color: AppColors.graycolor,
           ),
           children: [
             Padding(

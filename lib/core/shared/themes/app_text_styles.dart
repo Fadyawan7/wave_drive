@@ -8,7 +8,6 @@ class AppFontFamily {
 }
 
 class AppTextStyles {
-
   AppTextStyles._();
   static TextStyle text6 = _defaultTextStyle.copyWith(fontSize: 6);
 
@@ -145,7 +144,7 @@ class AppTextStyles {
     fontSize: 12,
     fontWeight: FontWeight.w500,
   );
-    static TextStyle textMed13 = _defaultTextStyle.copyWith(
+  static TextStyle textMed13 = _defaultTextStyle.copyWith(
     fontSize: 13,
     fontWeight: FontWeight.w500,
   );
@@ -210,52 +209,57 @@ class AppTextStyles {
     fontWeight: FontWeight.w500,
   );
 
-
-static TextStyle get heading1 => GoogleFonts.poppins(
-        fontSize: 24,
-        fontWeight: FontWeight.w600,
-        color: AppColors.whitecolor,
-      );
+  static TextStyle get heading1 => GoogleFonts.poppins(
+    fontSize: 24,
+    fontWeight: FontWeight.w600,
+    color: AppColors.whitecolor,
+  );
   static TextStyle get logotext => GoogleFonts.poppins(
-        fontSize: 35,
-        fontWeight: FontWeight.bold,
-        color: AppColors.primarycolor,
-      );
+    fontSize: 35,
+    fontWeight: FontWeight.bold,
+    color: AppColors.primarycolor,
+  );
   static TextStyle get bodytext => GoogleFonts.poppins(
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-        color: AppColors.blackcolor,
-      );
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.blackcolor,
+  );
   static TextStyle get bodytext1 => GoogleFonts.poppins(
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-        color: AppColors.blackcolor,
-      );
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: AppColors.blackcolor,
+  );
   static TextStyle get litetext => GoogleFonts.poppins(
-        fontSize: 14,
-        fontWeight: FontWeight.w300,
-        color: AppColors.blackcolor,
-      );
+    fontSize: 14,
+    fontWeight: FontWeight.w300,
+    color: AppColors.blackcolor,
+  );
   static TextStyle get litebuttontext => GoogleFonts.poppins(
-        fontSize: 12,
-        fontWeight: FontWeight.w400,
-        color: AppColors.primarycolor,
-      );
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.primarycolor,
+  );
   static TextStyle get homeprimarytext => GoogleFonts.poppins(
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-        color: AppColors.primarycolor,
-      );
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.primarycolor,
+  );
+  static TextStyle get earnprimary => GoogleFonts.poppins(
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    color: AppColors.primarycolor,
+    letterSpacing: 0,
+  );
   static TextStyle get homesecoundarytext => GoogleFonts.poppins(
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
-        color: AppColors.blackcolor,
-      );
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.blackcolor,
+  );
   static TextStyle get inputLabel => GoogleFonts.poppins(
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
-        color: Colors.grey,
-      );
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Colors.grey,
+  );
   //  gilroyTextStyles
 
   static const _defaultTextStyle = TextStyle(

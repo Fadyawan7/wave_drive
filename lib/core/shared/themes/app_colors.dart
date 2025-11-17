@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const black = Colors.black;
+  static const botoomIcon = Color(0xFFCFCFCF);
+
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
+ static const black = Colors.black;
   static const gray72 = Color(0xff6C7072);
   static const green = Colors.green;
   static const green70 = Color(0xff00B670);
@@ -28,6 +33,12 @@ class AppColors {
   static const primary04 = Color(0xFF048AFE);
   static const primary42 = Color(0xFF428BF3);
   static const primary33 = Color(0xFF3300FF);
+
+
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
+ 
 
   // Figma Design Colors
   static const purpleF6 = Color(0xFF7A5BF6);

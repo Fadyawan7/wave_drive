@@ -52,17 +52,17 @@ class SocialButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: (isLoading || isDisabled) ? null : onPressed,
           style: ButtonStyle(
-            padding: MaterialStateProperty.all(EdgeInsets.zero),
+            padding: WidgetStateProperty.all(EdgeInsets.zero),
             splashFactory: InkRipple.splashFactory,
-            overlayColor: MaterialStateColor.resolveWith(
+            overlayColor: WidgetStateColor.resolveWith(
               (states) => AppColors.stroke.withOpacity(.2),
             ),
-            backgroundColor: MaterialStateProperty.all(
+            backgroundColor: WidgetStateProperty.all(
               color ?? AppColors.darkPrimary,
             ),
-            elevation: MaterialStateProperty.all(0),
+            elevation: WidgetStateProperty.all(0),
 
-            shape: MaterialStateProperty.all(
+            shape: WidgetStateProperty.all(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(radius),
                 side: BorderSide(

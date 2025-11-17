@@ -65,7 +65,7 @@ class _AppTabBarState extends State<AppTabBar> with TickerProviderStateMixin {
           widget.unselectedLabelStyle ?? AppTextStyles.textMed16,
       splashBorderRadius: BorderRadius.circular(4),
       splashFactory: InkRipple.splashFactory,
-      overlayColor: MaterialStateColor.resolveWith(
+      overlayColor: WidgetStateColor.resolveWith(
         (states) => AppColors.stroke.withOpacity(.2),
       ),
       onTap: widget.onChanged,

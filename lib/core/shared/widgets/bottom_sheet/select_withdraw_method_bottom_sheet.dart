@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wave_drive/core/routes/app_navigator.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 import 'package:wave_drive/core/shared/widgets/images/app_image.dart';

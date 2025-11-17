@@ -178,8 +178,7 @@ class _AppSearchTextFieldState extends State<AppSearchTextField>
       padding: widget.suffixInsets,
       child: CupertinoButton(
         onPressed: widget.onSuffixTap ?? _defaultOnSuffixTap,
-        minSize: 0,
-        padding: EdgeInsets.zero,
+        padding: EdgeInsets.zero, minimumSize: Size(0, 0),
         child: IconTheme(
           data: iconThemeData,
           child: widget.suffixIcon,

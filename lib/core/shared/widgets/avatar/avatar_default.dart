@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
-import 'package:wave_drive/core/shared/utils/random_color_user_name.dart';
 import 'package:wave_drive/core/shared/utils/text_transforms.dart';
 import 'package:wave_drive/core/shared/widgets/images/app_image.dart';
 

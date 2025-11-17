@@ -73,16 +73,16 @@ class PrimaryButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: (isLoading || isDisabled) ? null : onPressed,
           style: ButtonStyle(
-            padding: MaterialStateProperty.all(padding ?? EdgeInsets.zero),
+            padding: WidgetStateProperty.all(padding ?? EdgeInsets.zero),
             splashFactory: InkRipple.splashFactory,
-            overlayColor: MaterialStateColor.resolveWith(
+            overlayColor: WidgetStateColor.resolveWith(
               (states) => AppColors.stroke.withOpacity(.2),
             ),
-            backgroundColor: MaterialStateProperty.all(
+            backgroundColor: WidgetStateProperty.all(
               color ?? Colors.transparent,
             ),
-            elevation: MaterialStateProperty.all(0),
-            shape: MaterialStateProperty.all(
+            elevation: WidgetStateProperty.all(0),
+            shape: WidgetStateProperty.all(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(radius),
               ),
