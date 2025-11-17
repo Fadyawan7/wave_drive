@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 
 class AppVerticalDivider extends StatelessWidget {
-  const AppVerticalDivider({
+  const AppVerticalDivider({super.key, 
     this.gap = 10,
     this.color = AppColors.gray,
     this.height = 20.0,

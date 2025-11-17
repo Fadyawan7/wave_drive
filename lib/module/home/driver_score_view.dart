@@ -3,7 +3,6 @@ import 'package:gap/gap.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 
-
 class DriverScoreView extends StatelessWidget {
   const DriverScoreView({super.key});
 
@@ -14,7 +13,7 @@ class DriverScoreView extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
           onPressed: () {
-            
+            Navigator.pop(context);
           },
         ),
         title: Text('Driver Score', style: AppTextStyles.bodytext),
@@ -33,8 +32,10 @@ class DriverScoreView extends StatelessWidget {
               const Gap(24),
 
               /// Top Section
-              Text('Your Driver Score',
-                  style: AppTextStyles.homesecoundarytext),
+              Text(
+                'Your Driver Score',
+                style: AppTextStyles.homesecoundarytext,
+              ),
               const Gap(8),
               Text('100%', style: AppTextStyles.logotext),
               const Gap(4),
@@ -56,8 +57,10 @@ class DriverScoreView extends StatelessWidget {
               /// Info box with icon
               Container(
                 width: double.infinity,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 12,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.liteprimarycolor,
                   borderRadius: BorderRadius.circular(8),
@@ -102,20 +105,27 @@ class DriverScoreView extends StatelessWidget {
               /// Keep your score high!
               Container(
                 width: double.infinity,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 18,
+                  horizontal: 12,
+                ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Keep your score high!',
-                        style: AppTextStyles.bodytext
-                            .copyWith(fontWeight: FontWeight.bold)),
+                    Text(
+                      'Keep your score high!',
+                      style: AppTextStyles.bodytext.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const Gap(4),
-                    Text('To maintain a high score',
-                        style: AppTextStyles.homesecoundarytext),
+                    Text(
+                      'To maintain a high score',
+                      style: AppTextStyles.homesecoundarytext,
+                    ),
                     const Gap(12),
 
                     /// Bullet points
@@ -140,8 +150,11 @@ class DriverScoreView extends StatelessWidget {
               /// Compliments Section
               Column(
                 children: [
-                  Icon(Icons.thumb_up_alt_outlined,
-                      size: 64, color: AppColors.primarycolor),
+                  Icon(
+                    Icons.thumb_up_alt_outlined,
+                    size: 64,
+                    color: AppColors.primarycolor,
+                  ),
                   const Gap(12),
                   Text('Compliments', style: AppTextStyles.homeprimarytext),
                   const Gap(8),

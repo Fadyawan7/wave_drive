@@ -36,7 +36,7 @@ class CircleIconButton extends StatelessWidget {
         cursor: SystemMouseCursors.click,
         child: InkWell(
           onTap: (isLoading || isDisabled) ? null : onTap,
-          overlayColor: MaterialStateColor.resolveWith(
+          overlayColor: WidgetStateColor.resolveWith(
             (states) => AppColors.stroke.withOpacity(.2),
           ),
           radius: 99,

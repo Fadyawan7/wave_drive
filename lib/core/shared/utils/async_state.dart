@@ -48,7 +48,7 @@ sealed class AsyncState<T> {
     if (isRefreshing) if (refreshing != null) return refreshing();
     if (isReloading) if (reloading != null) return reloading();
     if (hasValue) return data(value as T);
-    if (hasError) return error(this.error, this.stackTrace);
+    if (hasError) return error(this.error, stackTrace);
 
     return loading();
   }
@@ -66,7 +66,7 @@ sealed class AsyncState<T> {
     if (hasValue) if (data != null) return data(value as T);
     if (hasError) {
       if (error != null) {
-        return error(this.error, this.stackTrace);
+        return error(this.error, stackTrace);
       }
     }
     if (isLoading) if (loading != null) return loading();

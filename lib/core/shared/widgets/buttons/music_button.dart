@@ -6,7 +6,7 @@ class MusicButton extends StatefulWidget {
   final String? imageUrl;
   final Function() onPressed;
 
-  const MusicButton({this.imageUrl, required this.onPressed});
+  const MusicButton({super.key, this.imageUrl, required this.onPressed});
 
   @override
   _MusicButtonState createState() => _MusicButtonState();

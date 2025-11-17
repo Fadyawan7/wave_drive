@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wave_drive/core/shared/themes/app_colors.dart';
-import 'package:wave_drive/core/shared/themes/app_images.dart';
-import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 import 'package:wave_drive/core/shared/themes/themes.dart';
 import 'package:wave_drive/core/shared/utils/numeral.dart';
 import 'package:wave_drive/core/shared/widgets/gap.dart';

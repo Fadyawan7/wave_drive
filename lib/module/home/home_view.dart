@@ -4,7 +4,6 @@ import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 
 // widgets (UI only placeholders)
 import 'widgets/bottom_sheet_widget.dart';
-import 'widgets/driver_prefrences_bottom_sheet.dart';
 import 'widgets/online_status_toggle.dart';
 
 class HomeView extends StatelessWidget {

@@ -4,6 +4,8 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
+import 'package:wave_drive/module/home/acceptance_rate_view.dart';
+import 'package:wave_drive/module/home/driver_score_view.dart';
 import 'package:wave_drive/module/home/widgets/user_request_bottom_sheet.dart';
 
 class BottomSheetWidget extends StatelessWidget {
@@ -127,7 +129,12 @@ class BottomSheetWidget extends StatelessWidget {
                         ],
                       ),
                       onTap: () {
-                        // Get.toNamed('driver_score_view');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DriverScoreView(),
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -140,7 +147,12 @@ class BottomSheetWidget extends StatelessWidget {
                 title: "Acceptance Rate",
                 value: "99%",
                 onTap: () {
-                  // Get.toNamed('accept_rate_view');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AcceptanceRateView(),
+                    ),
+                  );
                 },
               ),
             ],

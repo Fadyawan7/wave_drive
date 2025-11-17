@@ -40,7 +40,7 @@ class FollowIconButton extends StatelessWidget {
         onTap: onPressed,
         splashFactory: InkRipple.splashFactory,
         borderRadius: BorderRadius.circular(radius),
-        overlayColor: MaterialStateColor.resolveWith(
+        overlayColor: WidgetStateColor.resolveWith(
           (states) => AppColors.stroke.withOpacity(.2),
         ),
         child: Ink(

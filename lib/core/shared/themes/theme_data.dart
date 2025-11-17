@@ -12,7 +12,7 @@ class Themes {
     splashFactory: InkRipple.splashFactory,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        overlayColor: MaterialStateColor.resolveWith(
+        overlayColor: WidgetStateColor.resolveWith(
           (states) => AppColors.stroke.withOpacity(.2),
         ),
         splashFactory: InkRipple.splashFactory,
@@ -20,7 +20,7 @@ class Themes {
     ),
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
-        overlayColor: MaterialStateColor.resolveWith(
+        overlayColor: WidgetStateColor.resolveWith(
           (states) => AppColors.stroke.withOpacity(.2),
         ),
         splashFactory: InkRipple.splashFactory,
@@ -35,7 +35,7 @@ class Themes {
       unselectedLabelColor: Colors.white,
       unselectedLabelStyle: AppTextStyles.text16,
       splashFactory: InkRipple.splashFactory,
-      overlayColor: MaterialStateColor.resolveWith(
+      overlayColor: WidgetStateColor.resolveWith(
         (states) => AppColors.stroke.withOpacity(.2),
       ),
     ),

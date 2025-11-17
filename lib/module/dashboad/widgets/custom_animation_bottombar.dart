@@ -90,7 +90,6 @@ class _ItemWidget extends StatelessWidget {
   final Curve curve;
 
   const _ItemWidget({
-    Key? key,
     required this.item,
     required this.isSelected,
     required this.backgroundColor,
@@ -98,7 +97,7 @@ class _ItemWidget extends StatelessWidget {
     required this.itemCornerRadius,
     required this.iconSize,
     this.curve = Curves.easeInOut,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

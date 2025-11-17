@@ -28,7 +28,7 @@ class NavigateButton extends StatelessWidget {
       customBorder: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(99),
       ),
-      overlayColor: MaterialStateColor.resolveWith(
+      overlayColor: WidgetStateColor.resolveWith(
         (states) => AppColors.stroke.withOpacity(.2),
       ),
       child: Material(
