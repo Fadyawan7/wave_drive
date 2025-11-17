@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_images.dart';
 import 'package:wave_drive/module/dashboad/earn_more/earn_more_view.dart';
@@ -16,6 +17,8 @@ class DashboardView extends StatefulWidget {
 class _DashboardViewState extends State<DashboardView> {
   int _selectedIndex = 0;
 
+ 
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -25,16 +28,10 @@ class _DashboardViewState extends State<DashboardView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: IndexedStack(
-          index: _selectedIndex,
-          children: const [
-            HomeView(),
-            EarnMoreView(),
-            TravelsView(),
-            HelpView(),
-          ],
-        ),
+      extendBodyBehindAppBar: true,
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: const [HomeView(), EarnMoreView(), TravelsView(), HelpView()],
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(

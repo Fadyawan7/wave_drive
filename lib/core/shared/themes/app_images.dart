@@ -609,4 +609,8 @@ class AppImages {
   static const String earnedCard = "assets/images/earnthisweek.png";
   static const String scheduleCalender = "assets/images/schedule.png";
   static const String rideSummaryMap = "assets/images/rideSummary.png";
+
+  //.....................
+
+  
 }
