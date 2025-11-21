@@ -23,7 +23,7 @@ class RoundedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       // ✅ FIX: Provide Material ancestor
-      color: Colors.transparent,
+      // color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(6),
         onTap: onpress,
@@ -32,7 +32,7 @@ class RoundedButton extends StatelessWidget {
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(6.0),
-            color: buttonColor, // ✅ uses your buttonColor now
+            color: AppColors.primarycolor,
           ),
           child: loading
               ? const Center(

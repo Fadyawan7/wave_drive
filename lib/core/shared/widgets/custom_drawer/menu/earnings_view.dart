@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
-import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
+import 'package:wave_drive/core/shared/widgets/custom_drawer/menu/activity_view.dart';
 import 'package:wave_drive/core/shared/widgets/custom_drawer/menu/widgets/earning_summary_bottom_sheet.dart';
 
 class EarningsView extends StatefulWidget {
@@ -12,7 +13,6 @@ class EarningsView extends StatefulWidget {
 }
 
 class _EarningsViewState extends State<EarningsView> {
-  // Previously in GetX controller
   double totalEarnings = 0;
   double commissionFee = 0;
   double goalPercentage = 0.25; // example
@@ -34,7 +34,14 @@ class _EarningsViewState extends State<EarningsView> {
           onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
-        title: Text('Earnings', style: AppTextStyles.bodytext1),
+        title: Text(
+          'Earnings',
+          style: GoogleFonts.poppins(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: AppColors.blackcolor,
+          ),
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,21 +49,31 @@ class _EarningsViewState extends State<EarningsView> {
           // Header message
           Padding(
             padding: const EdgeInsets.only(left: 16),
-            child: Text('Earnings', style: AppTextStyles.bodytext1),
+            child: Text(
+              'Earnings',
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: AppColors.blackcolor,
+              ),
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16),
+            padding: const EdgeInsets.only(left: 16, top: 4),
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 12),
               color: AppColors.whitecolor,
-              child: const Text(
+              child: Text(
                 'Complete trips to see your earnings here',
-                style: TextStyle(fontSize: 14, color: Color(0xFF666666)),
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: const Color(0xFF666666),
+                ),
               ),
             ),
           ),
-
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
@@ -79,13 +96,13 @@ class _EarningsViewState extends State<EarningsView> {
                   ),
                   const Gap(12),
 
-                  // View Summary text button
+                  // View Summary button
                   Center(
                     child: TextButton(
                       onPressed: () => openSummaryBottomSheet(context),
-                      child: const Text(
+                      child: Text(
                         "View Summary",
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                           color: AppColors.primarycolor,
@@ -95,7 +112,7 @@ class _EarningsViewState extends State<EarningsView> {
                   ),
                   const Gap(24),
 
-                  // Earning target card
+                  // Earning Target Card
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(16),
@@ -113,20 +130,21 @@ class _EarningsViewState extends State<EarningsView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Earning Target',
-                          style: TextStyle(
+                          style: GoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: Color(0xFF222222),
+                            color: const Color(0xFF222222),
                           ),
                         ),
                         const Gap(4),
-                        const Text(
+                        Text(
                           'Set income goal per day or week',
-                          style: TextStyle(
+                          style: GoogleFonts.poppins(
                             fontSize: 13,
-                            color: Color(0xFF666666),
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFF666666),
                           ),
                         ),
                         const Gap(16),
@@ -140,9 +158,10 @@ class _EarningsViewState extends State<EarningsView> {
                         const Gap(8),
                         Text(
                           '${(goalPercentage * 100).toInt()}% of goal achieved',
-                          style: const TextStyle(
+                          style: GoogleFonts.poppins(
                             fontSize: 13,
-                            color: Color(0xFF666666),
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFF666666),
                           ),
                         ),
                       ],
@@ -151,19 +170,18 @@ class _EarningsViewState extends State<EarningsView> {
                   const Gap(24),
 
                   // Activity section
-                  const Text(
+                  Text(
                     'Activity',
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF222222),
+                      color: const Color(0xFF222222),
                     ),
                   ),
                   const Gap(16),
 
                   Row(
                     children: [
-                      // Hours card
                       _activityBox(
                         title: "Hours",
                         onTap: () {},
@@ -184,68 +202,39 @@ class _EarningsViewState extends State<EarningsView> {
                               }),
                             ),
                             const Gap(8),
-                            const Row(
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  "M",
-                                  style: TextStyle(
+                              children: List.generate(7, (index) {
+                                final days = [
+                                  'M',
+                                  'T',
+                                  'W',
+                                  'T',
+                                  'F',
+                                  'S',
+                                  'S',
+                                ];
+                                return Text(
+                                  days[index],
+                                  style: GoogleFonts.poppins(
                                     fontSize: 12,
-                                    color: Color(0xFF666666),
+                                    color: const Color(0xFF666666),
                                   ),
-                                ),
-                                Text(
-                                  "T",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xFF666666),
-                                  ),
-                                ),
-                                Text(
-                                  "W",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xFF666666),
-                                  ),
-                                ),
-                                Text(
-                                  "T",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xFF666666),
-                                  ),
-                                ),
-                                Text(
-                                  "F",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xFF666666),
-                                  ),
-                                ),
-                                Text(
-                                  "S",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xFF666666),
-                                  ),
-                                ),
-                                Text(
-                                  "S",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xFF666666),
-                                  ),
-                                ),
-                              ],
+                                );
+                              }),
                             ),
                           ],
                         ),
                       ),
                       const Gap(16),
-                      // Trips card
                       _activityBox(
                         onTap: () {
-                          Navigator.pushNamed(context, 'activity_view');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ActivityView(),
+                            ),
+                          );
                         },
                         title: "Trips",
                         child: Column(
@@ -253,18 +242,19 @@ class _EarningsViewState extends State<EarningsView> {
                           children: [
                             Text(
                               "$completedTrips/$totalRequests",
-                              style: const TextStyle(
+                              style: GoogleFonts.poppins(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
-                                color: Color(0xFF222222),
+                                color: const Color(0xFF222222),
                               ),
                             ),
                             const Gap(8),
-                            const Text(
+                            Text(
                               "Complete trips / All Requests",
-                              style: TextStyle(
+                              style: GoogleFonts.poppins(
                                 fontSize: 12,
-                                color: Color(0xFF666666),
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xFF666666),
                               ),
                             ),
                           ],
@@ -281,7 +271,6 @@ class _EarningsViewState extends State<EarningsView> {
     );
   }
 
-  // Earning box widget
   Widget _earningBox({required String title, required String value}) {
     return Expanded(
       child: Container(
@@ -303,12 +292,16 @@ class _EarningsViewState extends State<EarningsView> {
           children: [
             Text(
               title,
-              style: TextStyle(fontSize: 14, color: AppColors.blackcolor),
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: AppColors.blackcolor,
+              ),
             ),
             const Gap(8),
             Text(
               value,
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
                 color: AppColors.primarycolor,
@@ -320,7 +313,6 @@ class _EarningsViewState extends State<EarningsView> {
     );
   }
 
-  // Activity box widget
   Widget _activityBox({
     required String title,
     required Widget child,
@@ -351,9 +343,10 @@ class _EarningsViewState extends State<EarningsView> {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
+                    style: GoogleFonts.poppins(
                       fontSize: 14,
-                      color: Color(0xFF666666),
+                      fontWeight: FontWeight.w500,
+                      color: const Color(0xFF666666),
                     ),
                   ),
                   Icon(

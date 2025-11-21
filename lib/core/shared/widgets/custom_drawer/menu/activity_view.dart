@@ -1,181 +1,205 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:wave_drive/core/shared/themes/app_colors.dart';
 
 class ActivityView extends StatelessWidget {
-  ActivityView({super.key});
+  const ActivityView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF003B73),
-        elevation: 0,
-        title: const Text(
-          "Activity",
-          style: TextStyle(color: Colors.white, fontSize: 17),
+    return DefaultTabController(
+      length: 3, // Top tabs count
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+            size: 18,
+          ),
+          title: const Text(
+            "Activity",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          centerTitle: true,
+          bottom: const TabBar(
+            labelColor: Colors.black,
+            dividerColor: Colors.transparent,
+            unselectedLabelColor: Colors.grey,
+            indicator: BoxDecoration(color: Colors.transparent),
+            tabs: [
+              Tab(text: "04.08 - 10.08"),
+              Tab(text: "Current Week"),
+              Tab(text: "Past 3 Months"),
+            ],
+          ),
         ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-
-      body: Column(
-        children: [
-
-          // TOP ROUNDED WHITE CONTAINER
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(28),
-                topRight: Radius.circular(28),
+        body: Column(
+          children: [
+            const SizedBox(height: 10),
+            // Rides Count
+            Center(
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 22,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF002F6C),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Text(
+                  "40 Rides",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
+                  ),
+                ),
               ),
             ),
-            child: Column(
-              children: [
-                const Gap(24),
-
-                // Title
-                const Text(
-                  "Weekly Activity",
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black54,
-                      fontWeight: FontWeight.w500),
-                ),
-
-                const Gap(6),
-
-                // Big Number
-                const Text(
-                  "0.00",
-                  style: TextStyle(
-                    fontSize: 38,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-
-                const Gap(4),
-
-                const Text(
-                  "Hours logged this week",
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.black38,
-                  ),
-                ),
-
-                const Gap(20),
-
-                GestureDetector(
-                  onTap: () {},
-                  child: const Text(
-                    "View previous data",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF0066CC),
-                      decoration: TextDecoration.underline,
+            const SizedBox(height: 20),
+            // Chart
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: BarChart(
+                  BarChartData(
+                    alignment: BarChartAlignment.spaceAround,
+                    minY: 0,
+                    maxY: 30,
+                    gridData: FlGridData(
+                      show: true,
+                      drawVerticalLine: false,
+                      horizontalInterval: 5,
+                      checkToShowHorizontalLine: (value) => value % 5 == 0,
+                      getDrawingHorizontalLine: (value) =>
+                          FlLine(color: Colors.grey.shade300, strokeWidth: 1),
                     ),
+                    borderData: FlBorderData(
+                      show: true,
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: 1,
+                        ),
+                        top: BorderSide(color: Colors.grey.shade300, width: 1),
+                      ),
+                    ),
+                    titlesData: FlTitlesData(
+                      leftTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 20,
+                          interval: 5,
+                          getTitlesWidget: (value, meta) => Text(
+                            value.toInt().toString(),
+                            style: const TextStyle(
+                              fontSize: 10,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          getTitlesWidget: (value, meta) {
+                            const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+                            return Text(
+                              days[value.toInt()],
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      topTitles: AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                      rightTitles: AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                    ),
+                    barGroups: [
+                      bar(0, 5, true),
+                      bar(1, 10, true),
+                      bar(2, 26, true),
+                      bar(3, 8, false),
+                      bar(4, 11, false),
+                      bar(5, 4, false),
+                      bar(6, 6, false),
+                    ],
                   ),
                 ),
-
-                const Gap(40),
-              ],
-            ),
-          ),
-
-          // Floating Icon
-          Center(
-            child: Container(
-              height: 55,
-              width: 55,
-              decoration: BoxDecoration(
-                color: const Color(0xFFEFF5FF),
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 6,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
               ),
-              child: const Center(
-                child: Text(
-                  "S",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Color(0xFF0066CC),
-                    fontWeight: FontWeight.bold,
-                  ),
+            ),
+            // Bottom Tabs
+            Container(
+              height: 65,
+              decoration: const BoxDecoration(color: AppColors.inputboxcolor),
+              child: DefaultTabController(
+                length: 3,
+                child: TabBar(
+                  labelColor: Colors.black,
+                  indicator: BoxDecoration(color: Colors.transparent),
+                  unselectedLabelColor: Colors.grey,
+                  indicatorColor: Colors.transparent,
+                  tabs: [
+                    Tab(child: navItem("Hours", false)),
+                    Tab(child: navItem("Rides", true)),
+                    Tab(child: navItem("Cancels", false)),
+                  ],
                 ),
               ),
             ),
-          ),
-
-          const Spacer(),
-
-          // ℹ Bottom Stats Box
-          Container(
-            height: 100,
-            decoration: BoxDecoration(
-              color: const Color(0xFFF8F8F8),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 6,
-                  offset: const Offset(0, -3),
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                _StatBox(label: "Hours", value: "0"),
-                _StatBox(label: "Rides", value: "0"),
-                _StatBox(label: "Cancels", value: "0"),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
-}
 
-class _StatBox extends StatelessWidget {
-  final String label;
-  final String value;
+  BarChartGroupData bar(int x, double y, bool active) {
+    return BarChartGroupData(
+      x: x,
+      barRods: [
+        BarChartRodData(
+          toY: y,
+          width: 22,
 
-  const _StatBox({required this.label, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(6),
+            topRight: Radius.circular(6),
           ),
-        ),
-        Gap(4),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 13,
-            color: Colors.black45,
-          ),
+          color: active ? const Color(0xFF002F6C) : Colors.grey.shade300,
         ),
       ],
+    );
+  }
+
+  Widget navItem(String text, bool active) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      decoration: BoxDecoration(
+        color: active ? AppColors.white : AppColors.inputboxcolor,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: Colors.black,
+        ),
+      ),
     );
   }
 }
