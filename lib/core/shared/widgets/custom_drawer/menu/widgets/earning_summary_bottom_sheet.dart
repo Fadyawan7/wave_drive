@@ -3,7 +3,6 @@ import 'package:gap/gap.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 
-
 class EarningsSummaryBottomSheet extends StatefulWidget {
   const EarningsSummaryBottomSheet({super.key});
 
@@ -52,19 +51,14 @@ class _EarningsSummaryBottomSheetState
           const Gap(16),
 
           // Title
-          Text(
-            "Earnings Summary",
-            style: AppTextStyles.bodytext,
-          ),
+          Text("Earnings Summary", style: AppTextStyles.bodytext),
 
           const Gap(16),
 
           // PERIOD SELECTOR
           Container(
             height: 53,
-            decoration: const BoxDecoration(
-              color: Color(0xFFF7F7F7),
-            ),
+            decoration: const BoxDecoration(color: Color(0xFFF7F7F7)),
             child: Row(
               children: [
                 _buildPeriodTab("Daily"),
@@ -81,10 +75,7 @@ class _EarningsSummaryBottomSheetState
             spacing: 80,
             children: [
               IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: AppColors.primarycolor,
-                ),
+                icon: Icon(Icons.arrow_back_ios, color: AppColors.primarycolor),
                 onPressed: () => Navigator.pop(context),
               ),
               Text(
@@ -109,11 +100,7 @@ class _EarningsSummaryBottomSheetState
 
           const Gap(16),
 
-          const Divider(
-            color: Color(0xFFEEEEEE),
-            height: 1,
-            thickness: 1,
-          ),
+          const Divider(color: Color(0xFFEEEEEE), height: 1, thickness: 1),
 
           const Gap(16),
 

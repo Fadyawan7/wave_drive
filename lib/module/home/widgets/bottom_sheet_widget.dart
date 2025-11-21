@@ -1,4 +1,3 @@
-// packages
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,7 +15,7 @@ class BottomSheetWidget extends StatelessWidget {
     return DraggableScrollableSheet(
       initialChildSize: 0.4,
       minChildSize: 0.3,
-      maxChildSize: 0.55,
+      maxChildSize: 0.45,
       builder: (context, scrollController) {
         return Container(
           decoration: const BoxDecoration(
@@ -39,7 +38,7 @@ class BottomSheetWidget extends StatelessWidget {
                 ),
               ),
 
-              // Offer Card
+              // OFFER CARD
               GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -60,7 +59,7 @@ class BottomSheetWidget extends StatelessWidget {
                         color: Colors.black.withOpacity(0.05),
                         blurRadius: 12,
                         spreadRadius: 1,
-                        offset: Offset(0, 4),
+                        offset: const Offset(0, 4),
                       ),
                     ],
                   ),
@@ -91,12 +90,16 @@ class BottomSheetWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Text("1/5", style: AppTextStyles.homeprimarytext),
+                      Text(
+                        "1/5",
+                        style: AppTextStyles.homeprimarytext,
+                      ),
                     ],
                   ),
                 ),
               ),
               const Gap(20),
+
               // Today's Earnings & Driver Score Row
               Row(
                 children: [
@@ -107,7 +110,7 @@ class BottomSheetWidget extends StatelessWidget {
                       onTap: () {},
                     ),
                   ),
-                  const Gap(12),
+                  const Gap(8),
                   Expanded(
                     child: _infoCard(
                       title: "Driver Score",
@@ -117,7 +120,7 @@ class BottomSheetWidget extends StatelessWidget {
                             Icons.military_tech,
                             color: AppColors.primarycolor,
                           ),
-                          Gap(4),
+                          const Gap(4),
                           Text(
                             "Copter",
                             style: GoogleFonts.poppins(
@@ -142,7 +145,7 @@ class BottomSheetWidget extends StatelessWidget {
               ),
               const Gap(12),
 
-              // Acceptance Rate Card
+              // ACCEPTANCE RATE
               _infoCard(
                 title: "Acceptance Rate",
                 value: "99%",
@@ -162,7 +165,7 @@ class BottomSheetWidget extends StatelessWidget {
     );
   }
 
-  // Helper method
+  // Helper Card
   Widget _infoCard({
     required String title,
     String? value,
@@ -172,34 +175,37 @@ class BottomSheetWidget extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 5),
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
         decoration: BoxDecoration(
           color: AppColors.whitecolor,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: AppColors.strockcolor, width: 1),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05), // light grey/black shadow
+              color: Colors.black.withOpacity(0.05),
               blurRadius: 12,
               spreadRadius: 1,
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: AppTextStyles.homesecoundarytext),
-                Gap(11),
+                Text(
+                  title,
+                  style: AppTextStyles.homesecoundarytext.copyWith(
+                    fontSize: 12,
+                  ),
+                ),
+                const Gap(11),
                 valueWidget ??
                     Text(value ?? "", style: AppTextStyles.homeprimarytext),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             const Icon(Icons.chevron_right, color: Colors.black54),
           ],
         ),

@@ -30,16 +30,14 @@ class CustomDrawer extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                Gap(50),
                 Container(
                   padding: const EdgeInsets.all(16),
                   color: AppColors.inputboxcolor,
                   child: Column(
                     children: [
+                      Gap(50),
                       GestureDetector(
-                        onTap: () {
-                          // Profile navigation
-                        },
+                        onTap: () {},
                         child: Row(
                           children: [
                             CircleAvatar(
@@ -156,6 +154,3 @@ class CustomDrawer extends StatelessWidget {
     );
   }
 }
-
-
-

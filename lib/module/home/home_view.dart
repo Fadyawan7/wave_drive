@@ -1,13 +1,31 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
+import 'package:wave_drive/core/shared/widgets/custom_drawer/custom_drawer.dart';
 
 // widgets (UI only placeholders)
 import 'widgets/bottom_sheet_widget.dart';
 import 'widgets/online_status_toggle.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  // final drawerService = DrawerServices();
+
+  final Completer<GoogleMapController> _controller = Completer();
+  static const CameraPosition _kCameraposition = CameraPosition(
+    target: LatLng(31.468252232568275, 74.26616813495548),
+    zoom: 14.0,
+  );
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -15,21 +33,23 @@ class HomeView extends StatelessWidget {
     final buildMylocationButton = _buildMylocationButton(context);
 
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: const CustomDrawer(),
+
       body: Stack(
         children: [
           // Background placeholder instead of Google Map
           Positioned.fill(
-            child: Container(
-              color: Colors.grey[300],
-              child: const Center(
-                child: Icon(Icons.map, size: 100, color: Colors.grey),
-              ),
+            child: GoogleMap(
+              initialCameraPosition: _kCameraposition,
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+              },
             ),
           ),
-
           // Top bar
           Positioned(
-            top: 20,
+            top: 40,
             left: 16,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -95,7 +115,9 @@ class HomeView extends StatelessWidget {
   /// Menu button placeholder
   Widget _menuButton() {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        _scaffoldKey.currentState?.openDrawer();
+      },
       child: Container(
         height: 44,
         width: 44,
