@@ -11,7 +11,7 @@ class PrivacyView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Privacy", style: AppTextStyles.bodytext1),
+        title: Text("Privacy", style: AppTextStyles.text15),
         centerTitle: true,
         backgroundColor: AppColors.whitecolor,
         elevation: 0,
@@ -29,7 +29,7 @@ class PrivacyView extends StatelessWidget {
               leading: const Icon(Icons.insert_drive_file, color: Colors.black),
               title: Text(
                 "Your personal data",
-                style: AppTextStyles.bodytext,
+                style: AppTextStyles.text15,
               ),
               subtitle: const Text(
                 "Download a copy of your data",

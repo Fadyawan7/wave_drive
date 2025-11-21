@@ -4,12 +4,18 @@ import 'package:flutter/material.dart';
 
 class Themes {
   static ThemeData lightTheme = ThemeData(
-    scaffoldBackgroundColor: Colors.transparent,
+    scaffoldBackgroundColor: AppColors.white,
     brightness: Brightness.light,
     useMaterial3: true,
-    fontFamily: 'Karla',
+    fontFamily: 'Poppins',
     splashColor: Colors.white,
     splashFactory: InkRipple.splashFactory,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.deepPurple,
+          foregroundColor: Colors.white,
+          elevation: 0,
+        ),
+
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         overlayColor: WidgetStateColor.resolveWith(
@@ -44,6 +50,6 @@ class Themes {
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     useMaterial3: true,
-    fontFamily: 'Karla',
+    fontFamily: 'Poppins',
   );
 }

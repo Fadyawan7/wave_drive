@@ -60,7 +60,7 @@ class CampaignsView extends StatelessWidget {
                   // Amount
                   Text(
                     "0.00Kr",
-                    style: AppTextStyles.logotext,
+                    style: AppTextStyles.text10,
                   ),
                   SizedBox(height: 12),
                   // Subtitle
@@ -76,7 +76,7 @@ class CampaignsView extends StatelessWidget {
                   SizedBox(height: 20),
                   // Link
                   Text("View previous campaigns",
-                      style: AppTextStyles.homeprimarytext),
+                      style: AppTextStyles.text14),
                 ],
               ),
             ),

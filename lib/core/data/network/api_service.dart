@@ -6,6 +6,7 @@ import 'package:retrofit/retrofit.dart';
 // part 'api_service.g.dart';
 part 'services/auth.dart';
 part 'services/user.dart';
+ part 'api_service.g.dart';
 
 
 

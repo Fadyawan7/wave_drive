@@ -2,7 +2,7 @@
 
 // ignore_for_file: constant_identifier_names
 
-abstract class LocaleKeys {
+abstract class  LocaleKeys {
   static const validation_required = 'validation.required';
   static const validation_email_invalid = 'validation.email_invalid';
   static const validation_otp_invalid = 'validation.otp_invalid';
@@ -10,7 +10,6 @@ abstract class LocaleKeys {
   static const common_million = 'common.million';
   static const common_billion = 'common.billion';
   static const common_trillion = 'common.trillion';
-
   static const common_thousand = 'common.thousand';
   static const common_internal_server_error = 'common.internal_server_error';
   static const common_withdraw = 'common.withdraw';
@@ -41,8 +40,7 @@ abstract class LocaleKeys {
   static const form_field_family_name = 'form_field.family_name';
   static const form_field_family_name_hint = 'form_field.family_name_hint';
   static const form_field_family_description = 'form_field.family_description';
-  static const form_field_family_description_hint =
-      'form_field.family_description_hint';
+  static const form_field_family_description_hint = 'form_field.family_description_hint';
   static const form_field = 'form_field';
   static const action_follow = 'action.follow';
   static const action_unfollow = 'action.unfollow';
@@ -89,8 +87,7 @@ abstract class LocaleKeys {
   static const family_family_members = 'family.family_members';
   static const family_create_family = 'family.create_family';
   static const family_create_family_request = 'family.create_family_request';
-  static const family_create_family_request_description =
-      'family.create_family_request_description';
+  static const family_create_family_request_description = 'family.create_family_request_description';
   static const family_all_families = 'family.all_families';
   static const family_member_request = 'family.member_request';
   static const family_new_members_request = 'family.new_members_request';
@@ -119,13 +116,11 @@ abstract class LocaleKeys {
   static const wallet_history_last_30_days = 'wallet_history.last_30_days';
   static const wallet_history_last_60_days = 'wallet_history.last_60_days';
   static const wallet_history_last_90_days = 'wallet_history.last_90_days';
-  static const wallet_history_purchase_history =
-      'wallet_history.purchase_history';
+  static const wallet_history_purchase_history = 'wallet_history.purchase_history';
   static const wallet_history = 'wallet_history';
   static const change_password_title = 'change_password.title';
   static const change_password_password = 'change_password.password';
-  static const change_password_confirm_password =
-      'change_password.confirm_password';
+  static const change_password_confirm_password = 'change_password.confirm_password';
   static const change_password_note = 'change_password.note';
   static const change_password_done_btn = 'change_password.done_btn';
   static const change_password = 'change_password';
@@ -152,8 +147,7 @@ abstract class LocaleKeys {
   static const creator_center_more = 'creator_center.more';
   static const creator_center_bean_task = 'creator_center.bean_task';
   static const creator_center_live_preview = 'creator_center.live_preview';
-  static const creator_center_text_live_preview =
-      'creator_center.text_live_preview';
+  static const creator_center_text_live_preview = 'creator_center.text_live_preview';
   static const creator_center_create = 'creator_center.create';
   static const creator_center_live_tutorial = 'creator_center.live_tutorial';
   static const creator_center_live_skills = 'creator_center.live_skills';
@@ -162,15 +156,12 @@ abstract class LocaleKeys {
   static const creator_center_btn_go_live = 'creator_center.btn_go_live';
   static const creator_center_total_rcoin = 'creator_center.total_rcoin';
   static const creator_center_event_rcoin = 'creator_center.event_rcoin';
-  static const creator_center_valid_video_hours =
-      'creator_center.valid_video_hours';
-  static const creator_center_valid_party_hours =
-      'creator_center.valid_party_hours';
-  static const creator_center_valid_audio_hours =
-      'creator_center.valid_audio_hours';
-  static const creator_center_total_audio_rcoin =
-      'creator_center.total_audio_rcoin';
+  static const creator_center_valid_video_hours = 'creator_center.valid_video_hours';
+  static const creator_center_valid_party_hours = 'creator_center.valid_party_hours';
+  static const creator_center_valid_audio_hours = 'creator_center.valid_audio_hours';
+  static const creator_center_total_audio_rcoin = 'creator_center.total_audio_rcoin';
   static const creator_center_btn_done = 'creator_center.btn_done';
   static const creator_center_basic_rcoin = 'creator_center.basic_rcoin';
   static const creator_center = 'creator_center';
+
 }

@@ -25,7 +25,7 @@ class AppBarField extends StatelessWidget {
           Gap(MediaQuery.of(context).size.width * 0.23),
           Text(
             text,
-            style: AppTextStyles.heading1,
+            style: AppTextStyles.text15,
           )
         ],
       ),

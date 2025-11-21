@@ -50,7 +50,7 @@ class CustomDrawer extends StatelessWidget {
                             Gap(12),
                             Text(
                               "Iftikhar Baig",
-                              style: AppTextStyles.bodytext1,
+                              style: AppTextStyles.text15,
                             ),
                           ],
                         ),
@@ -126,8 +126,8 @@ class CustomDrawer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(value, style: AppTextStyles.homeprimarytext),
-          Text(label, style: AppTextStyles.litebuttontext),
+          Text(value, style: AppTextStyles.text15),
+          Text(label, style: AppTextStyles.text16),
         ],
       ),
     );

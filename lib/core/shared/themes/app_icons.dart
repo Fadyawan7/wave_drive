@@ -1,6 +1,10 @@
 class AppIcons {
   AppIcons._();
 
+
+  static const String waveLogo = 'assets/images/waveLogo.png';
+  static const String animateLogo = 'assets/images/animateLogo.png';
+  /////
   static const String detail = 'assets/icons/detail.svg';
   static const String candle = 'assets/icons/candle.svg';
   static const String fire = 'assets/icons/fire.svg';
@@ -228,3 +232,8 @@ class AppIcons {
   static const String public = 'assets/icons/public.svg';
   static const String private = 'assets/icons/private.svg';
 }
+
+
+
+
+  
