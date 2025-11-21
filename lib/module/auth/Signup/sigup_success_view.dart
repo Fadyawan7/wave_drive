@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:wave_drive/core/shared/themes/app_images.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 import 'package:wave_drive/core/shared/widgets/language_field/language_field.dart';
 import 'package:wave_drive/module/dashboad/dashboard_view.dart';
@@ -19,7 +20,6 @@ class _SuccessScreenState extends State<SuccessScreen>
 
   @override
   void initState() {
-    
     super.initState();
     _animationController = AnimationController(
       vsync: this,
@@ -36,7 +36,7 @@ class _SuccessScreenState extends State<SuccessScreen>
     ).animate(_animationController);
 
     _animationController.forward();
-         Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         Navigator.pushReplacement(
           context,
@@ -93,46 +93,8 @@ class _SuccessScreenState extends State<SuccessScreen>
                     width: 167,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/images/success.png'),
+                        image: AssetImage(AppImages.succesIcon),
                         fit: BoxFit.cover,
-                      ),
-                    ),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: SizedBox(
-                          width: 100,
-                          height: 100,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.asset(
-                              'assets/animations/success.gif',
-                              frameBuilder:
-                                  (
-                                    context,
-                                    child,
-                                    frame,
-                                    wasSynchronouslyLoaded,
-                                  ) {
-                                    if (frame == null) {
-                                      return const CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: Colors.white,
-                                      );
-                                    }
-                                    return child;
-                                  },
-                              errorBuilder: (context, error, stackTrace) {
-                                debugPrint('GIF error: $error');
-                                return const Icon(
-                                  Icons.check_circle,
-                                  size: 60,
-                                  color: Colors.white,
-                                );
-                              },
-                            ),
-                          ),
-                        ),
                       ),
                     ),
                   ),

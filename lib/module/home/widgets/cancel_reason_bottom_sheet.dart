@@ -67,22 +67,22 @@ class CancelReasonBottomSheet extends StatelessWidget {
   }
 
   Widget _buildReasonOption(String reason) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 12,
-      children: [
-        const Gap(5),
-        Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () {
-              // Get.toNamed('dashboard_view');
-            },
+    return GestureDetector(
+      onTap: () {
+        // Get.toNamed('dashboard_view');
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 12,
+        children: [
+          const Gap(5),
+          Material(
+            color: Colors.transparent,
             child: Text(reason, style: AppTextStyles.bodytext1),
           ),
-        ),
-        Divider(thickness: 1, color: AppColors.strockcolor),
-      ],
+          Divider(thickness: 1, color: AppColors.strockcolor),
+        ],
+      ),
     );
   }
 }

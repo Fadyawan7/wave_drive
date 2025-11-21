@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
+import 'package:wave_drive/core/shared/themes/app_images.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 import 'package:wave_drive/module/dashboad/earn_more/model/history_model.dart';
 import 'package:wave_drive/module/dashboad/earn_more/ride_summary_screen.dart';
@@ -103,11 +104,13 @@ class _RideHistoryScreenState extends State<RideHistoryScreen> {
                       SizedBox(
                         width: 24,
                         child: Center(
-                          child: Icon(
-                            item.voiletIccon,
-                            color: AppColors.black33,
-                            size: 18,
-                          ),
+                          child:
+                              //  Icon(
+                              //   item.voiletIccon,
+                              //   color: AppColors.black33,
+                              //   size: 18,
+                              // ),
+                              item.voiletImage ?? SizedBox(),
                         ),
                       ),
                       const SizedBox(width: 8),

@@ -81,6 +81,7 @@ class SignupView extends StatelessWidget {
                           prefixIcon: Icon(
                             Icons.email,
                             color: AppColors.blackcolor,
+                            size: 20,
                           ),
                         ),
                         Gap(24),
@@ -174,6 +175,7 @@ class SignupView extends StatelessWidget {
                           prefixIcon: Icon(
                             Icons.lock,
                             color: AppColors.blackcolor,
+                            size: 20,
                           ),
                         ),
                         Gap(24),

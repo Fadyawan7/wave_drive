@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 
@@ -16,7 +17,11 @@ class DriverScoreView extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        title: Text('Driver Score', style: AppTextStyles.bodytext),
+        title: Text('Driver Score',  style: GoogleFonts.poppins(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: AppColors.black,
+            ),),
         centerTitle: true,
         elevation: 0,
         backgroundColor: AppColors.whitecolor,

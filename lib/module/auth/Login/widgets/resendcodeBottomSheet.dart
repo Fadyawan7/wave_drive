@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
+import 'package:wave_drive/core/shared/themes/themes.dart';
 // files
 
 class Resendcodebottomsheet extends StatelessWidget {
@@ -34,7 +35,11 @@ class Resendcodebottomsheet extends StatelessWidget {
           Divider(),
           ListTile(
             minTileHeight: 10.0,
-            leading: Icon(Icons.sms, color: AppColors.blackcolor),
+            leading: Image.asset(
+              AppImages.messageicon,
+              height: 22,
+              color: AppColors.blackcolor,
+            ),
             title: Text("Resend code by SMS"),
             onTap: () {
               // Handle SMS resend
@@ -44,7 +49,11 @@ class Resendcodebottomsheet extends StatelessWidget {
           ListTile(
             minTileHeight: 10.0,
 
-            leading: Icon(Icons.phone, color: AppColors.blackcolor),
+            leading: Image.asset(
+              AppImages.phoneIcon,
+              height: 22,
+              color: AppColors.blackcolor,
+            ),
             title: Text("Request call back"),
             onTap: () {
               // Handle call request
@@ -54,7 +63,11 @@ class Resendcodebottomsheet extends StatelessWidget {
           ListTile(
             minTileHeight: 10.0,
 
-            leading: Icon(Icons.edit, color: AppColors.blackcolor),
+            leading: Image.asset(
+              AppImages.editPhoneIcon,
+              height: 22,
+              color: AppColors.blackcolor,
+            ),
             title: Text("Edit phone number"),
             onTap: () {
               // Handle phone number edit

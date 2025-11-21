@@ -17,8 +17,6 @@ class DashboardView extends StatefulWidget {
 class _DashboardViewState extends State<DashboardView> {
   int _selectedIndex = 0;
 
- 
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -34,6 +32,7 @@ class _DashboardViewState extends State<DashboardView> {
         children: const [HomeView(), EarnMoreView(), TravelsView(), HelpView()],
       ),
       bottomNavigationBar: Container(
+        height: 68,
         decoration: BoxDecoration(
           border: Border(
             top: BorderSide(

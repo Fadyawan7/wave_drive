@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 
@@ -30,7 +31,14 @@ class AcceptanceRateView extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        title: Text('Acceptance rate', style: AppTextStyles.bodytext),
+        title: Text(
+          'Acceptance rate',
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+            color: AppColors.black,
+          ),
+        ),
         centerTitle: true,
       ),
       backgroundColor: AppColors.whitecolor,
@@ -161,7 +169,7 @@ class AcceptanceRateView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12),
               children: const [
                 InfoExpansionTile(
-                  icon: Icons.calculate_outlined, 
+                  icon: Icons.calculate_outlined,
                   title: 'How acceptance rate is calculated',
                   content:
                       'This percentage shows how often a driver accepts incoming ride requests. For example, if a driver receives 50 requests and accepts 45, their acceptance rate is 90%.',

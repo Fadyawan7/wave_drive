@@ -609,8 +609,11 @@ class AppImages {
   static const String earnedCard = "assets/images/earnthisweek.png";
   static const String scheduleCalender = "assets/images/schedule.png";
   static const String rideSummaryMap = "assets/images/rideSummary.png";
+  static const String succesIcon = "assets/images/succesIcon.png";
+  static const String messageicon = "assets/images/messageIcon.png";
+  static const String phoneIcon = "assets/images/phoneIcon.png";
+  static const String editPhoneIcon = "assets/images/editPhoneIcon.png";
+  static const String voileticon = "assets/images/voilet.png";
 
   //.....................
-
-  
 }

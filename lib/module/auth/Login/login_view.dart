@@ -118,7 +118,7 @@ class _LoginViewState extends State<LoginView>
           controller: TextEditingController(),
           hintText: 'Enter your email',
           maxLines: 1,
-          prefixIcon: Icon(Icons.email, color: AppColors.blackcolor),
+          prefixIcon: Icon(Icons.email, color: AppColors.blackcolor, size: 20),
         ),
         const Gap(24),
         TextFieldCustom(
@@ -126,7 +126,7 @@ class _LoginViewState extends State<LoginView>
           hintText: 'password',
           obscureText: false,
           maxLines: 1,
-          prefixIcon: Icon(Icons.lock, color: AppColors.blackcolor),
+          prefixIcon: Icon(Icons.lock, color: AppColors.blackcolor, size: 20),
         ),
         // forget pass
         _buildForgetPass(),
@@ -199,7 +199,11 @@ class _LoginViewState extends State<LoginView>
                       //         '${phoneController.selectedCountry.value?.flagEmoji} ${phoneController.countryCode.value}',
                       //       ),
                       const Gap(8),
-                      Icon(Icons.expand_more, color: AppColors.primarycolor),
+                      Icon(
+                        Icons.expand_more,
+                        color: AppColors.primarycolor,
+                        size: 20,
+                      ),
                     ],
                   ),
                 ),
@@ -236,7 +240,7 @@ class _LoginViewState extends State<LoginView>
           hintText: 'password',
           obscureText: false,
           maxLines: 1,
-          prefixIcon: Icon(Icons.lock, color: AppColors.blackcolor),
+          prefixIcon: Icon(Icons.lock, color: AppColors.blackcolor, size: 20),
         ),
         // forget pass
         _buildForgetPass(),

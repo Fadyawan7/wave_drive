@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:wave_drive/core/shared/themes/app_images.dart';
 
 class HistoryModel {
   String? dateTime;
   String? destination;
-  IconData? voiletIccon;
+  Image? voiletImage;
   String? location;
   String? ruppes;
 
   HistoryModel({
     this.destination,
-    this.voiletIccon,
+    this.voiletImage,
     this.location,
     this.ruppes,
     this.dateTime,
@@ -17,26 +18,26 @@ class HistoryModel {
 }
 
 List<HistoryModel> momentPostList = [
-  HistoryModel(
+  HistoryModel(                                               
     dateTime: '12 Aug, 10:00',
     location: 'Near Docentgatan, Malmö...',
     destination: "Ride Finished",
     ruppes: "100",
-    voiletIccon: Icons.video_stable_outlined,
+    voiletImage: Image.asset(AppImages.voileticon, height: 16, width: 16),
   ),
   HistoryModel(
     dateTime: '8 Feb 11:00',
     location: 'Near Hansagatan, Lund...',
     destination: "Passenger did not show up",
     ruppes: "60",
-    voiletIccon: Icons.video_stable_outlined,
+    voiletImage: Image.asset(AppImages.voileticon, height: 16, width: 16),
   ),
   HistoryModel(
     dateTime: '12 Aug 12:10',
     location: 'Near Docentgatan, Malmö...',
     destination: "Ride Finished",
     ruppes: "90",
-    voiletIccon: Icons.video_stable_outlined,
+    voiletImage: Image.asset(AppImages.voileticon, height: 16, width: 16),
   ),
   HistoryModel(
     dateTime: '12 Aug 10:00',
@@ -48,6 +49,6 @@ List<HistoryModel> momentPostList = [
     location: 'Near Docentgatan, Malmö...',
     destination: "Passenger Cancelled",
     ruppes: "120",
-    voiletIccon: Icons.video_stable_outlined,
+    voiletImage: Image.asset(AppImages.voileticon, height: 16, width: 16),
   ),
 ];
