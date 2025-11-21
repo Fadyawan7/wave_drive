@@ -6,16 +6,12 @@ part of 'pagination.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Pagination _$PaginationFromJson(Map<String, dynamic> json) =>
-    $checkedCreate('Pagination', json, ($checkedConvert) {
-      final val = Pagination(
-        count: $checkedConvert('count', (v) => (v as num).toInt()),
-        total: $checkedConvert('total', (v) => (v as num).toInt()),
-        page: $checkedConvert('page', (v) => (v as num).toInt()),
-        pageCount: $checkedConvert('pageCount', (v) => (v as num).toInt()),
-      );
-      return val;
-    });
+Pagination _$PaginationFromJson(Map<String, dynamic> json) => Pagination(
+  count: (json['count'] as num).toInt(),
+  total: (json['total'] as num).toInt(),
+  page: (json['page'] as num).toInt(),
+  pageCount: (json['pageCount'] as num).toInt(),
+);
 
 Map<String, dynamic> _$PaginationToJson(Pagination instance) =>
     <String, dynamic>{

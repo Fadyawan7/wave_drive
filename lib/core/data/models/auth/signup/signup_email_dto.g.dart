@@ -7,14 +7,11 @@ part of 'signup_email_dto.dart';
 // **************************************************************************
 
 SignupEmailDto _$SignupEmailDtoFromJson(Map<String, dynamic> json) =>
-    $checkedCreate('SignupEmailDto', json, ($checkedConvert) {
-      final val = SignupEmailDto(
-        email: $checkedConvert('email', (v) => v as String),
-        password: $checkedConvert('password', (v) => v as String),
-        referralCode: $checkedConvert('referral_code', (v) => v as String?),
-      );
-      return val;
-    }, fieldKeyMap: const {'referralCode': 'referral_code'});
+    SignupEmailDto(
+      email: json['email'] as String,
+      password: json['password'] as String,
+      referralCode: json['referral_code'] as String?,
+    );
 
 Map<String, dynamic> _$SignupEmailDtoToJson(SignupEmailDto instance) =>
     <String, dynamic>{

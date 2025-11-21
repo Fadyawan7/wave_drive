@@ -23,7 +23,7 @@ class PersonalDataView extends StatelessWidget {
         ),
         title: Text(
           "Your personal data",
-          style: GoogleFonts.poppins(textStyle: AppTextStyles.bodytext1),
+          style: GoogleFonts.poppins(textStyle: AppTextStyles.text14),
         ),
         centerTitle: true,
       ),
@@ -34,14 +34,14 @@ class PersonalDataView extends StatelessWidget {
           children: [
             Text(
               "A confirmation of your request will be sent to you at nassiri@live.se",
-              style: GoogleFonts.poppins(textStyle: AppTextStyles.litetext),
+              style: GoogleFonts.poppins(textStyle: AppTextStyles.text15),
             ),
             const SizedBox(height: 12),
             RichText(
               text: TextSpan(
                 text:
                     "For more detailed information about the file formats and the data included in the package, please visit ",
-                style: GoogleFonts.poppins(textStyle: AppTextStyles.litetext),
+                style: GoogleFonts.poppins(textStyle: AppTextStyles.text15),
                 children: [
                   TextSpan(
                     text: "our FAQ page",

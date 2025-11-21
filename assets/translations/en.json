@@ -1,0 +1,182 @@
+{
+    "validation": {
+      "required": "This field is required",
+      "email_invalid": "Email is invalid",
+      "otp_invalid": "OTP is invalid"
+    },
+    "common": {
+      "million": "M",
+      "billion": "B",
+      "trillion": "T"
+,
+      "thousand": "k",
+      "internal_server_error": "Something went wrong connecting to our server. Please try again later!",
+      "withdraw": "Withdraw",
+      "history": "History",
+      "cashback": "Cashback",
+      "my_balance": "My Balance",
+      "diamond": "Diamond",
+      "cancel": "Cancel",
+      "all": "All",
+      "wallet": "Wallet",
+      "confirm": "Confirm",
+      "pay": "Pay",
+      "likes": "Likes",
+      "followers": "Followers",
+      "following": "Following",
+      "follow": "Follow",
+      "message": "Message"
+    },
+    "form_field": {
+      "email": "Email",
+      "email_hint": "Enter your email",
+      "phone_number_label": "Phone Number",
+      "phone_number_hint": "Input phone number",
+      "password_label": "Password",
+      "password_hint": "Input password",
+      "search_label": "Search",
+      "search_hint": "Search",
+      "write_comment_hint": "Write a comment...",
+      "family_name": "Family Name",
+      "family_name_hint": "Please Add Family Name",
+      "family_description": "Family Description",
+      "family_description_hint": "Please Add Family Description"
+    },
+    "action": {
+      "follow": "Follow",
+      "unfollow": "Unfollow",
+      "reply": "Reply",
+      "continue": "Continue",
+      "create": "Create",
+      "join": "Join",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "delete_family": "Delete Family",
+      "apply": "Apply",
+      "exit_family": "Exit Family"
+    },
+    "sign_in": {
+      "title": "Log in",
+      "forgot_password": "Forgot Password?",
+      "or": "or",
+      "sign_in_button": "Create",
+      "sign_in_with_password": "Create with Password",
+      "sign_in_with_phone": "Create with Phone"
+    },
+    "otp": {
+      "title": "Confirm OTP",
+      "label": "OTP",
+      "resend_code": "Resend code OTP",
+      "confirm_text": "A confirmation code is sent to you"
+    },
+    "live": {
+      "comments": "Comments",
+      "like": "Like"
+    },
+    "settings": {
+      "title": "Settings",
+      "account": "Account",
+      "privacy": "Privacy",
+      "notifications": "Notifications",
+      "connected_account": "Connected Account",
+      "fun_rocco": "Fun Rocco",
+      "help": "Help",
+      "about_us": "About Us",
+      "clean_cache": "Clean Cache",
+      "log_out": "Log out"
+    },
+    "family": {
+      "family": "Family",
+      "family_detail": "Family Detail",
+      "family_ranking": "Family Ranking",
+      "family_id": "Family ID",
+      "family_members": "Family members",
+      "create_family": "Create Family",
+      "create_family_request": "Create Family Request",
+      "create_family_request_description": "We will respond to you within 24 hours to process your request.",
+      "all_families": "All Families",
+      "member_request": "Member Request",
+      "new_members_request": "New members request",
+      "family_members_title": "Family Members",
+      "create_date": "Create Date"
+    },
+    "create_password": {
+      "title": "Create password",
+      "confirm_label": "Confirm Password",
+      "confirm_hint": "Input confirm Password",
+      "create_button": "Create"
+    },
+    "payout": {
+      "title": "Payout"
+    },
+    "withdraw": {
+      "withdrawal_btn": "Withdrawal"
+    },
+    "wallet": {
+      "account_balance": "Account Balance",
+      "package_price": "Package price",
+      "official_seller": "Official Seller",
+      "confirm_payment": "Confirm Payment",
+      "balance_insufficient": "Your balance is insufficient, you can add more money to your Rocco account ",
+      "top_up_to_wallet": "Top-up to Rocco Wallet"
+    },
+    "wallet_history": {
+      "filters": "Filters",
+      "by_the_time": "By the time",
+      "last_7_days": "Last 7 days",
+      "last_30_days": "Last 30 days",
+      "last_60_days": "Last 60 days",
+      "last_90_days": "Last 90 days",
+      "purchase_history": "Purchase history"
+    },
+    "change_password": {
+      "title": "Change Password",
+      "password": "New password",
+      "confirm_password": "Confirm password",
+      "note": "* The password should contain at least 8 characters",
+      "done_btn": "Done"
+    },
+    "account": {
+      "title": "Account"
+    },
+    "join_agency": {
+      "title": "Join Agency",
+      "method": "Method",
+      "join_agency": "Join Agency",
+      "note_method_1": "note_method_1",
+      "type_agency_code": "Add Agency ID",
+      "submit_request": "Request to Join",
+      "or": "or",
+      "note_method_2": "You are required to provide the agency admin with your ID and Host code",
+      "host_id": "Host ID",
+      "host_code": "Host Code"
+    },
+    "creator_center": {
+      "title": "Creator Center",
+      "live_data": "Live Data",
+      "bar_data": "Bar Data",
+      "live_minutes": "Live Minutes",
+      "new_fans": "New Fans",
+      "new_rcoin": "New Rcoin",
+      "host_level": "Host Level",
+      "more": "More",
+      "bean_task": "Bean Task",
+      "live_preview": "Live Preview",
+      "text_live_preview": "Fans can reserve your next live",
+      "create": "Create",
+      "live_tutorial": "Live Tutorial",
+      "live_skills": "Live Skills",
+      "single_live": "Single Live",
+      "multi_guest": "Multi Guest",
+      "btn_go_live": "Go Live",
+      "total_rcoin": "Total Rcoin",
+      "event_rcoin": "Event Rcoin",
+      "valid_video_hours": "Valid Video\n Hours",
+      "valid_party_hours": "Valid Party\n Hours",
+      "valid_audio_hours": "Valid Audio\n Hours",
+      "total_audio_rcoin": "Total Audio\n Rcoin",
+      "btn_done": "Done",
+      "basic_rcoin": "Basic Rcoin"
+    }
+  }
+  

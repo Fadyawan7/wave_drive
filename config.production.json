@@ -1,0 +1,8 @@
+{
+    "FLAVOR": "production",
+
+    "BASE_URL": "https://api.wave.as",
+  
+    "BASE_URL_IOS": "https://api.rblive.app"
+ 
+  }

@@ -26,7 +26,7 @@ class EmptyBox extends StatelessWidget {
           style: AppTextStyles.text12.copyWith(
             fontWeight: FontWeight.w400,
             color: Colors.black54,
-            fontFamily: AppFontFamily.svnGilroy,
+            fontFamily: AppFontFamily.poppins,
           ),
         ),
       ],

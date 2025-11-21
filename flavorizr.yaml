@@ -1,0 +1,48 @@
+app:
+  android:
+    flavorDimensions: "flavor-type"
+
+flavors:
+  development:
+    app:
+      name: "WAVE Dev"
+    android:
+      applicationId: "com.wave.driver.dev"
+      icon: "assets/launcher/launcher_icon.png"
+      firebase:
+        config: "assets/firebase/development/google-services.json"
+        
+    ios:
+      bundleId: "dev.wave-driver.com"
+      icon: "assets/launcher/launcher_icon.png"
+      firebase:
+        config: "assets/firebase/development/GoogleService-Info.plist"
+
+  production:
+    app:
+      name: "WAVE Live"
+    android:
+      applicationId: "prod.wave-driver.com"
+      icon: "assets/launcher/launcher_icon.png"
+      firebase:
+        config: "assets/firebase/production/google-services.json"
+    ios:
+      bundleId: "dev.wave-driver.com"
+      icon: "assets/launcher/launcher_icon.png"
+      firebase:
+        config: "assets/firebase/production/GoogleService-Info.plist"
+
+ide: vscode
+
+instructions:
+  - assets:download
+  - assets:extract
+  - android:icons
+  - android:androidManifest
+  - android:buildGradle
+  - ios:xcconfig
+  - ios:buildTargets
+  - ios:schema
+  - ios:icons
+  - ios:plist
+  - assets:clean

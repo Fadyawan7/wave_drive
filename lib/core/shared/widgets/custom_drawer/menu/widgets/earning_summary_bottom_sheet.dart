@@ -51,7 +51,7 @@ class _EarningsSummaryBottomSheetState
           const Gap(16),
 
           // Title
-          Text("Earnings Summary", style: AppTextStyles.bodytext),
+          Text("Earnings Summary", style: AppTextStyles.text14),
 
           const Gap(16),
 

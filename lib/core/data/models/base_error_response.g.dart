@@ -7,19 +7,10 @@ part of 'base_error_response.dart';
 // **************************************************************************
 
 BaseErrorResponse _$BaseErrorResponseFromJson(Map<String, dynamic> json) =>
-    $checkedCreate('BaseErrorResponse', json, ($checkedConvert) {
-      final val = BaseErrorResponse(
-        statusCode: $checkedConvert(
-          'statusCode',
-          (v) => (v as num?)?.toInt() ?? -1,
-        ),
-        message: $checkedConvert(
-          'message',
-          (v) => v as String? ?? "Internal server error",
-        ),
-      );
-      return val;
-    });
+    BaseErrorResponse(
+      statusCode: (json['statusCode'] as num?)?.toInt() ?? -1,
+      message: json['message'] as String? ?? "Internal server error",
+    );
 
 Map<String, dynamic> _$BaseErrorResponseToJson(BaseErrorResponse instance) =>
     <String, dynamic>{
