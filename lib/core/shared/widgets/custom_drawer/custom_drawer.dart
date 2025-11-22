@@ -19,10 +19,10 @@ class CustomDrawer extends StatelessWidget {
       backgroundColor: AppColors.inputboxcolor,
       elevation: 16,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.horizontal(right: Radius.circular(20)),
+        borderRadius: BorderRadius.horizontal(right: Radius.circular(8)),
       ),
       child: ClipRRect(
-        borderRadius: const BorderRadius.horizontal(right: Radius.circular(20)),
+        borderRadius: const BorderRadius.horizontal(right: Radius.circular(8)),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
           child: Container(
@@ -48,10 +48,7 @@ class CustomDrawer extends StatelessWidget {
                               ),
                             ),
                             Gap(12),
-                            Text(
-                              "Iftikhar Baig",
-                              style: AppTextStyles.text15,
-                            ),
+                            Text("Iftikhar Baig", style: AppTextStyles.text15),
                           ],
                         ),
                       ),

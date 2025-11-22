@@ -27,11 +27,20 @@ migrate_working_dir/
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
+.flutter-plugins
 .flutter-plugins-dependencies
+.packages
 .pub-cache/
 .pub/
 /build/
-/coverage/
+/linux/
+/macos
+build/
+android/app/build/
+ios/Pods/
+*.apk
+*.ipa
+*.bin
 
 # Symbolication related
 app.*.symbols
@@ -44,5 +53,22 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# /config.development.json
+/config.production.json
+/config.staging.json
+
+*google-services.json
+*GoogleService-Info.plist
+
+upload-keystore.jks
+key.properties
+app/upload-keystore.jks
+
+#fastlane
+/android/roccovideo-**.json
+
 # FVM Version Cache
 .fvm/
+macos/Flutter/GeneratedPluginRegistrant.swift
+pubspec.lock
+macos/Flutter/GeneratedPluginRegistrant.swift
