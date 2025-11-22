@@ -60,11 +60,12 @@ class _OnlineStatusToggleState extends State<OnlineStatusToggle> {
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
                     blurRadius: 4,
-                  )
+                  ),
                 ],
               ),
-              alignment:
-                  isOnline ? Alignment.centerRight : Alignment.centerLeft,
+              alignment: isOnline
+                  ? Alignment.centerRight
+                  : Alignment.centerLeft,
               child: Container(
                 width: 24,
                 height: 24,
