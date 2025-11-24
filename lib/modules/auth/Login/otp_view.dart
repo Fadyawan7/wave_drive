@@ -1,50 +1,73 @@
 // packges
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:styled_text/tags/styled_text_tag.dart';
+import 'package:styled_text/widgets/styled_text.dart';
+import 'package:styled_text/tags/styled_text_tag_action.dart';
+
+import 'package:wave_drive/core/shared/extensions/alignment_extension.dart';
+import 'package:wave_drive/core/shared/extensions/padding_extension.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
-import 'package:wave_drive/core/shared/widgets/app_bar/app_bar_field.dart';
+import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
+import 'package:wave_drive/core/shared/utils/app_logger.dart';
+import 'package:wave_drive/core/shared/widgets/app_overlay.dart';
+import 'package:wave_drive/core/shared/widgets/appbar/main_app_bar.dart';
+import 'package:wave_drive/core/shared/widgets/base/base_screen.dart';
+import 'package:wave_drive/core/shared/widgets/forms/textfields/pin_text_field.dart';
+import 'package:wave_drive/core/shared/widgets/timer_count_down.dart';
 import 'package:wave_drive/modules/auth/Login/widgets/otp_input_field_widget.dart';
 import 'package:wave_drive/modules/auth/Login/widgets/resendcodeBottomSheet.dart';
+import 'package:wave_drive/modules/dashboad/dashboard_view.dart';
 
-class OtpView extends StatelessWidget {
+class OtpView extends StatefulWidget {
   OtpView({super.key});
-  // controller for resent otp
-  // final ResentOtpController controller = Get.put(ResentOtpController());
+
   @override
-  Widget build(BuildContext context) {
+  State<OtpView> createState() => _OtpViewState();
+}
+
+class _OtpViewState extends BaseScreen<OtpView> {
+  final _coutndownCtrl = CountdownController();
+  final _otpError = ValueNotifier<String?>(null);
+  final _otpController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _coutndownCtrl.restart();
+    });
+  }
+
+  // controller for resent otp
+  @override
+  Widget buildBody(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.primarycolor,
+      appBar: MainAppBar(
+        titleWidget: Text(
+          "Login",
+          style: AppTextStyles.text22.copyWith(
+            fontWeight: FontWeight.w700,
+
+            color: AppColors.white,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            Gap(20),
-            AppBarField(
-              text: 'OTP',
-              onpress: () {
-                Navigator.pop(context);
-              },
-            ),
-            const Gap(46),
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Enter the code',
-                    style: GoogleFonts.getFont(
-                      'Poppins',
-                      fontSize: 20.0,
-                      color: AppColors.whitecolor,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
+            Gap(48),
+
+            Text(
+              'Enter the code',
+              style: AppTextStyles.text20.copyWith(
+                fontWeight: FontWeight.w600,
+                color: AppColors.white,
               ),
-            ),
+            ).paddingLeft(16).centerLeft,
             Gap(20),
             Expanded(
               child: Container(
@@ -52,8 +75,8 @@ class OtpView extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppColors.whitecolor,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
                   ),
                 ),
                 child: Padding(
@@ -62,13 +85,10 @@ class OtpView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Gap(24),
-                      const Gap(8),
+                      const Gap(30),
                       Text(
                         "We have sent you a verification code to +46 713 7185 8191",
-                        style: GoogleFonts.getFont(
-                          'Poppins',
-                          fontSize: 16.0,
+                        style: AppTextStyles.text16.copyWith(
                           fontWeight: FontWeight.w400,
                           color: AppColors.black,
                         ),
@@ -76,60 +96,86 @@ class OtpView extends StatelessWidget {
                       Gap(24),
 
                       // otp fields
-                      OTPInputFieldWidget(),
+                      ValueListenableBuilder(
+                        valueListenable: _otpError,
+                        builder: (context, value, child) {
+                          return PinTextField(
+                            pinController: _otpController,
+                            length: 4,
+                            hasError: value != null,
+                            errorText: value,
+                            onCompleted: _verifyOTP,
+                          ).center;
+                        },
+                      ).centerLeft,
                       Gap(24),
-                      // resend code
-                      // Obx(() {
-                      // Hide the button when max attempts reached
-                      // if (controller.maxAttemptsReached.value) {
-                      //   return SizedBox();
-                      // }
 
-                      //   return controller.showResendButton.value
-                      //       ? TextButton(
-                      //           onPressed: () => controller.resetTimer(context),
-                      //           child: Text(
-                      //             "Resend Code",
-                      //             style: GoogleFonts.poppins(
-                      //               fontSize: 14.0,
-                      //               color: AppColors.primarycolor,
-                      //               fontWeight: FontWeight.bold,
-                      //             ),
-                      //           ),
-                      //         )
-                      //       : Text(
-                      //           'Resend code in 00:${controller.secondsRemaining.value.toString().padLeft(2, '0')}',
-                      //           style: GoogleFonts.poppins(
-                      //             fontSize: 14.0,
-                      //             color: AppColors.blackcolor,
-                      //           ),
-                      //         );
-                      // }),
-                      TextButton(
-                        onPressed: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled:
-                                true, // allows full-height if needed
-                            backgroundColor: Colors.white,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(10),
+                      // TextButton(
+                      //   onPressed: () {
+                      //     showModalBottomSheet(
+                      //       context: context,
+                      //       isScrollControlled:
+                      //           true, // allows full-height if needed
+                      //       backgroundColor: Colors.white,
+                      //       shape: const RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.vertical(
+                      //           top: Radius.circular(10),
+                      //         ),
+                      //       ),
+                      //       builder: (context) {
+                      //         return const Resendcodebottomsheet();
+                      //       },
+                      //     );
+                      //   },
+                      //   child: Text(
+                      //     "Resend Code",
+                      //     style: GoogleFonts.poppins(
+                      //       fontSize: 14.0,
+                      //       color: AppColors.primarycolor,
+                      //       fontWeight: FontWeight.bold,
+                      //     ),
+                      //   ),
+                      // ),
+                      Countdown(
+                        seconds: 60,
+                        controller: _coutndownCtrl,
+                        build: (_, s) {
+                          return StyledText(
+                            text:
+                                "Request a new code? ${s == 0 ? "<link>Resend</link>" : "<disable>Resend in ${s.toInt()}s</disabled>"}",
+                            style: AppTextStyles.text14,
+                            tags: {
+                              "disable": StyledTextTag(
+                                style: AppTextStyles.text14.copyWith(
+                                  color: AppColors.gray,
+                                ),
                               ),
-                            ),
-                            builder: (context) {
-                              return const Resendcodebottomsheet();
+                              "link": StyledTextActionTag(
+                                (text, attributes) {
+                                  // showModalBottomSheet(
+                                  //   context: context,
+                                  //   isScrollControlled:
+                                  //       true, // allows full-height if needed
+                                  //   backgroundColor: Colors.white,
+                                  //   shape: const RoundedRectangleBorder(
+                                  //     borderRadius: BorderRadius.vertical(
+                                  //       top: Radius.circular(10),
+                                  //     ),
+                                  //   ),
+                                  //   builder: (context) {
+                                  //     return const Resendcodebottomsheet();
+                                  //   },
+                                  // );
+
+                                  _resendOTP();
+                                },
+                                style: AppTextStyles.textMed14.copyWith(
+                                  color: AppColors.primary,
+                                ),
+                              ),
                             },
                           );
                         },
-                        child: Text(
-                          "Resend Code",
-                          style: GoogleFonts.poppins(
-                            fontSize: 14.0,
-                            color: AppColors.primarycolor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
                       ),
                     ],
                   ),
@@ -140,5 +186,41 @@ class OtpView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _verifyOTP(String otp) async {
+    loading(true);
+
+    await Future.delayed(const Duration(seconds: 5));
+
+    loading(false);
+
+    if (mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DashboardView()),
+      );
+      // AppNavigator.push(context, NameInputRoute());
+    }
+  }
+
+  Future<void> _resendOTP() async {
+    _coutndownCtrl.restart();
+    _otpError.value = null;
+    _otpController.clear();
+    // await _cubit.sendEmail(_cubit.state.email!);
+    AppOverlay.showToastSuccess("OTP was sent to your email");
+  }
+
+  void _onVerifyPressed() {
+    final otp = _otpController.text;
+    AppLogger.d("otp is $otp");
+
+    if (otp.isEmpty || otp.length != 4) {
+      _otpError.value = "Please enter a valid 4-digit OTP";
+      return;
+    }
+
+    //  _verifyOTP(otp);
   }
 }

@@ -119,6 +119,12 @@ class AppTextStyles {
     fontWeight: FontWeight.w700,
   );
 
+  static TextStyle textBold41 = _defaultTextStyle.copyWith(
+    fontSize: 41,
+    fontWeight: FontWeight.w700,
+  );
+
+
   static TextStyle textMed6 = _defaultTextStyle.copyWith(
     fontSize: 6,
     fontWeight: FontWeight.w500,

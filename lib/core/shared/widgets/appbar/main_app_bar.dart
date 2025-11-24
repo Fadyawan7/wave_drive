@@ -97,7 +97,7 @@ class CustomAppBar extends StatelessWidget {
           surfaceTintColor: surfaceTintColor,
           backgroundColor: gradient != null
               ? Colors.transparent
-              : (backgroundColor ?? AppColors.darkPrimary),
+              : (backgroundColor ?? AppColors.primary),
           elevation: elevation,
           automaticallyImplyLeading: false,
           scrolledUnderElevation: scrolledUnderElevation,

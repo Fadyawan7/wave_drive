@@ -1,9 +1,8 @@
-// packages
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
-import 'package:wave_drive/core/shared/widgets/rounded_button/rounded_button.dart';
-import 'package:wave_drive/core/shared/widgets/rounded_button/rounded_unfil_button.dart';
+import 'package:wave_drive/core/shared/themes/themes.dart';
+import 'package:wave_drive/core/shared/widgets/buttons/primary_button.dart';
+import 'package:wave_drive/core/shared/widgets/buttons/primary_outlined_button.dart';
 import 'package:wave_drive/modules/auth/Login/login_view.dart';
 import 'package:wave_drive/modules/auth/Signup/signup_view.dart';
 
@@ -16,21 +15,34 @@ class LoginSignupView extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
+            padding: const EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: 200,
+              bottom: 100,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('WAVE Driver', style: AppTextStyles.text10),
+                Text(
+                  'WAVE Driver',
+                  style: AppTextStyles.textBold41.copyWith(
+                    color: AppColors.primary,
+                  ),
+                ),
                 Text(
                   'Driver extra Wave Earn extra\n money driving',
-                  textAlign: TextAlign.center,
-                  style: AppTextStyles.text10,
+
+                  style: AppTextStyles.text18.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-                Gap(200),
-                RoundedButton(
-                  title: 'Login',
-                  onpress: () {
+                Spacer(),
+
+                PrimaryButton(
+                  text: "Login",
+                  onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => LoginView()),
@@ -38,9 +50,11 @@ class LoginSignupView extends StatelessWidget {
                   },
                 ),
                 Gap(20),
-                RoundedUnfillButton(
-                  title: 'Sign Up',
-                  onpress: () {
+
+                PrimaryOutlinedButton(
+                  text: "Sign Up",
+
+                  onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => SignupView()),

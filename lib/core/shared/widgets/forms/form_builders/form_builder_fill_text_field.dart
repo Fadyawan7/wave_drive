@@ -21,7 +21,7 @@ class FormBuilderFillTextField extends StatelessWidget {
     this.focusNode,
     this.inputType,
     this.autofocus = false,
-    this.borderRadius = 0,
+    this.borderRadius = 5,
     this.hintText,
     this.inputFormatters,
     this.obscureText = false,
@@ -75,7 +75,7 @@ class FormBuilderFillTextField extends StatelessWidget {
       validator: validator,
       style: AppTextStyles.textMed14.copyWith(
         fontWeight: FontWeight.w500,
-        color: textColor ?? AppColors.black,
+        color: textColor ?? AppColors.primary,
       ),
       focusNode: focusNode,
       readOnly: readOnly,
@@ -95,7 +95,7 @@ class FormBuilderFillTextField extends StatelessWidget {
         prefixIcon: prefixIcon,
         prefixText: prefixText,
         filled: true,
-        fillColor: fillColor ?? AppColors.white,
+        fillColor: fillColor ?? AppColors.grayF8,
         prefixIconConstraints: prefixIconConstraints,
         suffix: Padding(
           padding: const EdgeInsets.only(top: 2.0),
@@ -105,21 +105,20 @@ class FormBuilderFillTextField extends StatelessWidget {
         suffixIconConstraints: suffixIconConstraints,
         hintText: hintText,
         contentPadding:
-            contentPadding ?? const EdgeInsets.symmetric(horizontal: 20),
+            contentPadding ??
+            const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
         hintStyle: AppTextStyles.text14.copyWith(
-          color: hintColor ?? AppColors.gray,
+          color: hintColor ?? AppColors.black,
+          fontWeight: FontWeight.w300,
         ),
 
         /// ✅ NORMAL BORDER
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-          borderSide: const BorderSide(color: AppColors.gray, width: 0.2),
-        ),
+        enabledBorder: InputBorder.none,
 
         /// ✅ FOCUSED BORDER (Purple)
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-          borderSide: BorderSide(color: AppColors.purple, width: 1.0),
+          borderSide: BorderSide(color: AppColors.primary, width: 1.0),
         ),
 
         /// ⚠️ DISABLED BORDER

@@ -12,7 +12,7 @@ class PrimaryButton extends StatelessWidget {
     required this.text,
     this.textStyle,
     this.color,
-    this.height = 48.0,
+    this.height = 58.0,
     this.radius = 8.0,
     this.fitText = false,
     this.borderWidth = 0,
@@ -58,7 +58,7 @@ class PrimaryButton extends StatelessWidget {
       opacity: isDisabled ? .4 : 1,
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.purpleA2,
+          color: AppColors.primary,
           borderRadius: BorderRadius.circular(radius),
 
           border: GradientBoxBorder(

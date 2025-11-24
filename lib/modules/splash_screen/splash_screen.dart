@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:wave_drive/core/shared/themes/themes.dart';
 import 'package:wave_drive/core/shared/widgets/images/app_image.dart';
+import 'package:wave_drive/modules/auth/Signup/signup_view.dart';
+import 'package:wave_drive/modules/auth/login_signup_view.dart';
 import 'package:wave_drive/modules/dashboad/dashboard_view.dart';
 
 @RoutePage()
@@ -29,10 +31,7 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     initialScaleAnimation = Tween<double>(begin: 3.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: initialScaleController,
-        curve: Curves.easeInOut,
-      ),
+      CurvedAnimation(parent: initialScaleController, curve: Curves.easeInOut),
     );
 
     initialScaleController.forward();
@@ -48,8 +47,11 @@ class _SplashScreenState extends State<SplashScreen>
 
     Future.delayed(const Duration(seconds: 2), () {
       animationController.stop();
-    //  AppNavigator.replaceAll(context, SignupRoute());//
-     Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardView(),));
+      //  AppNavigator.replaceAll(context, SignupRoute());//
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginSignupView()),
+      );
     });
 
     super.initState();
@@ -89,17 +91,21 @@ class _SplashScreenState extends State<SplashScreen>
                           baseImageHeight * initialScaleAnimation.value;
 
                       // Calculate offsets as percentages of screen size
-                      double offsetX = (1 - initialScaleAnimation.value) *
+                      double offsetX =
+                          (1 - initialScaleAnimation.value) *
                           screenSize.width *
                           0.1;
-                      double offsetY = (1 - initialScaleAnimation.value) *
+                      double offsetY =
+                          (1 - initialScaleAnimation.value) *
                           screenSize.height *
                           0.1;
 
                       return Positioned(
-                        right: screenSize.width * 0.08 +
+                        right:
+                            screenSize.width * 0.08 +
                             offsetX, // ~8% of screen width
-                        top: screenSize.height * 0.02 +
+                        top:
+                            screenSize.height * 0.02 +
                             offsetY, // ~2% of screen height
                         child: Transform.scale(
                           scale: initialScaleAnimation.value,
@@ -107,21 +113,22 @@ class _SplashScreenState extends State<SplashScreen>
                             animation: handAnimation,
                             builder: (context, child) {
                               return Transform.rotate(
-                                  angle: handAnimation.value,
-                                  origin: Offset(
-                                      0,
-                                      -screenSize.height *
-                                          0.015), // ~1.5% of screen height
-                                  child: AppImage(
-                                    path: AppIcons.animateLogo,
-                                    height: imageHeight,
-                                  ));
+                                angle: handAnimation.value,
+                                origin: Offset(
+                                  0,
+                                  -screenSize.height * 0.015,
+                                ), // ~1.5% of screen height
+                                child: AppImage(
+                                  path: AppIcons.animateLogo,
+                                  height: imageHeight,
+                                ),
+                              );
                             },
                           ),
                         ),
                       );
                     },
-                  )
+                  ),
                 ],
               ),
             ],

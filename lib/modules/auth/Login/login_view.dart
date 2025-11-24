@@ -1,14 +1,22 @@
 // packages
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:gap/gap.dart';
+import 'package:wave_drive/core/shared/extensions/alignment_extension.dart';
+import 'package:wave_drive/core/shared/mixins/form_mixin.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 import 'package:wave_drive/core/shared/widgets/app_bar/app_bar_field.dart';
+import 'package:wave_drive/core/shared/widgets/appbar/main_app_bar.dart';
+import 'package:wave_drive/core/shared/widgets/base/base_screen.dart';
+import 'package:wave_drive/core/shared/widgets/buttons/primary_button.dart';
+import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_fill_text_field.dart';
+import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_outline_text_field.dart';
+import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_phone_textfield.dart';
 import 'package:wave_drive/core/shared/widgets/rounded_button/rounded_button.dart';
 import 'package:wave_drive/core/shared/widgets/textfield/text_field.dart';
 import 'package:wave_drive/modules/auth/Login/otp_view.dart';
-import 'package:wave_drive/modules/auth/Login/otp_view2.dart';
 
 class LoginView extends StatefulWidget {
   LoginView({super.key});
@@ -17,8 +25,8 @@ class LoginView extends StatefulWidget {
   State<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView>
-    with SingleTickerProviderStateMixin {
+class _LoginViewState extends BaseScreen<LoginView>
+    with SingleTickerProviderStateMixin, FormMixin {
   late TabController tabController;
 
   @override
@@ -28,30 +36,35 @@ class _LoginViewState extends State<LoginView>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildBody(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.primarycolor,
-      body: SafeArea(
-        child: Column(
-          children: [
-            const Gap(20),
-            AppBarField(
-              text: 'Login',
-              onpress: () {
-                Navigator.pop(context);
-              },
-            ),
-            const Gap(27),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.whitecolor,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
+      appBar: MainAppBar(
+        titleWidget: Text(
+          "Login",
+          style: AppTextStyles.text22.copyWith(
+            fontWeight: FontWeight.w700,
+
+            color: AppColors.white,
+          ),
+        ),
+      ),
+      body: Column(
+        children: [
+          Gap(48),
+
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppColors.whitecolor,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
                 ),
+              ),
+              child: FormBuilder(
+                key: formKey,
                 child: Column(
                   children: [
                     const Gap(30),
@@ -69,11 +82,11 @@ class _LoginViewState extends State<LoginView>
                           labelColor: AppColors.primarycolor,
                           unselectedLabelColor: Colors.black,
                           labelStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
                           ),
                           unselectedLabelStyle: TextStyle(
-                            fontWeight: FontWeight.normal,
+                            fontWeight: FontWeight.w400,
                             fontSize: 16,
                           ),
                           tabs: const [
@@ -85,7 +98,7 @@ class _LoginViewState extends State<LoginView>
                       ],
                     ),
 
-                    const Gap(24),
+                    const Gap(36),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -104,8 +117,8 @@ class _LoginViewState extends State<LoginView>
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -114,31 +127,37 @@ class _LoginViewState extends State<LoginView>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextFieldCustom(
-          controller: TextEditingController(),
-          hintText: 'Enter your email',
-          maxLines: 1,
+        FormBuilderFillTextField(
+          name: 'email',
+          hintText: "Enter your email",
+          validator: emailValidators,
+
           prefixIcon: Icon(Icons.email, color: AppColors.blackcolor),
         ),
+
         const Gap(24),
-        TextFieldCustom(
-          controller: TextEditingController(),
-          hintText: 'password',
-          obscureText: false,
-          maxLines: 1,
+        FormBuilderFillTextField(
+          name: 'password',
+          hintText: "Password",
+          validator: requiredValidators,
+          obscureText: true,
+
           prefixIcon: Icon(Icons.lock, color: AppColors.blackcolor),
         ),
-        // forget pass
+
+        Gap(12),
         _buildForgetPass(),
         const Gap(40),
-        RoundedButton(
-          title: 'Login',
-          onpress: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => OtpView()),
-            );
-          },
+        PrimaryButton(
+          text: "Login",
+          onPressed: _onSubmitEmailLogin,
+
+          //  () {
+          //   // Navigator.push(
+          //   //   context,
+          //   //   MaterialPageRoute(builder: (context) => OtpView()),
+          //   // );
+          // },
         ),
       ],
     );
@@ -147,122 +166,85 @@ class _LoginViewState extends State<LoginView>
   Widget _buildPhoneTab(BuildContext context) {
     return Column(
       children: [
-        // AppBarField(
-        //   text: 'Country Code',
-        //   onpress: () {
-        //     Navigator.pop(context);
-        //   },
-        // ),
-        // phone number input
-        Row(
-          children: [
-            // Country Code Picker
-            GestureDetector(
-              onTap: () {
-                showCountryPicker(
-                  context: context,
-                  showPhoneCode: true,
-                  useSafeArea: true,
-
-                  countryListTheme: CountryListThemeData(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                    ),
-
-                    inputDecoration: InputDecoration(
-                      hintText: 'Start typing to search',
-                      labelText: 'Search',
-                    ),
-                  ),
-                  favorite: ['PK'],
-                  onSelect: (Country value) {
-                    // phoneController.setCountry(value);
-                  },
-                );
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.26,
-                height: 52,
-                decoration: BoxDecoration(
-                  color: AppColors.inputboxcolor,
-                  border: Border.all(color: AppColors.inputboxcolor),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text('🇵🇰 92'),
-                      // phoneController.selectedCountry.value == null
-                      //     ? const Text('🇵🇰 92')
-                      //     : Text(
-                      //         '${phoneController.selectedCountry.value?.flagEmoji} ${phoneController.countryCode.value}',
-                      //       ),
-                      const Gap(8),
-                      Icon(Icons.expand_more, color: AppColors.primarycolor),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-
-            const SizedBox(width: 10), // Spacing between fields
-            // Phone Number Field
-            Container(
-              width:
-                  MediaQuery.of(context).size.width *
-                  0.6, // 60% of screen width
-              height: 52,
-              decoration: BoxDecoration(
-                color: AppColors.inputboxcolor,
-                border: Border.all(color: AppColors.inputboxcolor),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                child: TextField(
-                  keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                    hintText: 'Mobile Number',
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-            ),
-          ],
+        FormBuilderPhoneField(
+          height: 58,
+          label: "Phone number",
+          name: 'phone',
+          validator: requiredValidators,
         ),
-        Gap(24),
-        TextFieldCustom(
-          hintText: 'password',
-          obscureText: false,
-          maxLines: 1,
+
+        const Gap(24),
+        FormBuilderFillTextField(
+          name: 'passwordPhone',
+          hintText: "Password",
+          validator: requiredValidators,
+          obscureText: true,
+
           prefixIcon: Icon(Icons.lock, color: AppColors.blackcolor),
         ),
+        Gap(12),
         // forget pass
         _buildForgetPass(),
         const Gap(40),
-        RoundedButton(
-          title: 'Login',
-          onpress: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => OtpView()),
-            );
-          },
-        ),
+        PrimaryButton(text: "Login", onPressed: _onSubmitPhomeLogin),
       ],
     );
   }
 
   Widget _buildForgetPass() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        TextButton(
-          onPressed: () {},
-          child: Text('Forget Password?', style: AppTextStyles.text12),
-        ),
-      ],
-    );
+    return TextButton(
+      onPressed: () {},
+      child: Text(
+        'Forget Password?',
+        style: AppTextStyles.text16.copyWith(color: AppColors.black),
+      ),
+    ).centerRight;
+  }
+
+  Future<void> _onSubmitEmailLogin() async {
+    FocusScope.of(context).unfocus();
+    final isFormValid = formKey.currentState!.saveAndValidate();
+    if (!isFormValid) return;
+    final formFields = formKey.currentState!.value;
+    final password = formFields["password"] as String;
+    final email = formFields["email"] as String;
+
+    loading(true);
+
+    await Future.delayed(const Duration(seconds: 2));
+    loading(false);
+
+    if (mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => OtpView()),
+      );
+    }
+  }
+
+
+
+
+
+
+  Future<void> _onSubmitPhomeLogin() async {
+    FocusScope.of(context).unfocus();
+    final isFormValid = formKey.currentState!.saveAndValidate();
+    if (!isFormValid) return;
+    final formFields = formKey.currentState!.value;
+    final phone = formFields["phone"] as String;
+    final password = formFields["passwordPhone"] as String;
+
+    loading(true);
+
+    await Future.delayed(const Duration(seconds: 2));
+    loading(false);
+
+    if (mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => OtpView()),
+      );
+    }
   }
 }
