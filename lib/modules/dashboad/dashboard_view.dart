@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:wave_drive/core/shared/themes/app_colors.dart';
-import 'package:wave_drive/core/shared/themes/app_images.dart';
-import 'package:wave_drive/modules/dashboad/earn_more/earn_more_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wave_drive/injector_setup.dart';
+import 'package:wave_drive/modules/dashboad/cubit/dashboard_cubit.dart';
+import 'package:wave_drive/modules/earn_more/earn_more_view.dart';
+import 'package:wave_drive/modules/dashboad/widgets/bottom_navigation_bar.dart';
 import 'package:wave_drive/modules/home/help_view.dart';
 import 'package:wave_drive/modules/home/home_view.dart';
 import 'package:wave_drive/modules/home/travels_view.dart';
@@ -15,76 +17,40 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
-  int _selectedIndex = 0;
+  final _cubit = injector<DashboardCubit>();
 
- 
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  void _handleBackPress() {
+    if (_cubit.state.currentIndex != 0) {
+      _cubit.setCurrentIndex(0);
+    } else {
+      SystemNavigator.pop();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: const [HomeView(), EarnMoreView(), TravelsView(), HelpView()],
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: AppColors.graycolor.withOpacity(0.4),
-              width: 1,
-            ),
-          ),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        _handleBackPress();
+      },
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        body: BlocBuilder<DashboardCubit, DashboardState>(
+          builder: (context, state) {
+            return IndexedStack(
+              index: state.currentIndex,
+              children: const [
+                HomeView(),
+                EarnMoreView(),
+                TravelsView(),
+                HelpView(),
+              ],
+            );
+          },
         ),
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          showUnselectedLabels: true,
-          currentIndex: _selectedIndex,
-          selectedLabelStyle: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-          ),
-          selectedItemColor: AppColors.primarycolor,
-          unselectedItemColor: AppColors.graycolor,
-          backgroundColor: AppColors.whitecolor,
-          onTap: _onItemTapped,
-          items: [
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: AppColors.botoomIcon),
-              activeIcon: Icon(Icons.home, color: AppColors.primarycolor),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset(AppImages.earnMore, height: 24, width: 24),
-              activeIcon: Image.asset(
-                AppImages.earnMore,
-                color: AppColors.primarycolor,
-                height: 24,
-                width: 24,
-              ),
-              label: 'Earn More',
-            ),
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.watch_later, color: AppColors.botoomIcon),
-              activeIcon: Icon(
-                Icons.watch_later,
-                color: AppColors.primarycolor,
-              ),
-              label: 'Travels',
-            ),
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.help, color: AppColors.botoomIcon),
-              activeIcon: Icon(Icons.help, color: AppColors.primarycolor),
-              label: 'Help',
-            ),
-          ],
-        ),
+        bottomNavigationBar: CustomBottomNavigationBar(),
       ),
     );
   }

@@ -97,7 +97,7 @@ class CustomAppBar extends StatelessWidget {
           surfaceTintColor: surfaceTintColor,
           backgroundColor: gradient != null
               ? Colors.transparent
-              : (backgroundColor ?? AppColors.primary),
+              : (backgroundColor ?? AppColors.white),
           elevation: elevation,
           automaticallyImplyLeading: false,
           scrolledUnderElevation: scrolledUnderElevation,
@@ -113,11 +113,11 @@ class CustomAppBar extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: IconButton(
-                          splashRadius: 20,
+                          splashRadius: 18,
                           splashColor: AppColors.stroke.withOpacity(.2),
                           icon: const Icon(
                             Icons.arrow_back_ios,
-                            color: AppColors.white,
+                            color: AppColors.black,
                           ),
                           onPressed: () {
                             AppNavigator.pop(context);
@@ -131,8 +131,8 @@ class CustomAppBar extends StatelessWidget {
                   ? const SizedBox()
                   : Text(
                       title!,
-                      style: AppTextStyles.textBold18.copyWith(
-                        color: AppColors.white,
+                      style: AppTextStyles.text18.copyWith(
+                        fontWeight: FontWeight.w500,
                       ),
                     )),
         ),

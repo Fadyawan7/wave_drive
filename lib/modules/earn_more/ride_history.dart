@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
-import 'package:wave_drive/modules/dashboad/earn_more/model/history_model.dart';
-import 'package:wave_drive/modules/dashboad/earn_more/ride_summary_screen.dart';
+import 'package:wave_drive/modules/earn_more/model/history_model.dart';
+import 'package:wave_drive/modules/earn_more/ride_summary_screen.dart';
 
 class RideHistoryScreen extends StatefulWidget {
   const RideHistoryScreen({super.key});

@@ -12,10 +12,12 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:wave_drive/core/cubits/app_cubit.dart';
 import 'package:wave_drive/core/routes/app_router.dart';
+import 'package:wave_drive/core/routes/bloc_observer.dart';
 import 'package:wave_drive/core/routes/router_observer.dart';
 import 'package:wave_drive/core/shared/themes/theme_data.dart';
 import 'package:wave_drive/core/shared/utils/app_logger.dart';
 import 'package:wave_drive/injector_setup.dart';
+import 'package:wave_drive/modules/dashboad/cubit/dashboard_cubit.dart';
 
 final botToastBuilder = BotToastInit();
 
@@ -34,10 +36,10 @@ class App extends StatelessWidget {
       );
     });
 
-
-      return MultiBlocProvider(
+    return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => injector<AppCubit>()),
+        BlocProvider(create: (context) => injector<DashboardCubit>()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(393, 858),
@@ -83,8 +85,6 @@ class App extends StatelessWidget {
         },
       ),
     );
-  
-  
 
     // return MaterialApp(
     //   debugShowCheckedModeBanner: false,
@@ -93,8 +93,7 @@ class App extends StatelessWidget {
     //   theme:
 
     //   Themes.lightTheme,
-      
-      
+
     //   home: const SplashScreen(),
     // );
   }

@@ -60,12 +60,6 @@ class PrimaryButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.primary,
           borderRadius: BorderRadius.circular(radius),
-
-          border: GradientBoxBorder(
-            borderRadius: BorderRadius.circular(radius),
-
-            gradient: AppColors.buttonGradinet,
-          ),
         ),
 
         width: fitText ? null : double.infinity,

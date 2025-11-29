@@ -22,6 +22,7 @@ class AppLogger {
     if (kDebugMode || AppConfig.flavor != Environment.production) {
       // talker.good('[D] $message', null, stackTrace);
       talker.debug('[D] $message', null, stackTrace);
+      
     }
   }
 

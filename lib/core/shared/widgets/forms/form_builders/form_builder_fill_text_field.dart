@@ -106,9 +106,9 @@ class FormBuilderFillTextField extends StatelessWidget {
         hintText: hintText,
         contentPadding:
             contentPadding ??
-            const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+            const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
         hintStyle: AppTextStyles.text14.copyWith(
-          color: hintColor ?? AppColors.black,
+          color: hintColor ?? AppColors.grayA9,
           fontWeight: FontWeight.w300,
         ),
 
@@ -116,10 +116,11 @@ class FormBuilderFillTextField extends StatelessWidget {
         enabledBorder: InputBorder.none,
 
         /// ✅ FOCUSED BORDER (Purple)
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-          borderSide: BorderSide(color: AppColors.primary, width: 1.0),
-        ),
+        // focusedBorder: OutlineInputBorder(
+        //   borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+        //   borderSide: BorderSide(color: AppColors.primary, width: 1.0),
+        // ),
+        focusedBorder: InputBorder.none,
 
         /// ⚠️ DISABLED BORDER
         disabledBorder: OutlineInputBorder(
@@ -128,14 +129,8 @@ class FormBuilderFillTextField extends StatelessWidget {
         ),
 
         /// ✅ ERROR
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-          borderSide: const BorderSide(color: AppColors.error),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-          borderSide: const BorderSide(color: AppColors.error, width: 1.6),
-        ),
+        errorBorder: InputBorder.none,
+        focusedErrorBorder: InputBorder.none,
 
         labelText: labelText,
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -143,6 +138,8 @@ class FormBuilderFillTextField extends StatelessWidget {
         floatingLabelStyle: AppTextStyles.text16.copyWith(
           color: AppColors.gray,
         ),
+
+        errorStyle: TextStyle(color: AppColors.red),
       ),
     );
   }

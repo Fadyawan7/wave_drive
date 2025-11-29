@@ -1,12 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wave_drive/core/shared/extensions/extensions.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 import 'package:wave_drive/core/shared/widgets/custom_drawer/custom_drawer.dart';
-
-// widgets (UI only placeholders)
 import 'widgets/bottom_sheet_widget.dart';
 import 'widgets/online_status_toggle.dart';
 
@@ -53,13 +51,17 @@ class _HomeViewState extends State<HomeView> {
             left: 16,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: [_menuButton(), const Gap(40), OnlineStatusToggle()],
+              children: [
+                _menuButton(),
+                const Gap(40),
+                OnlineStatusToggle(isOnline: true, onTap: () {  },),
+              ],
             ),
           ),
 
           // Floating icons
           Positioned(
-            bottom: 100,
+            top: context.height * .5,
             left: 20,
             right: 20,
             child: Row(
@@ -86,6 +88,7 @@ class _HomeViewState extends State<HomeView> {
               ],
             ),
           ),
+
           showWavepopup == true
               ? Positioned(
                   bottom: 20,

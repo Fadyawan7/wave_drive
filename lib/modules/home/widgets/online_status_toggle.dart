@@ -3,80 +3,102 @@ import 'package:gap/gap.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart' show AppColors;
 
 class OnlineStatusToggle extends StatefulWidget {
-  const OnlineStatusToggle({super.key});
+  final bool isOnline;
+  final VoidCallback onTap;
+
+  const OnlineStatusToggle({
+    super.key,
+    required this.isOnline,
+    required this.onTap,
+  });
 
   @override
   State<OnlineStatusToggle> createState() => _OnlineStatusToggleState();
 }
 
 class _OnlineStatusToggleState extends State<OnlineStatusToggle> {
-  bool isOnline = false; // Local toggle state
+  late bool _isOnline;
+
+  @override
+  void initState() {
+    super.initState();
+    _isOnline = widget.isOnline;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Dot indicator
-          Container(
-            width: 12,
-            height: 12,
-            decoration: BoxDecoration(
-              color: isOnline ? Colors.blue[900] : Colors.red,
-              shape: BoxShape.circle,
+    return GestureDetector(
+      onTap: () {
+        widget.onTap();
+        setState(() {
+          _isOnline = !_isOnline;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(80),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Dot indicator
+            Container(
+              width: 12,
+              height: 12,
+              decoration: BoxDecoration(
+                color: _isOnline ? AppColors.primary : AppColors.red12,
+                shape: BoxShape.circle,
+              ),
             ),
-          ),
-          const Gap(11),
-          // Status text
-          Text(
-            isOnline ? "Online" : "Offline",
-            style: TextStyle(
-              color: isOnline ? Colors.blue[900] : Colors.red,
-              fontWeight: FontWeight.w600,
+
+            const Gap(8),
+
+            // Status text
+            Text(
+              _isOnline ? "Online" : "Offline",
+              style: TextStyle(
+                color: _isOnline ? AppColors.primary : AppColors.red12,
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+              ),
             ),
-          ),
-          const Gap(48),
-          // Switch
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                isOnline = !isOnline;
-              });
-            },
-            child: Container(
+
+            const Gap(12),
+
+            // Switch
+            Container(
               width: 60,
               height: 30,
               padding: const EdgeInsets.all(3),
               decoration: BoxDecoration(
-                color: isOnline ? AppColors.primarycolor : AppColors.graycolor,
+                border: Border.all(
+                  color: _isOnline ? AppColors.primary : AppColors.grayA9,
+                ),
+                color: _isOnline ? AppColors.primary : AppColors.white,
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 4,
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 3,
                   ),
                 ],
               ),
-              alignment: isOnline
+              alignment: _isOnline
                   ? Alignment.centerRight
                   : Alignment.centerLeft,
               child: Container(
                 width: 24,
                 height: 24,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
+                decoration: BoxDecoration(
+                  color: _isOnline ? AppColors.white : AppColors.grayA9,
                   shape: BoxShape.circle,
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

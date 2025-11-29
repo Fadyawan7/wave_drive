@@ -4,8 +4,10 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wave_drive/app.dart';
 import 'package:wave_drive/core/configs/app_config.dart';
+import 'package:wave_drive/core/routes/bloc_observer.dart';
 import 'package:wave_drive/core/shared/utils/app_logger.dart';
 import 'package:wave_drive/injector_setup.dart';
 
@@ -40,6 +42,7 @@ Future<void> bootstrap() async {
 
   // Local storage
  // await HiveStorage.init();
+  Bloc.observer = AppBlocObserver(); 
 
  
 

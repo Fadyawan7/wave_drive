@@ -1,9 +1,20 @@
 class AppIcons {
   AppIcons._();
 
+  // botton navigation
+    static const String home = 'assets/icons/home.svg';
+    static const String help = 'assets/icons/help.svg';
+    static const String category = 'assets/icons/category.svg';
+    static const String clock = 'assets/icons/clock.svg';
+    static const String percentageIc = 'assets/images/percentage_icon.png';
+
+
+
 
   static const String waveLogo = 'assets/images/waveLogo.png';
   static const String animateLogo = 'assets/images/animateLogo.png';
+    static const String edit = 'assets/icons/edit.svg';
+
   /////
   static const String detail = 'assets/icons/detail.svg';
   static const String candle = 'assets/icons/candle.svg';
@@ -15,7 +26,6 @@ class AppIcons {
   static const String future = 'assets/icons/future.svg';
   static const String trade = 'assets/icons/trade.svg';
   static const String spot = 'assets/icons/spot.svg';
-  static const String home = 'assets/icons/home.svg';
   static const String team = 'assets/icons/team.svg';
   static const String doc = 'assets/icons/doc.svg';
   static const String convert = 'assets/icons/convert.svg';
@@ -102,7 +112,6 @@ class AppIcons {
   static const String timeHalfCircle = 'assets/icons/time_half_circle.svg';
   static const String timer = 'assets/icons/timer.svg';
   static const String musicNoteLive = 'assets/icons/music_note_live.svg';
-  static const String clock = 'assets/icons/clock.svg';
   static const String eye = 'assets/icons/eye.svg';
   static const String diamond = 'assets/icons/diamond.svg';
   static const String filledChat = 'assets/icons/filled_chat.svg';

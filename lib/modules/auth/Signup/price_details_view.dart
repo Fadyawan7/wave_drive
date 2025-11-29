@@ -1,13 +1,21 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:gap/gap.dart';
+import 'package:wave_drive/core/shared/extensions/alignment_extension.dart';
+import 'package:wave_drive/core/shared/mixins/mixins.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
-import 'package:wave_drive/core/shared/widgets/app_bar/app_bar_field.dart';
+import 'package:wave_drive/core/shared/widgets/appbar/main_app_bar.dart';
+import 'package:wave_drive/core/shared/widgets/avatar/app_file_picker.dart';
+import 'package:wave_drive/core/shared/widgets/base/base_screen.dart';
+import 'package:wave_drive/core/shared/widgets/buttons/primary_button.dart';
+import 'package:wave_drive/core/shared/widgets/buttons/primary_outlined_button.dart';
+import 'package:wave_drive/core/shared/widgets/drop_downs/app_dropdown.dart';
+import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_fill_text_field.dart';
 import 'package:wave_drive/core/shared/widgets/language_field/language_field.dart';
-import 'package:wave_drive/core/shared/widgets/rounded_button/rounded_border_button.dart';
-import 'package:wave_drive/core/shared/widgets/rounded_button/rounded_button.dart';
-import 'package:wave_drive/core/shared/widgets/textfield/text_field.dart';
+import 'package:wave_drive/modules/auth/Signup/personel_info_view.dart';
 import 'package:wave_drive/modules/auth/Signup/register_doc_view.dart';
 
 import 'widgets/custom_horizontal_divider.dart';
@@ -19,7 +27,8 @@ class PriceDetailsView extends StatefulWidget {
   State<PriceDetailsView> createState() => _PriceDetailsViewState();
 }
 
-class _PriceDetailsViewState extends State<PriceDetailsView> {
+class _PriceDetailsViewState extends BaseScreen<PriceDetailsView>
+    with FormMixin {
   String? selectedManufacturer;
   String? selectedModel;
   String? selectedYear;
@@ -60,262 +69,107 @@ class _PriceDetailsViewState extends State<PriceDetailsView> {
   };
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildBody(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: AppColors.primarycolor,
-      body: SafeArea(
-        child: Column(
-          children: [
-            const Gap(20),
-            AppBarField(
-              text: 'Sign Up',
-              onpress: () {
-                Navigator.pop(context);
-              },
-            ),
-            const Gap(16),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.whitecolor,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Gap(24),
-                        const LanguageField(),
-                        const Gap(24),
-                        const CustomHorizontalDivider(activeSections: 2),
-                        const Gap(24),
-
-                        Text(
-                          'Legal and pricing details',
-                          style: AppTextStyles.text10,
-                        ),
-                        const Gap(10),
-                        Text(
-                          'Your national ID and license will be kept private',
-                          style: AppTextStyles.text10,
-                        ),
-                        const Gap(24),
-
-                        Text('License plate', style: AppTextStyles.text10),
-                        const Gap(16),
-                        const TextFieldCustom(maxLines: 1, hintText: '717 TTP'),
-                        const Gap(24),
-
-                        Text(
-                          'Vehicle transport licence number',
-                          style: AppTextStyles.text10,
-                        ),
-                        const Gap(16),
-                        const TextFieldCustom(
-                          maxLines: 1,
-                          hintText: 'Vehicle transport licence number',
-                        ),
-                        const Gap(24),
-
-                        Text(
-                          'Vehicle manufacturer and model',
-                          style: AppTextStyles.text10,
-                        ),
-                        const Gap(16),
-                        _buildManufacturerDropdown(),
-                        const Gap(16),
-                        _buildModelDropdown(),
-                        const Gap(24),
-
-                        Text(
-                          'If you don’t find your vehicle model from the list then let us know at info@wave.as.',
-                          style: AppTextStyles.text10,
-                        ),
-                        const Gap(24),
-
-                        Text('Vehicle year', style: AppTextStyles.text12),
-                        const Gap(16),
-                        _buildYearDropdown(),
-                        const Gap(24),
-
-                        Text('Vehicle color', style: AppTextStyles.text12),
-                        const Gap(16),
-                        _buildColorDropdown(),
-                        const Gap(24),
-
-                        _buildDocumentSection(
-                          title: 'Taxi Operating License',
-                          description:
-                              'Please upload your taxi operating license to approve your application.',
-                          buttonText: 'Upload A File',
-                          file: taxiLicense,
-                          onPressed: () {
-                            setState(
-                              () => taxiLicense = File('dummy_license.png'),
-                            );
-                          },
-                          onDelete: () {
-                            setState(() => taxiLicense = null);
-                          },
-                        ),
-                        const Gap(24),
-
-                        _buildDocumentSection(
-                          title: 'Taximeter',
-                          description: 'Add a picture of your taximeter.',
-                          buttonText: 'Upload A File',
-                          file: taxiMeter,
-                          onPressed: () {
-                            setState(() => taxiMeter = File('dummy_meter.png'));
-                          },
-                          onDelete: () {
-                            setState(() => taxiMeter = null);
-                          },
-                        ),
-                        const Gap(24),
-
-                        _buildDocumentSection(
-                          title: 'Roof Light',
-                          description:
-                              'Please provide a picture of a roof light as required in Norway after 1/1/2023.',
-                          buttonText: 'Upload A File',
-                          file: taxiLight,
-                          onPressed: () {
-                            setState(() => taxiLight = File('dummy_light.png'));
-                          },
-                          onDelete: () {
-                            setState(() => taxiLight = null);
-                          },
-                        ),
-                        const Gap(24),
-
-                        _buildDocumentSection(
-                          title: 'Vehicle insurance documentation',
-                          description:
-                              'Please provide a copy of your vehicle insurance.',
-                          buttonText: 'Upload A File',
-                          file: vehicleInsurance,
-                          onPressed: () {
-                            setState(
-                              () => vehicleInsurance = File(
-                                'dummy_insurance.png',
-                              ),
-                            );
-                          },
-                          onDelete: () {
-                            setState(() => vehicleInsurance = null);
-                          },
-                        ),
-                        const Gap(32),
-
-                        RoundedButton(
-                          title: 'Next',
-                          onpress: () {
-                            // if (_validateDocuments()) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => RegisterDocView(),
-                              ),
-                            );
-                            // } else {
-                            //   ScaffoldMessenger.of(context).showSnackBar(
-                            //     const SnackBar(
-                            //       content: Text(
-                            //         'Please upload all required documents',
-                            //       ),
-                            //     ),
-                            //   );
-                            // }
-                          },
-                        ),
-                        const Gap(24),
-                        RoundedBorderButton(
-                          title: 'Back',
-                          onpress: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                        const Gap(24),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+      appBar: MainAppBar(
+        titleWidget: Text(
+          "Sign Up",
+          style: AppTextStyles.text18.copyWith(fontWeight: FontWeight.w500),
         ),
       ),
-    );
-  }
+      body: FormBuilder(
+        key: formKey,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 30),
 
-  // Manufacturer Dropdown
-  Widget _buildManufacturerDropdown() {
-    return _buildDropdown(
-      hint: "Select Manufacturer",
-      value: selectedManufacturer,
-      items: manufacturers,
-      onChanged: (val) {
-        setState(() {
-          selectedManufacturer = val;
-          selectedModel = null; // Reset model when manufacturer changes
-        });
-      },
-      onClear: () => setState(() => selectedManufacturer = null),
-    );
-  }
+          child: Column(
+            children: [
+              const Gap(24),
+              const LanguageField(),
+              const Gap(24),
+              const CustomHorizontalDivider(activeSections: 2),
+              const Gap(24),
 
-  // Model Dropdown
-  Widget _buildModelDropdown() {
-    final availableModels = models[selectedManufacturer] ?? [];
-    return _buildDropdown(
-      hint: "Select Model",
-      value: selectedModel,
-      items: availableModels,
-      onChanged: (val) => setState(() => selectedModel = val),
-      onClear: () => setState(() => selectedModel = null),
-    );
-  }
+              Text(
+                'Legal and pricing details',
+                style: AppTextStyles.text18.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+              ).centerLeft,
+              const Gap(10),
+              Text(
+                'Your national ID and license will be kept private',
+                style: AppTextStyles.text14.copyWith(
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.grayA9,
+                ),
+              ).centerLeft,
+              const Gap(24),
 
-  // Year Dropdown
-  Widget _buildYearDropdown() {
-    return _buildDropdown(
-      hint: "Select Year",
-      value: selectedYear,
-      items: years,
-      onChanged: (val) => setState(() => selectedYear = val),
-      onClear: () => setState(() => selectedYear = null),
-    );
-  }
+              FormBuilderFillTextField(
+                name: 'plate',
+                hintText: "License plate",
+                validator: requiredValidators,
+              ),
 
-  // Color Dropdown
-  Widget _buildColorDropdown() {
-    return Container(
-      height: 48,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF8F8F8),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                borderRadius: BorderRadius.circular(12),
-                dropdownColor: AppColors.whitecolor,
-                isExpanded: true,
-                value: selectedColor,
-                hint: const Text("Select Color"),
-                items: colorMap.keys.map((colorName) {
+              const Gap(18),
+              FormBuilderFillTextField(
+                name: 'licence_number',
+                hintText: "Vehicle transport license number",
+                validator: requiredValidators,
+              ),
+
+              const Gap(18),
+
+              AppDropdownField(
+                validator: requiredValidators,
+                hint: 'Vehicle manufacturer',
+
+                items: manufacturers,
+                onChanged: (String? value) {},
+                name: 'manufacturer',
+              ),
+
+              const Gap(18),
+
+              AppDropdownField(
+                validator: requiredValidators,
+                hint: 'Vehicle model',
+
+                items: ["C-Class", "E-Class", "GLA"],
+                onChanged: (String? value) {},
+                name: 'model',
+              ),
+
+              const Gap(6),
+
+              Text(
+                'If you don’t find your vehicle model from the list then let us know at info@wave.as.',
+                style: AppTextStyles.text12.copyWith(color: AppColors.grayA9),
+              ),
+              const Gap(18),
+
+              AppDropdownField(
+                validator: requiredValidators,
+                hint: 'Vehicle year',
+
+                items: ["2024", "2025"],
+                onChanged: (String? value) {},
+                name: 'model',
+              ),
+
+              const Gap(18),
+
+              AppDropdownField(
+                validator: requiredValidators,
+                hint: 'Vehicle color',
+
+                items: colorMap.keys.toList(),
+                onChanged: (String? value) {},
+                name: 'color',
+                itemBuilder: (item) {
                   return DropdownMenuItem<String>(
-                    value: colorName,
+                    value: item,
                     child: Row(
                       children: [
                         Container(
@@ -323,153 +177,161 @@ class _PriceDetailsViewState extends State<PriceDetailsView> {
                           height: 22,
                           margin: const EdgeInsets.only(right: 8),
                           decoration: BoxDecoration(
-                            color: colorMap[colorName],
+                            color: colorMap[item],
                             shape: BoxShape.circle,
                           ),
                         ),
-                        Text(colorName),
+                        Text(item),
                       ],
                     ),
                   );
-                }).toList(),
-                onChanged: (newValue) {
-                  setState(() => selectedColor = newValue);
                 },
               ),
-            ),
-          ),
-          if (selectedColor != null)
-            GestureDetector(
-              onTap: () => setState(() => selectedColor = null),
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: Icon(Icons.clear, size: 18),
+              // _buildColorDropdown(),
+              const Gap(18),
+
+              _buildDocumentSection(
+                title: 'Taxi Operating License',
+                description:
+                    'In order to drive taxi in Norway you (or the fleet owner you are working with) must have a so called taxi operating license. Please upload your taxi operating license in this section so that we can approve your application. Read more about taxi operating lenience. here',
+                buttonText: 'Upload A File',
+                file: taxiLicense,
+                onPressed: () {
+                  setState(() => taxiLicense = File('dummy_license.png'));
+                },
+                onDelete: () {
+                  setState(() => taxiLicense = null);
+                },
+                onFileChanged: (File p1) {},
+                name: "file1",
               ),
-            ),
-          const Icon(Icons.keyboard_arrow_down, size: 22),
-        ],
+              const Gap(18),
+
+              _buildDocumentSection(
+                title: 'Taximeter',
+                description: 'Add a picture of your taximeter.',
+                buttonText: 'Upload A File',
+                file: taxiMeter,
+                onPressed: () {
+                  setState(() => taxiMeter = File('dummy_meter.png'));
+                },
+                onDelete: () {
+                  setState(() => taxiMeter = null);
+                },
+                onFileChanged: (File p1) {},
+                name: '',
+              ).centerLeft,
+              const Gap(18),
+
+              _buildDocumentSection(
+                title: 'Roof Light',
+                description:
+                    'Please provide a picture of a roof light as required in Norway after 1/1/2023.',
+                buttonText: 'Upload A File',
+                file: taxiLight,
+                onPressed: () {
+                  setState(() => taxiLight = File('dummy_light.png'));
+                },
+                onDelete: () {
+                  setState(() => taxiLight = null);
+                },
+                onFileChanged: (File p1) {},
+                name: '',
+              ),
+              const Gap(18),
+
+              _buildDocumentSection(
+                title: 'Vehicle insurance documentation',
+                description: 'Please provide a copy of your vehicle insurance.',
+                buttonText: 'Upload A File',
+                file: vehicleInsurance,
+                onPressed: () {
+                  setState(
+                    () => vehicleInsurance = File('dummy_insurance.png'),
+                  );
+                },
+                onDelete: () {
+                  setState(() => vehicleInsurance = null);
+                },
+                onFileChanged: (File p1) {},
+                name: '',
+              ),
+              const Gap(30),
+
+              PrimaryButton(text: "Next", onPressed: _onSubmit),
+              const Gap(18),
+              PrimaryOutlinedButton(
+                text: "Back",
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  // Reusable Dropdown Builder
-  Widget _buildDropdown({
-    required String hint,
-    required String? value,
-    required List<String> items,
-    required ValueChanged<String?> onChanged,
-    required VoidCallback onClear,
-  }) {
-    return Container(
-      height: 48,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF8F8F8),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                borderRadius: BorderRadius.circular(12),
-                dropdownColor: AppColors.whitecolor,
-                isExpanded: true,
-                value: value,
-                hint: Text(
-                  hint,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                items: items.map((item) {
-                  return DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(item),
-                  );
-                }).toList(),
-                onChanged: onChanged,
-              ),
-            ),
-          ),
-          if (value != null)
-            GestureDetector(
-              onTap: onClear,
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: Icon(Icons.clear, size: 18),
-              ),
-            ),
-          const Icon(Icons.keyboard_arrow_down, size: 22),
-        ],
-      ),
-    );
+  Future<void> _onSubmit() async {
+    FocusScope.of(context).unfocus();
+    final isFormValid = formKey.currentState!.saveAndValidate();
+    if (!isFormValid) return;
+    // final formFields = formKey.currentState!.value;
+    // final fName = formFields["fName"] as String;
+    // final lName = formFields["lName"] as String;
+    // final idCard = formFields["id_card"] as String;
+    // final language = formFields["language"] as String;
+    // final referalCode = formFields["referal_code"] as String?;
+
+    loading(true);
+
+    await Future.delayed(const Duration(seconds: 2));
+    loading(false);
+
+    if (mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => RegisterDocView()),
+      );
+    }
   }
 
   // Document Upload Section
   Widget _buildDocumentSection({
     required String title,
+    required String name,
     required String description,
     required String buttonText,
     required File? file,
     required VoidCallback onPressed,
     required VoidCallback onDelete,
+    required final Function(File) onFileChanged,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: AppTextStyles.text12),
+        Text(
+          title,
+          style: AppTextStyles.text18.copyWith(fontWeight: FontWeight.w500),
+        ),
         const Gap(8),
-        Text(description, style: AppTextStyles.text12),
+        Text(
+          description,
+          style: AppTextStyles.text14.copyWith(
+            fontWeight: FontWeight.w300,
+
+            color: AppColors.grayA9,
+          ),
+        ),
         const Gap(16),
-        file != null
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      file.path.split('/').last,
-                      style: const TextStyle(fontSize: 14),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.delete_forever_rounded,
-                      color: AppColors.blackcolor,
-                    ),
-                    onPressed: onDelete,
-                  ),
-                ],
-              )
-            : GestureDetector(
-                onTap: onPressed,
-                child: Container(
-                  height: 31,
-                  width: 118,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: AppColors.inputboxcolor,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.add, size: 16, color: AppColors.primarycolor),
-                      const SizedBox(width: 4),
-                      Text(buttonText, style: AppTextStyles.text12),
-                    ],
-                  ),
-                ),
-              ),
+
+        AppFilePicker(
+          validator: requiredValidators,
+          onFileChanged: onFileChanged,
+          name: name,
+        ),
       ],
     );
-  }
-
-  bool _validateDocuments() {
-    return taxiLicense != null &&
-        taxiMeter != null &&
-        taxiLight != null &&
-        vehicleInsurance != null;
   }
 }

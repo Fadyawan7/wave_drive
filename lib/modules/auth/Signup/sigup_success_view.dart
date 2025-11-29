@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 import 'package:wave_drive/core/shared/widgets/language_field/language_field.dart';
 import 'package:wave_drive/modules/dashboad/dashboard_view.dart';
@@ -19,7 +20,6 @@ class _SuccessScreenState extends State<SuccessScreen>
 
   @override
   void initState() {
-    
     super.initState();
     _animationController = AnimationController(
       vsync: this,
@@ -36,7 +36,7 @@ class _SuccessScreenState extends State<SuccessScreen>
     ).animate(_animationController);
 
     _animationController.forward();
-         Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         Navigator.pushReplacement(
           context,
@@ -137,12 +137,19 @@ class _SuccessScreenState extends State<SuccessScreen>
                     ),
                   ),
                   const Gap(24),
-                  Text('Success!', style: AppTextStyles.text12),
+                  Text(
+                    'Success!',
+                    style: AppTextStyles.text12.copyWith(
+                      color: AppColors.primary,
+                    ),
+                  ),
                   const Gap(16),
                   Text(
                     'Expect To Be Contacted By Wave In A\nFew Days.',
                     textAlign: TextAlign.center,
-                    style: AppTextStyles.text12,
+                    style: AppTextStyles.text16.copyWith(
+                      color: AppColors.grayA9,
+                    ),
                   ),
                   const Gap(150),
                 ],

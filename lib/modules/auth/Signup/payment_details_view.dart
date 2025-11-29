@@ -1,172 +1,324 @@
 // packages
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:gap/gap.dart';
+import 'package:wave_drive/core/shared/mixins/form_mixin.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
-import 'package:wave_drive/core/shared/widgets/app_bar/app_bar_field.dart';
+import 'package:wave_drive/core/shared/widgets/appbar/main_app_bar.dart';
+import 'package:wave_drive/core/shared/widgets/avatar/app_file_picker.dart';
+import 'package:wave_drive/core/shared/widgets/base/base_screen.dart';
+import 'package:wave_drive/core/shared/widgets/drop_downs/app_dropdown.dart';
+import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_country_picker.dart';
+import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_fill_text_field.dart';
 import 'package:wave_drive/core/shared/widgets/language_field/language_field.dart';
 import 'package:wave_drive/core/shared/widgets/rounded_button/rounded_border_button.dart';
 import 'package:wave_drive/core/shared/widgets/rounded_button/rounded_button.dart';
 import 'package:wave_drive/core/shared/widgets/textfield/text_field.dart';
+import 'package:wave_drive/modules/auth/Signup/document_confirmation_view.dart';
 
 import 'sigup_success_view.dart';
 import 'widgets/custom_horizontal_divider.dart';
 
-class PaymentDetailsView extends StatelessWidget {
+class PaymentDetailsView extends StatefulWidget {
   PaymentDetailsView({super.key});
-  // final PaymentDetailController controller = Get.put(PaymentDetailController());
 
   @override
-  Widget build(BuildContext context) {
+  State<PaymentDetailsView> createState() => _PaymentDetailsViewState();
+}
+
+class _PaymentDetailsViewState extends BaseScreen<PaymentDetailsView>
+    with FormMixin {
+  bool isCheckedFirst = false;
+  final _scrollController = ScrollController();
+
+  // final PaymentDetailController controller = Get.put(PaymentDetailController());
+  @override
+  Widget buildBody(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: AppColors.primarycolor,
-      body: SafeArea(
+      appBar: MainAppBar(
+        titleWidget: Text(
+          "Sign Up",
+          style: AppTextStyles.text18.copyWith(fontWeight: FontWeight.w500),
+        ),
+      ),
+      body: _buildContent(context),
+    );
+  }
+
+  Widget _buildContent(BuildContext context) {
+    return FormBuilder(
+      key: formKey,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 30),
+
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Gap(20),
-            AppBarField(
-              text: 'Sign Up',
-              onpress: (){}
+            const Gap(24),
+            const LanguageField(),
+            const Gap(24),
+            // custom divider
+            const CustomHorizontalDivider(activeSections: 4),
+            const Gap(24),
+            _buildHeader(),
+            const Gap(6),
+            _buildDescription('we need your payment details to pay you.'),
+            const Gap(12),
+
+            //  _buildSectionTitle('Billing type*'),
+            //  _buildCompanyField(),
+            AppDropdownField(
+              hintStype: AppTextStyles.text14.copyWith(
+                fontWeight: FontWeight.w300,
+                color: AppColors.grayA9,
+              ),
+              name: "billing_type",
+              validator: requiredValidators,
+              hint: "Billing type",
+              items: ["Company", "Individual"],
             ),
-            const Gap(16),
-            Expanded(
-              child: _buildContent(context),
+
+            const Gap(18),
+
+            FormBuilderFillTextField(
+              name: 'company_name',
+              hintText: "Company name",
+              validator: requiredValidators,
             ),
+
+            Gap(6),
+
+            _buildDescription('Full, leqal company name'),
+            const Gap(18),
+
+            FormBuilderFillTextField(
+              name: 'address',
+              hintText: "Address",
+              validator: requiredValidators,
+            ),
+
+            const Gap(18),
+            FormBuilderFillTextField(
+              name: 'reg_code',
+              hintText: "Registration code*",
+              validator: requiredValidators,
+            ),
+
+            Gap(6),
+            _buildDescription('Com parry,s registration code'),
+            Gap(6),
+            AppCheckbox(
+              label: 'VAT Liability',
+              style: AppTextStyles.text16.copyWith(color: AppColors.black33),
+              value: isCheckedFirst,
+              onChanged: (bool p1) {
+                setState(() {
+                  isCheckedFirst = !isCheckedFirst;
+                });
+              },
+            ),
+
+            const Gap(18),
+
+            FormBuilderFillTextField(
+              name: 'owner_name',
+              hintText: "Bank account holder name",
+              validator: requiredValidators,
+            ),
+
+            const Gap(18),
+
+            FormBuilderFillTextField(
+              name: 'acc_number',
+              hintText: "Bank account number",
+              validator: requiredValidators,
+            ),
+
+            Gap(12),
+
+            _buildDocumentSection(
+              title: 'Bank statement',
+              description: 'Please provide a picture of your bank statement',
+              buttonText: 'Upload A File',
+
+              onPressed: () {},
+              onDelete: () {},
+              onFileChanged: (File p1) {},
+              name: '',
+            ),
+
+            Gap(24),
+
+            FormBuilderFillTextField(
+              name: 'swift_no',
+              hintText: "Bank name or BIC/SWIFT",
+              validator: requiredValidators,
+            ),
+            Gap(6),
+            _buildDescription('If unknown use bank name '),
+            Gap(6),
+
+            _buildSectionTitle('Tax identification numbers'),
+            Gap(6),
+
+            _buildDescription(
+              'Please provide all your Tax Identification Numbers. What are Tax Identification Numbers? ',
+            ),
+            Gap(6),
+
+            FormBuilderFillTextField(
+              name: 'text_no',
+              hintText: "12345678900987mva",
+              validator: requiredValidators,
+            ),
+            Gap(12),
+
+            FormBuilderCountryPicker(
+              name: 'country',
+              validator: Platform.isIOS ? null : countryValidators,
+              hintText: 'Country',
+              onSearching: (searching) {
+                if (searching) {
+                  _scrollController.animateTo(
+                    200,
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.linear,
+                  );
+                }
+              },
+              //  initialValue: "Pakistan",
+              isRequired: !Platform.isIOS,
+            ),
+
+            Gap(6),
+
+            _buildDescription('Add other Tax number '),
+            Gap(24),
+            FormBuilderCountryPicker(
+              name: 'country',
+              validator: Platform.isIOS ? null : countryValidators,
+              hintText: 'Country of birth',
+              onSearching: (searching) {
+                if (searching) {
+                  _scrollController.animateTo(
+                    200,
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.linear,
+                  );
+                }
+              },
+              //  initialValue: "Pakistan",
+              isRequired: !Platform.isIOS,
+            ),
+
+            const Gap(30),
+            RoundedButton(title: 'Submit', onpress: _onSubmit),
+            const Gap(18),
+            RoundedBorderButton(title: 'Back', onpress: () {}),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildContent(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.whitecolor,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
+  Future<void> _onSubmit() async {
+    FocusScope.of(context).unfocus();
+    final isFormValid = formKey.currentState!.saveAndValidate();
+    if (!isFormValid) return;
+
+    // final formFields = formKey.currentState!.value;
+    // final fName = formFields["fName"] as String;
+    // final lName = formFields["lName"] as String;
+    // final idCard = formFields["id_card"] as String;
+    // final language = formFields["language"] as String;
+    // final referalCode = formFields["referal_code"] as String?;
+
+    loading(true);
+
+    await Future.delayed(const Duration(seconds: 2));
+    loading(false);
+
+    if (mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => SuccessScreen()),
+      );
+    }
+  }
+
+  // Document Upload Section
+  Widget _buildDocumentSection({
+    required String title,
+    required String name,
+    required String description,
+    required String buttonText,
+    File? file,
+    required VoidCallback onPressed,
+    required VoidCallback onDelete,
+    required final Function(File) onFileChanged,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: AppTextStyles.text16.copyWith(fontWeight: FontWeight.w500),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Gap(24),
-              const LanguageField(),
-              const Gap(24),
-              // custom divider
-              const CustomHorizontalDivider(activeSections: 4),
-              const Gap(24),
-              _buildHeader(),
-              const Gap(16),
-              _buildDescription('we need your payment details to pay you.'),
-              const Gap(24),
-              _buildSectionTitle('Billing type*'),
-            //  _buildCompanyField(),
-              const Gap(24),
-              _buildSectionTitle('Company name*'),
-              _buildTextField(hintText: 'X technologies'),
-              _buildDescription('Full, leqal company name'),
-              _buildSectionTitle('Address'),
-              _buildTextField(hintText: 'X colony'),
-              _buildSectionTitle('Registration code*'),
-              _buildTextField(hintText: '122345'),
-              _buildDescription('Com parry,s registration code'),
-              const Gap(24),
-              _buildCheckbox('VAT Liability', true),
-              const Gap(24),
-              _buildSectionTitle('Bank account holder name'),
-              _buildTextField(hintText: 'John Doe'),
-              _buildDescription('Bank accoount holder name,person or company'),
-              _buildSectionTitle('Bank account number'),
-              _buildTextField(hintText: 'EE 9909 0938 1223 1233'),
-              _buildDescription(
-                  'Your bank account number,in Ibadan other format'),
-              _buildSectionTitle('Bank Name or BIC/SWIFT '),
-              _buildTextField(hintText: 'HABALT22 '),
-              _buildSectionTitle('Tax Identification Numbers'),
-              _buildDescription(
-                  'Please provide all your Tax Identification Numbers.'),
-           //   _buildTaxNumberField(),
-              Gap(16),
-            //  _buildCountryBirthField(),
-              Gap(24),
-              _buildSectionTitle('Contry of Birth'),
-             // _buildCountryBirthField(),
-              const Gap(24),
-              RoundedButton(
-                  title: 'Next',
-                  onpress: () {
-                      Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SuccessScreen()),
-                    );
-                  //   Get.to(
-                  //     () => const SuccessScreen(),
-                  //     binding: SuccessBinding(),
-                  //     transition: Transition.fadeIn,
-                  //     duration: const Duration(milliseconds: 500),
-                  //   );
-                   }
-                  
-                  
-                  ),
-              const Gap(24),
-              RoundedBorderButton(title: 'Back', onpress: (){}),
-              const Gap(40),
-            ],
+        const Gap(8),
+        Text(
+          description,
+          style: AppTextStyles.text14.copyWith(
+            fontWeight: FontWeight.w300,
+
+            color: AppColors.grayA9,
           ),
         ),
-      ),
+        const Gap(16),
+
+        AppFilePicker(
+          validator: requiredValidators,
+          onFileChanged: onFileChanged,
+          name: name,
+        ),
+      ],
     );
   }
 
   Widget _buildHeader() {
-    return Text('Payment Details', style: AppTextStyles.text10);
+    return Text(
+      'Payment Details',
+      style: AppTextStyles.textMed18.copyWith(color: AppColors.black33),
+    );
   }
 
   // Widget _buildCompanyField() {
-  //   return  _buildDropdown(
-  //       value: controller.selectCompany.value.isEmpty
-  //           ? null
-  //           : controller.selectCompany.value,
-  //       hintText: "Company",
-  //       items: controller.company,
-  //       onChanged: (String? newValue) =>
-  //           newValue != null ? controller.setCompany(newValue) : null,
-  //       onClear: controller.clearCompany,
-  //     ),
-  // }
-
   Widget _buildSectionTitle(String text) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(text, style: AppTextStyles.text10),
-        const Gap(16),
+        Text(
+          text,
+          style: AppTextStyles.text18.copyWith(fontWeight: FontWeight.w500),
+        ),
       ],
     );
   }
 
   Widget _buildDescription(String text) {
-    return Column(
-      children: [
-        Text(text, style: AppTextStyles.text10),
-        const Gap(24),
-      ],
+    return Text(
+      text,
+      style: AppTextStyles.text14.copyWith(color: AppColors.grayA9),
     );
   }
 
   Widget _buildTextField({required String hintText, int maxLines = 1}) {
     return Column(
       children: [
-        TextFieldCustom(
-          maxLines: maxLines,
-          hintText: hintText,
-        ),
+        TextFieldCustom(maxLines: maxLines, hintText: hintText),
         const Gap(16),
       ],
     );
@@ -203,44 +355,13 @@ class PaymentDetailsView extends StatelessWidget {
             ),
           ),
           const Gap(12),
-          Expanded(
-            child: Text(label, style: AppTextStyles.text10),
-          ),
+          Expanded(child: Text(label, style: AppTextStyles.text10)),
         ],
       ),
     );
   }
 
   // Widget _buildTaxNumberField() {
-  //   return Obx(
-  //     () => _buildDropdown(
-  //       value: controller.selectTexNumber.value.isEmpty
-  //           ? null
-  //           : controller.selectTexNumber.value,
-  //       hintText: "Add other Tax number",
-  //       items: controller.taxnumbers,
-  //       onChanged: (String? newValue) =>
-  //           newValue != null ? controller.settaxNumber(newValue) : null,
-  //       onClear: controller.clearSelection,
-  //     ),
-  //   );
-  // }
-
-  // Widget _buildCountryBirthField() {
-  //   return Obx(
-  //     () => _buildDropdown(
-  //       value: controller.selectCountryBirth.value.isEmpty
-  //           ? null
-  //           : controller.selectCountryBirth.value,
-  //       hintText: "Contry of Birth",
-  //       items: controller.countryBirth,
-  //       onChanged: (String? newValue) =>
-  //           newValue != null ? controller.setCountry(newValue) : null,
-  //       onClear: controller.clearCountry,
-  //     ),
-  //   );
-  // }
-
   Widget _buildDropdown({
     required String? value,
     required String hintText,
@@ -267,7 +388,9 @@ class PaymentDetailsView extends StatelessWidget {
                 hint: Text(
                   hintText,
                   style: const TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.w400),
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
                 items: items.map((String item) {
                   return DropdownMenuItem<String>(

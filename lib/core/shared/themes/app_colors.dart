@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   static const botoomIcon = Color(0xFFCFCFCF);
-    static const grayE7 = Color(0xffE7E7E7);
-    static const grayF8 = Color(0xffF8F8F8);
-
+  static const grayE7 = Color(0xffE7E7E7);
+  static const grayF8 = Color(0xffF8F8F8);
+  static const grayF7 = Color(0xffF7F7F7);
+  static const gray9E = Color(0xFF9E9E9E);
+  static const grayCF = Color(0xffCFCFCF);
+  static const whiteFB = Color(0xffFBFBFB);
+  static const white4A = Color(0xffD0D0D0);
+  static const red12 = Color(0xffFB3C12);
 
   //////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////
@@ -416,7 +421,7 @@ class AppColors {
   static const yellow1c = Color(0xffED9D1C);
   static const yellow4E = Color(0xffFFC04E);
   static const yellowAE = Color(0xffFFE1AE);
-  static const grayA9 = Color(0xff707070);
+  static const grayA9 = Color(0xffA9A9A9);
   static const cyanFF = Color(0xffD4FFFF);
   static const green04 = Color.fromRGBO(9, 255, 4, 1);
   static const green58 = Color(0xff0AB458);

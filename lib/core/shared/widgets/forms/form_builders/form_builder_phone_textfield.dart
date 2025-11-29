@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
@@ -125,9 +126,6 @@ class _FormBuilderPhoneFieldState extends State<FormBuilderPhoneField> {
                     decoration: BoxDecoration(
                       color: AppColors.grayF8,
 
-                      border: Border.all(
-                        color: hasError ? Colors.red : AppColors.transparent,
-                      ),
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Padding(
@@ -136,6 +134,9 @@ class _FormBuilderPhoneFieldState extends State<FormBuilderPhoneField> {
                         vertical: 18,
                       ),
                       child: TextField(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
                         keyboardType: TextInputType.phone,
                         onChanged: (val) {
                           final fullNumber = '$_countryCode$val';
@@ -146,7 +147,7 @@ class _FormBuilderPhoneFieldState extends State<FormBuilderPhoneField> {
                           border: InputBorder.none,
                           hintText: widget.label ?? 'Enter phone number',
                           hintStyle: AppTextStyles.text14.copyWith(
-                            color: AppColors.black,
+                            color: AppColors.grayA9,
                             fontWeight: FontWeight.w300,
                           ),
                         ),
@@ -158,11 +159,14 @@ class _FormBuilderPhoneFieldState extends State<FormBuilderPhoneField> {
             ),
             if (hasError) ...[
               const SizedBox(height: 6),
-              Text(
-                field.errorText ?? '',
-                style: AppTextStyles.text12.copyWith(
-                  color: Colors.red,
-                  fontWeight: FontWeight.w400,
+              Padding(
+                padding: const EdgeInsets.only(left: 18),
+                child: Text(
+                  field.errorText ?? '',
+                  style: AppTextStyles.text12.copyWith(
+                    color: Colors.red,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ],

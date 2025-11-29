@@ -21,8 +21,8 @@ class PrimaryOutlinedButton extends StatelessWidget {
     this.suffix,
     this.loadingText,
     this.loadingSize = 20,
-    this.prefixPadding = const EdgeInsets.symmetric(horizontal: 20),
-    this.suffixPadding = const EdgeInsets.symmetric(horizontal: 20),
+    this.prefixPadding = const EdgeInsets.symmetric(horizontal: 8),
+    this.suffixPadding = const EdgeInsets.symmetric(horizontal: 8),
     this.padding,
   });
 
@@ -83,7 +83,7 @@ class PrimaryOutlinedButton extends StatelessWidget {
             : Row(
                 mainAxisSize: fitText ? MainAxisSize.min : MainAxisSize.max,
                 mainAxisAlignment: hasIcon
-                    ? MainAxisAlignment.start
+                    ? MainAxisAlignment.center
                     : MainAxisAlignment.center,
                 children: [
                   if (prefix != null)

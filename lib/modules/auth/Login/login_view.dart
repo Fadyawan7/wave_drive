@@ -1,5 +1,4 @@
 // packages
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:gap/gap.dart';
@@ -7,15 +6,12 @@ import 'package:wave_drive/core/shared/extensions/alignment_extension.dart';
 import 'package:wave_drive/core/shared/mixins/form_mixin.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
-import 'package:wave_drive/core/shared/widgets/app_bar/app_bar_field.dart';
 import 'package:wave_drive/core/shared/widgets/appbar/main_app_bar.dart';
 import 'package:wave_drive/core/shared/widgets/base/base_screen.dart';
 import 'package:wave_drive/core/shared/widgets/buttons/primary_button.dart';
 import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_fill_text_field.dart';
-import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_outline_text_field.dart';
 import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_phone_textfield.dart';
-import 'package:wave_drive/core/shared/widgets/rounded_button/rounded_button.dart';
-import 'package:wave_drive/core/shared/widgets/textfield/text_field.dart';
+import 'package:wave_drive/core/shared/widgets/tab_bar/custom_selection_tab_bar.dart';
 import 'package:wave_drive/modules/auth/Login/otp_view.dart';
 
 class LoginView extends StatefulWidget {
@@ -28,166 +24,155 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends BaseScreen<LoginView>
     with SingleTickerProviderStateMixin, FormMixin {
   late TabController tabController;
+  bool _isHide = true;
+  int _selectedTabIndex = 0;
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 2, vsync: this);
+    tabController.addListener(() {
+      if (tabController.indexIsChanging) {
+        setState(() {
+          _selectedTabIndex = tabController.index;
+        });
+      }
+    });
   }
+
+  toogleVisiblity() => setState(() {
+    _isHide = !_isHide;
+  });
 
   @override
   Widget buildBody(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: AppColors.primarycolor,
       appBar: MainAppBar(
         titleWidget: Text(
           "Login",
-          style: AppTextStyles.text22.copyWith(
-            fontWeight: FontWeight.w700,
-
-            color: AppColors.white,
-          ),
+          style: AppTextStyles.text18.copyWith(fontWeight: FontWeight.w500),
         ),
       ),
-      body: Column(
-        children: [
-          Gap(48),
+      body: FormBuilder(
+        key: formKey,
+        child: Column(
+          children: [
+            Gap(24),
 
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.whitecolor,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
-                ),
-              ),
-              child: FormBuilder(
-                key: formKey,
-                child: Column(
-                  children: [
-                    const Gap(30),
-                    // Add the TabBar here
-                    Column(
-                      children: [
-                        TabBar(
-                          controller: tabController,
-                          indicator: UnderlineTabIndicator(
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: AppColors.primarycolor,
-                            ),
-                          ),
-                          labelColor: AppColors.primarycolor,
-                          unselectedLabelColor: Colors.black,
-                          labelStyle: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                          ),
-                          unselectedLabelStyle: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                          ),
-                          tabs: const [
-                            Tab(text: 'Email'),
-                            Tab(text: 'Phone Number'),
-                          ],
-                        ),
-                        Container(height: 1, color: AppColors.inputboxcolor),
-                      ],
-                    ),
+            // Custom Selection TabBar
+            CustomSelectionTabBar(
+              tabs: const ['Phone number', 'Email or username'],
+              selectedIndex: _selectedTabIndex,
+              onTabChanged: (index) {
+                setState(() {
+                  _selectedTabIndex = index;
+                });
+                tabController.animateTo(index);
+              },
+            ),
 
-                    const Gap(36),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: TabBarView(
-                          controller: tabController,
-                          children: [
-                            // Email Tab
-                            _buildEmailTab(),
-                            // Phone Tab
-                            _buildPhoneTab(context),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+            const Gap(36),
+            Expanded(
+              child: TabBarView(
+                physics: NeverScrollableScrollPhysics(),
+                controller: tabController,
+                children: [
+                  // Phone Tab
+                  _buildPhoneTab(context),
+
+                  // Email Tab
+                  _buildEmailTab(),
+                ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildEmailTab() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        FormBuilderFillTextField(
-          name: 'email',
-          hintText: "Enter your email",
-          validator: emailValidators,
+    return Padding(
+      padding: EdgeInsets.only(left: 16, right: 16, bottom: 30),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "We’ll use it to verify your account and send updates about nearby ride requests.",
+            style: AppTextStyles.text14.copyWith(
+              fontWeight: FontWeight.w300,
+              color: AppColors.grayA9,
+            ),
+          ),
+          Gap(18),
+          FormBuilderFillTextField(
+            name: 'email',
+            hintText: "Email address or username",
+            validator: emailValidators,
+          ),
 
-          prefixIcon: Icon(Icons.email, color: AppColors.blackcolor),
-        ),
+          // const Gap(24),
+          // FormBuilderFillTextField(
+          //   name: 'password',
+          //   hintText: "Password",
+          //   validator: requiredValidators,
+          //   obscureText: _isHide,
 
-        const Gap(24),
-        FormBuilderFillTextField(
-          name: 'password',
-          hintText: "Password",
-          validator: requiredValidators,
-          obscureText: true,
+          //   prefixIcon: Icon(Icons.lock, color: AppColors.blackcolor),
+          //   suffixIcon: IconButton(
+          //     onPressed: toogleVisiblity,
+          //     icon: Icon(_isHide ? Icons.visibility : Icons.visibility_off),
+          //   ),
+          // ),
 
-          prefixIcon: Icon(Icons.lock, color: AppColors.blackcolor),
-        ),
-
-        Gap(12),
-        _buildForgetPass(),
-        const Gap(40),
-        PrimaryButton(
-          text: "Login",
-          onPressed: _onSubmitEmailLogin,
-
-          //  () {
-          //   // Navigator.push(
-          //   //   context,
-          //   //   MaterialPageRoute(builder: (context) => OtpView()),
-          //   // );
-          // },
-        ),
-      ],
+          // Gap(12),
+          // _buildForgetPass(),
+          const Gap(54),
+          PrimaryButton(text: "Login", onPressed: _onSubmitEmailLogin),
+        ],
+      ),
     );
   }
 
   Widget _buildPhoneTab(BuildContext context) {
-    return Column(
-      children: [
-        FormBuilderPhoneField(
-          height: 58,
-          label: "Phone number",
-          name: 'phone',
-          validator: requiredValidators,
-        ),
+    return Padding(
+      padding: EdgeInsets.only(left: 16, right: 16, bottom: 30),
+      child: Column(
+        children: [
+          Text(
+            "We’ll use it to verify your account and send updates about nearby ride requests.",
+            style: AppTextStyles.text14.copyWith(
+              fontWeight: FontWeight.w300,
+              color: AppColors.grayA9,
+            ),
+          ),
+          Gap(18),
+          FormBuilderPhoneField(
+            height: 58,
+            label: "Phone number",
+            name: 'phone',
+            validator: requiredValidators,
+          ),
 
-        const Gap(24),
-        FormBuilderFillTextField(
-          name: 'passwordPhone',
-          hintText: "Password",
-          validator: requiredValidators,
-          obscureText: true,
+          // FormBuilderFillTextField(
+          //   name: 'passwordPhone',
+          //   hintText: "Password",
+          //   validator: requiredValidators,
+          //   obscureText: _isHide,
+          //   suffixIcon: IconButton(
+          //     onPressed: toogleVisiblity,
+          //     icon: Icon(_isHide ? Icons.visibility : Icons.visibility_off),
+          //   ),
 
-          prefixIcon: Icon(Icons.lock, color: AppColors.blackcolor),
-        ),
-        Gap(12),
-        // forget pass
-        _buildForgetPass(),
-        const Gap(40),
-        PrimaryButton(text: "Login", onPressed: _onSubmitPhomeLogin),
-      ],
+          //   prefixIcon: Icon(Icons.lock, color: AppColors.blackcolor),
+          // ),
+          // Gap(12),
+          // // forget pass
+          // _buildForgetPass(),
+          const Gap(54),
+          PrimaryButton(text: "Continue", onPressed: _onSubmitPhomeLogin),
+        ],
+      ),
     );
   }
 
@@ -206,7 +191,7 @@ class _LoginViewState extends BaseScreen<LoginView>
     final isFormValid = formKey.currentState!.saveAndValidate();
     if (!isFormValid) return;
     final formFields = formKey.currentState!.value;
-    final password = formFields["password"] as String;
+    // final password = formFields["password"] as String;
     final email = formFields["email"] as String;
 
     loading(true);
@@ -222,18 +207,13 @@ class _LoginViewState extends BaseScreen<LoginView>
     }
   }
 
-
-
-
-
-
   Future<void> _onSubmitPhomeLogin() async {
     FocusScope.of(context).unfocus();
     final isFormValid = formKey.currentState!.saveAndValidate();
     if (!isFormValid) return;
     final formFields = formKey.currentState!.value;
     final phone = formFields["phone"] as String;
-    final password = formFields["passwordPhone"] as String;
+    // final password = formFields["passwordPhone"] as String;
 
     loading(true);
 

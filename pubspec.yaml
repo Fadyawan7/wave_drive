@@ -71,6 +71,7 @@ dependencies:
   google_maps_flutter: ^2.14.0
   fl_chart: ^1.1.1
   pinput: ^6.0.0
+  image_cropper: ^11.0.0
 
 dev_dependencies:
   flutter_test:

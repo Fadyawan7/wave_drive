@@ -4,16 +4,19 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:gap/gap.dart';
+import 'package:wave_drive/core/shared/extensions/alignment_extension.dart';
 import 'package:wave_drive/core/shared/mixins/form_mixin.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 import 'package:wave_drive/core/shared/widgets/appbar/main_app_bar.dart';
 import 'package:wave_drive/core/shared/widgets/base/base_screen.dart';
 import 'package:wave_drive/core/shared/widgets/buttons/primary_button.dart';
+import 'package:wave_drive/core/shared/widgets/drop_downs/app_dropdown.dart';
 import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_country_picker.dart';
 import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_fill_text_field.dart';
 import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_phone_textfield.dart';
 import 'package:wave_drive/modules/auth/Signup/personel_info_view.dart';
+import 'package:wave_drive/modules/auth/Signup/signup_otp_screen.dart';
 // componenets
 
 import 'widgets/select_city_widget.dart';
@@ -34,136 +37,127 @@ class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
   Widget buildBody(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: AppColors.primarycolor,
+
       appBar: MainAppBar(
         titleWidget: Text(
-          "Sign up",
-          style: AppTextStyles.text22.copyWith(
-            fontWeight: FontWeight.w700,
-
-            color: AppColors.white,
-          ),
+          "Register",
+          style: AppTextStyles.text18.copyWith(fontWeight: FontWeight.w500),
         ),
       ),
       body: FormBuilder(
         key: formKey,
-        child: Column(
-          children: [
-            Gap(48),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.whitecolor,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
-                  ),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.only(left: 16, right: 16, bottom: 30),
+
+          child: Column(
+            children: [
+              Gap(24),
+              Text(
+                "Become a driver",
+                style: AppTextStyles.text18.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.black33,
                 ),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 16, right: 16, bottom: 30),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Gap(30),
-        
-                        FormBuilderFillTextField(
-                          name: 'email',
-                          hintText: "Email",
-                          validator: requiredValidators,
-                          obscureText: true,
-        
-                          prefixIcon: Icon(
-                            Icons.lock,
-                            color: AppColors.blackcolor,
-                          ),
-                        ),
-        
-                        Gap(24),
-        
-                        FormBuilderPhoneField(
-                          label: "Mobile Number",
-                          name: 'phone',
-                          validator: requiredValidators,
-                        ),
-        
-                        Gap(24),
-        
-                        FormBuilderFillTextField(
-                          name: 'password',
-                          hintText: "Password",
-                          validator: requiredValidators,
-                          obscureText: true,
-        
-                          prefixIcon: Icon(
-                            Icons.lock,
-                            color: AppColors.blackcolor,
-                          ),
-                        ),
-        
-                        Gap(24),
-                        FormBuilderCountryPicker(
-                          name: 'country',
-                          validator: Platform.isIOS ? null : countryValidators,
-                          hintText: 'Country',
-                          onSearching: (searching) {
-                            if (searching) {
-                              _scrollController.animateTo(
-                                200,
-                                duration: const Duration(milliseconds: 200),
-                                curve: Curves.linear,
-                              );
-                            }
-                          },
-                          initialValue: "Pakistan",
-                          isRequired: !Platform.isIOS,
-                        ),
-                        Gap(24),
-        
-                        Text(
-                          'City',
-                          style: AppTextStyles.text18.copyWith(
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Gap(12),
-                        // select city drop down
-                        CityDropdown(),
-        
-                        Gap(24),
-                        // terms
-                        TermsCheckbox(),
-                        Gap(24),
-        
-                        Text(
-                          "Once you've become a driver, we will occasionally send you offers and promotions related to our services. You can always unsubscribe by changing your communication preferences.",
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                        Gap(30),
-                        PrimaryButton(
-                          text: "Register as a driver",
-                          onPressed: _onSubmit,
-        
-                          // onPressed: () {
-                          //   Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) => PersonelInfoView(),
-                          //     ),
-                          //   );
-                          // },
-                        ),
-                      ],
-                    ),
-                  ),
+              ).centerLeft,
+              Gap(18),
+
+              FormBuilderFillTextField(
+                name: 'email',
+                hintText: "Email address",
+                validator: emailValidators,
+                obscureText: false,
+
+                prefixIcon: Icon(Icons.lock, color: AppColors.blackcolor),
+              ),
+
+              Gap(18),
+
+              FormBuilderPhoneField(
+                label: "Phone number",
+                name: 'phone',
+                validator: requiredValidators,
+              ),
+
+              Gap(18),
+
+              FormBuilderFillTextField(
+                name: 'password',
+                hintText: "Password",
+                validator: confirmPasswordValidators,
+                obscureText: true,
+
+                prefixIcon: Icon(Icons.lock, color: AppColors.blackcolor),
+              ),
+
+              Gap(18),
+              FormBuilderCountryPicker(
+                name: 'country',
+                validator: Platform.isIOS ? null : countryValidators,
+                hintText: 'Country',
+                onSearching: (searching) {
+                  if (searching) {
+                    _scrollController.animateTo(
+                      200,
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.linear,
+                    );
+                  }
+                },
+                initialValue: "Pakistan",
+                isRequired: !Platform.isIOS,
+              ),
+              Gap(18),
+
+              // select city drop down
+              // CityDropdown(),
+              AppDropdownField(
+                validator: requiredValidators,
+
+                hint: 'City',
+
+                items: [
+                  "Karachi",
+                  "Lahore",
+                  "Islamabad",
+                  "Rawalpindi",
+                  "Multan",
+                  "Faisalabad",
+                  "Peshawar",
+                  "Quetta",
+                  "Sialkot",
+                  "Gujranwala",
+                  "Bahawalpur",
+                  "Sukkur",
+                  "Hyderabad",
+                  "Abbottabad",
+                  "Mardan",
+                  "Jhang",
+                  "Sheikhupura",
+                  "Rahim Yar Khan",
+                  "Dera Ghazi Khan",
+                  "Okara",
+                ],
+                onChanged: (String? value) {},
+                name: 'city',
+              ),
+
+              Gap(18),
+              // terms
+              TermsCheckbox(),
+              Gap(18),
+
+              Text(
+                "Once you've become a driver, we will occasionally send you offers and promotions related to our services. You can always unsubscribe by changing your communication preferences.",
+                style: TextStyle(
+                  fontSize: 11,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w300,
                 ),
               ),
-            ),
-          ],
+              Gap(30),
+              PrimaryButton(text: "Register as a driver", onPressed: _onSubmit),
+            ],
+          ),
         ),
       ),
     );
@@ -187,7 +181,7 @@ class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
     if (mounted) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => PersonelInfoView()),
+        MaterialPageRoute(builder: (context) => SignupOtpScreen()),
       );
     }
   }

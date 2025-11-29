@@ -73,9 +73,7 @@ class _FormBuilderFillDatePickerState extends State<FormBuilderFillDatePicker> {
                 final today = DateTime.now();
                 return Container(
                   height: 250,
-                  decoration: const BoxDecoration(
-                    gradient: AppColors.gradientbg,
-                  ),
+                  decoration: const BoxDecoration(color: AppColors.grayC2),
                   child: CupertinoTheme(
                     data: const CupertinoThemeData(
                       brightness: Brightness.light,
@@ -123,13 +121,16 @@ class _FormBuilderFillDatePickerState extends State<FormBuilderFillDatePicker> {
             isFocused: _isFocusing,
             decoration: InputDecoration(
               suffix: widget.suffix,
-              fillColor: Colors.white,
+              fillColor: AppColors.grayF8,
               filled: true,
               errorText: field.errorText,
               hintText: widget.hintText,
               prefixIcon: widget.prefix,
               hintStyle: AppTextStyles.text14.copyWith(color: AppColors.gray),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 18,
+              ),
               border: const OutlineInputBorder(
                 borderSide: BorderSide(color: AppColors.grayF1),
               ),
@@ -151,18 +152,18 @@ class _FormBuilderFillDatePickerState extends State<FormBuilderFillDatePicker> {
                 ),
                 borderSide: const BorderSide(color: AppColors.grayF1),
               ),
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(widget.borderRadius),
-                ),
-                borderSide: const BorderSide(color: AppColors.error),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(widget.borderRadius),
-                ),
-                borderSide: const BorderSide(color: AppColors.error),
-              ),
+              // errorBorder: OutlineInputBorder(
+              //   borderRadius: BorderRadius.all(
+              //     Radius.circular(widget.borderRadius),
+              //   ),
+              //   borderSide: const BorderSide(color: AppColors.error),
+              // ),
+              // focusedErrorBorder: OutlineInputBorder(
+              //   borderRadius: BorderRadius.all(
+              //     Radius.circular(widget.borderRadius),
+              //   ),
+              //   borderSide: const BorderSide(color: AppColors.error),
+              // ),
               labelText: widget.labelText,
               floatingLabelBehavior: FloatingLabelBehavior.always,
               labelStyle: AppTextStyles.text16.copyWith(color: AppColors.gray),

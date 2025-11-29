@@ -273,7 +273,8 @@ class _FormBuilderCountryPickerState extends State<FormBuilderCountryPicker> {
                       ? Text(
                           widget.hintText ?? "",
                           style: AppTextStyles.text14.copyWith(
-                            color: AppColors.gray,
+                            color: AppColors.black,
+                            fontWeight: FontWeight.w300,
                           ),
                         )
                       : Row(
@@ -302,7 +303,7 @@ class _FormBuilderCountryPickerState extends State<FormBuilderCountryPicker> {
             final field = FormBuilder.of(context)?.fields[widget.name];
             if (field != null && field.hasError) {
               return Padding(
-                padding: EdgeInsets.only(left: 18.w),
+                padding: EdgeInsets.only(left: 18),
                 child: Text(
                   field.errorText ?? '',
                   style: const TextStyle(color: Colors.red, fontSize: 12),

@@ -1,13 +1,16 @@
 // packages
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:gap/gap.dart';
+import 'package:wave_drive/core/shared/extensions/alignment_extension.dart';
 import 'package:wave_drive/core/shared/mixins/mixins.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 import 'package:wave_drive/core/shared/widgets/appbar/main_app_bar.dart';
 import 'package:wave_drive/core/shared/widgets/base/base_screen.dart';
 import 'package:wave_drive/core/shared/widgets/buttons/primary_button.dart';
+import 'package:wave_drive/core/shared/widgets/drop_downs/app_dropdown.dart';
 import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_fill_text_field.dart';
 import 'package:wave_drive/core/shared/widgets/language_field/language_field.dart';
 import 'package:wave_drive/modules/auth/Signup/register_category_view.dart';
@@ -26,127 +29,111 @@ class _PersonelInfoViewState extends BaseScreen<PersonelInfoView>
   @override
   Widget buildBody(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: AppColors.primarycolor,
       appBar: MainAppBar(
         titleWidget: Text(
           "Sign Up",
-          style: AppTextStyles.text22.copyWith(
-            fontWeight: FontWeight.w700,
-
-            color: AppColors.white,
-          ),
+          style: AppTextStyles.text18.copyWith(fontWeight: FontWeight.w500),
         ),
       ),
       body: FormBuilder(
         key: formKey,
-        child: Column(
-          children: [
-            Gap(48),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.whitecolor,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
-                  ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 30),
+
+          child: Column(
+            children: [
+              Gap(24),
+
+              // language field
+              LanguageField(),
+              Gap(24),
+              // cutom divider
+              CustomHorizontalDivider(activeSections: 0),
+              Gap(24),
+              Text(
+                'Personel Information',
+                style: AppTextStyles.text18.copyWith(
+                  fontWeight: FontWeight.w500,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 16),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Gap(24),
-                        // language field
-                        LanguageField(),
-                        Gap(24),
-                        // cutom divider
-                        CustomHorizontalDivider(activeSections: 0),
-                        Gap(24),
-                        Text(
-                          'Personel Information',
-                          style: AppTextStyles.text18.copyWith(
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Gap(10),
-                        Text(
-                          'Only your first name and vehicle to clients during the booking.',
-                          style: AppTextStyles.text12.copyWith(
-                            fontWeight: FontWeight.w300,
-                            color: AppColors.grayA9,
-                          ),
-                        ),
+              ).centerLeft,
+              Gap(10),
+              Text(
+                'Only your first name and vehicle to clients during the booking.',
+                style: AppTextStyles.text12.copyWith(
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.grayA9,
+                ),
+              ).centerLeft,
 
-                        Gap(24),
-                        CustomTextField(
-                          requiredValidators: requiredValidators,
-                          upperHint: 'First name',
-                          hint: 'First name',
-                          name: 'fName',
-                        ),
+              Gap(24),
+              FormBuilderFillTextField(
+                name: 'fName',
+                hintText: "First name",
+                validator: requiredValidators,
+              ),
 
-                        Gap(24),
-                        CustomTextField(
-                          requiredValidators: requiredValidators,
-                          upperHint: 'Last name',
-                          hint: 'Last name',
-                          name: 'lName',
-                        ),
+              Gap(18),
+              FormBuilderFillTextField(
+                name: 'lName',
+                hintText: "Last name",
+                validator: requiredValidators,
+              ),
 
-                        Gap(24),
-                        CustomTextField(
-                          requiredValidators: requiredValidators,
-                          upperHint: 'National ID',
-                          hint: '3880938888',
-                          name: 'id_card',
-                        ),
-                        Gap(8),
+              Gap(18),
+              FormBuilderFillTextField(
+                name: 'cnic',
+                hintText: "National ID",
+                validator: requiredValidators,
+                inputType: TextInputType.number,
+              ),
 
-                        Text(
-                          "Your social security number or country,s alternative (e,g BVN)",
-                          style: AppTextStyles.text10.copyWith(
-                            fontWeight: FontWeight.w300,
-                            color: AppColors.grayA9,
-                          ),
-                        ),
+              Gap(8),
 
-                        Gap(24),
-                        CustomTextField(
-                          requiredValidators: requiredValidators,
-                          upperHint: 'Language',
-                          hint: 'Norwegian',
-                          name: 'language',
-                        ),
-
-                        Gap(24),
-                        CustomTextField(
-                          upperHint: 'Referral code',
-                          hint: 'Referral code',
-                          name: 'referal_code',
-                        ),
-
-                        Gap(8),
-
-                        Text(
-                          "If someone referred you, biter their code ",
-                          style: AppTextStyles.text10.copyWith(
-                            fontWeight: FontWeight.w300,
-                            color: AppColors.grayA9,
-                          ),
-                        ),
-                        Gap(24),
-                        PrimaryButton(text: "Next", onPressed: _onSubmit),
-                        Gap(30),
-                      ],
-                    ),
-                  ),
+              Text(
+                "Your social security number or country,s alternative (e,g BVN)",
+                style: AppTextStyles.text10.copyWith(
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.grayA9,
                 ),
               ),
-            ),
-          ],
+
+              Gap(18),
+
+              // CustomTextField(
+              //   requiredValidators: requiredValidators,
+              //   upperHint: 'Language',
+              //   hint: 'Norwegian',
+              //   name: 'language',
+              //   obscureText: false,
+              // ),
+              AppDropdownField(
+                name: "langoage",
+                validator: requiredValidators,
+                hint: "Language",
+                items: ["English", "Urdu", "Arabic"],
+              ),
+
+              Gap(18),
+
+              FormBuilderFillTextField(
+                name: 'referal_code',
+                hintText: "Referral code",
+                validator: requiredValidators, inputType: TextInputType.number,
+              ),
+
+              Gap(8),
+
+              Text(
+                "If someone referred you, biter their code ",
+                style: AppTextStyles.text10.copyWith(
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.grayA9,
+                ),
+              ).centerLeft,
+              Gap(30),
+              PrimaryButton(text: "Next", onPressed: _onSubmit),
+            ],
+          ),
         ),
       ),
     );
@@ -156,12 +143,12 @@ class _PersonelInfoViewState extends BaseScreen<PersonelInfoView>
     FocusScope.of(context).unfocus();
     final isFormValid = formKey.currentState!.saveAndValidate();
     if (!isFormValid) return;
-    final formFields = formKey.currentState!.value;
-    final fName = formFields["fName"] as String;
-    final lName = formFields["lName"] as String;
-    final idCard = formFields["id_card"] as String;
-    final language = formFields["language"] as String;
-    final referalCode = formFields["referal_code"] as String?;
+    // final formFields = formKey.currentState!.value;
+    // final fName = formFields["fName"] as String;
+    // final lName = formFields["lName"] as String;
+    // final idCard = formFields["id_card"] as String;
+    // final language = formFields["language"] as String;
+    // final referalCode = formFields["referal_code"] as String?;
 
     loading(true);
 
@@ -184,12 +171,18 @@ class CustomTextField extends StatelessWidget {
     required this.upperHint,
     required this.hint,
     required this.name,
+    this.inputFormatters,
+    this.inputType,
+    this.obscureText = false,
   });
 
   final FormFieldValidator? requiredValidators;
   final String upperHint;
   final String hint;
   final String name;
+  final bool obscureText;
+  final TextInputType? inputType;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -206,10 +199,12 @@ class CustomTextField extends StatelessWidget {
         ),
         Gap(12),
         FormBuilderFillTextField(
+          inputFormatters: inputFormatters,
           name: name,
           hintText: hint,
           validator: requiredValidators,
-          obscureText: true,
+          obscureText: obscureText,
+          inputType: inputType,
         ),
       ],
     );
