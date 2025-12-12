@@ -4,6 +4,8 @@ import 'package:gap/gap.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wave_drive/core/shared/extensions/extensions.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
+import 'package:wave_drive/core/shared/widgets/bottom_sheet/category_bottom_sheet.dart';
+import 'package:wave_drive/core/shared/widgets/bottom_sheet/driver_preference_bottom_sheet.dart';
 import 'package:wave_drive/core/shared/widgets/custom_drawer/custom_drawer.dart';
 import 'widgets/bottom_sheet_widget.dart';
 import 'widgets/online_status_toggle.dart';
@@ -54,7 +56,7 @@ class _HomeViewState extends State<HomeView> {
               children: [
                 _menuButton(),
                 const Gap(40),
-                OnlineStatusToggle(isOnline: true, onTap: () {  },),
+                OnlineStatusToggle(isOnline: true, onTap: () {}),
               ],
             ),
           ),
@@ -72,6 +74,7 @@ class _HomeViewState extends State<HomeView> {
                   context,
                   'assets/images/Vector.png',
                   'Preferences',
+                  () {},
                 ),
                 const Spacer(),
                 Column(
@@ -82,6 +85,15 @@ class _HomeViewState extends State<HomeView> {
                       context,
                       'assets/images/flatter.png',
                       'Other Action',
+                      () {
+                        DriverPreferenceBotonSheet.show(
+                          context,
+                          onTakePhoto: () {},
+                          onChoosePhoto: () {}, onChooseCategory: () { 
+                            CategoryBotonSheet.show(context);
+                           },
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -146,13 +158,10 @@ class _HomeViewState extends State<HomeView> {
     BuildContext context,
     String imagePath,
     String label,
+    void Function() onTap,
   ) {
     return InkWell(
-      onTap: () {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('$label tapped')));
-      },
+      onTap: onTap,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(88),
         child: Container(

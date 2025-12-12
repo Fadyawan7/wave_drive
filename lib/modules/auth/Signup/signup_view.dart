@@ -15,6 +15,8 @@ import 'package:wave_drive/core/shared/widgets/drop_downs/app_dropdown.dart';
 import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_country_picker.dart';
 import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_fill_text_field.dart';
 import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_phone_textfield.dart';
+import 'package:wave_drive/injector_setup.dart';
+import 'package:wave_drive/modules/auth/Signup/cubit/signup_cubit.dart';
 import 'package:wave_drive/modules/auth/Signup/personel_info_view.dart';
 import 'package:wave_drive/modules/auth/Signup/signup_otp_screen.dart';
 // componenets
@@ -31,6 +33,8 @@ class SignupView extends StatefulWidget {
 
 class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
   final _scrollController = ScrollController();
+    final _cubit = injector<SignupCubit>();
+
 
   // final SignupPhoneController phoneController =
   @override
@@ -47,11 +51,11 @@ class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
       body: FormBuilder(
         key: formKey,
         child: SingleChildScrollView(
-          padding: EdgeInsets.only(left: 16, right: 16, bottom: 30),
+          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 30),
 
           child: Column(
             children: [
-              Gap(24),
+              const Gap(24),
               Text(
                 "Become a driver",
                 style: AppTextStyles.text18.copyWith(
@@ -59,7 +63,7 @@ class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
                   color: AppColors.black33,
                 ),
               ).centerLeft,
-              Gap(18),
+              const Gap(18),
 
               FormBuilderFillTextField(
                 name: 'email',
@@ -67,10 +71,10 @@ class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
                 validator: emailValidators,
                 obscureText: false,
 
-                prefixIcon: Icon(Icons.lock, color: AppColors.blackcolor),
+                prefixIcon: const Icon(Icons.lock, color: AppColors.blackcolor),
               ),
 
-              Gap(18),
+              const Gap(18),
 
               FormBuilderPhoneField(
                 label: "Phone number",
@@ -78,7 +82,7 @@ class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
                 validator: requiredValidators,
               ),
 
-              Gap(18),
+              const Gap(18),
 
               FormBuilderFillTextField(
                 name: 'password',
@@ -86,10 +90,10 @@ class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
                 validator: confirmPasswordValidators,
                 obscureText: true,
 
-                prefixIcon: Icon(Icons.lock, color: AppColors.blackcolor),
+                prefixIcon: const Icon(Icons.lock, color: AppColors.blackcolor),
               ),
 
-              Gap(18),
+              const Gap(18),
               FormBuilderCountryPicker(
                 name: 'country',
                 validator: Platform.isIOS ? null : countryValidators,
@@ -106,7 +110,7 @@ class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
                 initialValue: "Pakistan",
                 isRequired: !Platform.isIOS,
               ),
-              Gap(18),
+              const Gap(18),
 
               // select city drop down
               // CityDropdown(),
@@ -115,7 +119,7 @@ class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
 
                 hint: 'City',
 
-                items: [
+                items: const [
                   "Karachi",
                   "Lahore",
                   "Islamabad",
@@ -141,12 +145,12 @@ class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
                 name: 'city',
               ),
 
-              Gap(18),
+              const Gap(18),
               // terms
               TermsCheckbox(),
-              Gap(18),
+              const Gap(18),
 
-              Text(
+              const Text(
                 "Once you've become a driver, we will occasionally send you offers and promotions related to our services. You can always unsubscribe by changing your communication preferences.",
                 style: TextStyle(
                   fontSize: 11,
@@ -154,7 +158,7 @@ class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
                   fontWeight: FontWeight.w300,
                 ),
               ),
-              Gap(30),
+              const Gap(30),
               PrimaryButton(text: "Register as a driver", onPressed: _onSubmit),
             ],
           ),
@@ -172,11 +176,21 @@ class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
     final email = formFields["email"] as String;
     final phone = formFields["phone"] as String;
     final country = formFields["country"] as String;
+    final city = formFields["country"] as String;
+    _cubit.setCityCountry(country,city,email);
 
     loading(true);
 
-    await Future.delayed(const Duration(seconds: 2));
+    final resulst = await _cubit.sendOtpNumber(phone);
     loading(false);
+
+    if (!resulst.$1) {
+      toastError(
+        resulst.$2 ?? "Something went wrong. Please try again later!",
+      );
+      return;
+    }
+    
 
     if (mounted) {
       Navigator.push(

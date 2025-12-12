@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
+import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
+import 'package:wave_drive/core/shared/widgets/appbar/main_app_bar.dart';
 import 'package:wave_drive/core/shared/widgets/custom_drawer/menu/activity_view.dart';
 import 'package:wave_drive/core/shared/widgets/custom_drawer/menu/widgets/earning_summary_bottom_sheet.dart';
 
@@ -22,251 +24,231 @@ class _EarningsViewState extends State<EarningsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_rounded,
-            color: Color(0xFF222222),
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        centerTitle: true,
-        title: Text(
-          'Earnings',
-          style: GoogleFonts.poppins(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.blackcolor,
-          ),
+      appBar: MainAppBar(
+        leadingColor: AppColors.black,
+        titleWidget: Text(
+          "Earnings",
+          style: AppTextStyles.text18.copyWith(fontWeight: FontWeight.w500),
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header message
-          Padding(
-            padding: const EdgeInsets.only(left: 16),
-            child: Text(
-              'Earnings',
-              style: GoogleFonts.poppins(
-                fontSize: 16,
+      body: Padding(
+        padding: EdgeInsets.only(left: 16, right: 16, bottom: 30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Gap(24),
+            // Header message
+            Text(
+              "Earnings",
+              style: AppTextStyles.text20.copyWith(
                 fontWeight: FontWeight.w600,
-                color: AppColors.blackcolor,
+                color: AppColors.black33,
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16, top: 4),
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              color: AppColors.whitecolor,
-              child: Text(
-                'Complete trips to see your earnings here',
-                style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: const Color(0xFF666666),
-                ),
+            Gap(8),
+            Text(
+              "Complete trips to see your earnings here",
+              style: AppTextStyles.text14.copyWith(
+                fontWeight: FontWeight.w300,
+                color: AppColors.gray51,
               ),
             ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Earnings row
-                  Row(
-                    children: [
-                      _earningBox(
-                        title: "Total Earnings",
-                        value: "$totalEarnings kr",
-                      ),
-                      const Gap(16),
-                      _earningBox(
-                        title: "Commission Fee",
-                        value: "$commissionFee kr",
-                      ),
-                    ],
-                  ),
-                  const Gap(12),
-
-                  // View Summary button
-                  Center(
-                    child: TextButton(
-                      onPressed: () => openSummaryBottomSheet(context),
-                      child: Text(
-                        "View Summary",
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.primarycolor,
+            Gap(12),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Earnings row
+                    Row(
+                      spacing: 16,
+                      children: [
+                        Expanded(
+                          child: _earningBox(
+                            title: "Total Earnings",
+                            value: "$totalEarnings kr",
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                  const Gap(24),
 
-                  // Earning Target Card
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.1),
-                          blurRadius: 4,
-                          offset: const Offset(0, 2),
+                        Expanded(
+                          child: _earningBox(
+                            title: "Commission Fee",
+                            value: "$commissionFee kr",
+                          ),
                         ),
                       ],
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Earning Target',
-                          style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFF222222),
+                    const Gap(12),
+
+                    // View Summary button
+                    Center(
+                      child: TextButton(
+                        onPressed: () => openSummaryBottomSheet(context),
+                        child: Text(
+                          "View Summary",
+                          style: AppTextStyles.text12.copyWith(
+                            fontWeight: FontWeight.w300,
+                            color: AppColors.primary,
                           ),
                         ),
-                        const Gap(4),
-                        Text(
-                          'Set income goal per day or week',
-                          style: GoogleFonts.poppins(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF666666),
+                      ),
+                    ),
+                    const Gap(24),
+
+                    // Earning Target Card
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Earning Target',
+                            style: AppTextStyles.text12.copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.black33,
+                            ),
+                          ),
+                          const Gap(4),
+                          Text(
+                            'Set income goal per day or week',
+                            style: AppTextStyles.text10.copyWith(
+                              fontWeight: FontWeight.w300,
+                              color: AppColors.gray51,
+                            ),
+                          ),
+                          const Gap(16),
+                          LinearProgressIndicator(
+                            value: goalPercentage,
+                            backgroundColor: const Color(0xFFEFEFEF),
+                            color: AppColors.primary,
+                            minHeight: 6,
+                            borderRadius: BorderRadius.circular(3),
+                          ),
+                          const Gap(8),
+                          Text(
+                            '${(goalPercentage * 100).toInt()}% of goal achieved',
+                            style: AppTextStyles.text10.copyWith(
+                              fontWeight: FontWeight.w300,
+                              color: AppColors.gray51,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Gap(24),
+
+                    // Activity section
+                    Text(
+                      'Activity',
+                      style: AppTextStyles.text20.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.black33,
+                      ),
+                    ),
+                    const Gap(16),
+
+                    Row(
+                      children: [
+                        _activityBox(
+                          title: "Hours",
+                          onTap: () {},
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: List.generate(7, (index) {
+                                  return Container(
+                                    width: 6,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFE0E0E0),
+                                      borderRadius: BorderRadius.circular(3),
+                                    ),
+                                  );
+                                }),
+                              ),
+                              const Gap(8),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: List.generate(7, (index) {
+                                  final days = [
+                                    'M',
+                                    'T',
+                                    'W',
+                                    'T',
+                                    'F',
+                                    'S',
+                                    'S',
+                                  ];
+                                  return Text(
+                                    days[index],
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      color: const Color(0xFF666666),
+                                    ),
+                                  );
+                                }),
+                              ),
+                            ],
                           ),
                         ),
                         const Gap(16),
-                        LinearProgressIndicator(
-                          value: goalPercentage,
-                          backgroundColor: const Color(0xFFEFEFEF),
-                          color: AppColors.primarycolor,
-                          minHeight: 6,
-                          borderRadius: BorderRadius.circular(3),
-                        ),
-                        const Gap(8),
-                        Text(
-                          '${(goalPercentage * 100).toInt()}% of goal achieved',
-                          style: GoogleFonts.poppins(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF666666),
+                        _activityBox(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ActivityView(),
+                              ),
+                            );
+                          },
+                          title: "Trips",
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "$completedTrips/$totalRequests",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: const Color(0xFF222222),
+                                ),
+                              ),
+                              const Gap(8),
+                              Text(
+                                "Complete trips / All Requests",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  color: const Color(0xFF666666),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  const Gap(24),
-
-                  // Activity section
-                  Text(
-                    'Activity',
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF222222),
-                    ),
-                  ),
-                  const Gap(16),
-
-                  Row(
-                    children: [
-                      _activityBox(
-                        title: "Hours",
-                        onTap: () {},
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: List.generate(7, (index) {
-                                return Container(
-                                  width: 6,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFE0E0E0),
-                                    borderRadius: BorderRadius.circular(3),
-                                  ),
-                                );
-                              }),
-                            ),
-                            const Gap(8),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: List.generate(7, (index) {
-                                final days = [
-                                  'M',
-                                  'T',
-                                  'W',
-                                  'T',
-                                  'F',
-                                  'S',
-                                  'S',
-                                ];
-                                return Text(
-                                  days[index],
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 12,
-                                    color: const Color(0xFF666666),
-                                  ),
-                                );
-                              }),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Gap(16),
-                      _activityBox(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ActivityView(),
-                            ),
-                          );
-                        },
-                        title: "Trips",
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "$completedTrips/$totalRequests",
-                              style: GoogleFonts.poppins(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                                color: const Color(0xFF222222),
-                              ),
-                            ),
-                            const Gap(8),
-                            Text(
-                              "Complete trips / All Requests",
-                              style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: const Color(0xFF666666),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -274,7 +256,6 @@ class _EarningsViewState extends State<EarningsView> {
   Widget _earningBox({required String title, required String value}) {
     return Expanded(
       child: Container(
-        height: 90,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -292,19 +273,17 @@ class _EarningsViewState extends State<EarningsView> {
           children: [
             Text(
               title,
-              style: GoogleFonts.poppins(
-                fontSize: 14,
+              style: AppTextStyles.text12.copyWith(
                 fontWeight: FontWeight.w500,
-                color: AppColors.blackcolor,
+                color: AppColors.black33,
               ),
             ),
             const Gap(8),
             Text(
               value,
-              style: GoogleFonts.poppins(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                color: AppColors.primarycolor,
+              style: AppTextStyles.text18.copyWith(
+                fontWeight: FontWeight.w600,
+                color: AppColors.primary,
               ),
             ),
           ],
@@ -343,15 +322,14 @@ class _EarningsViewState extends State<EarningsView> {
                 children: [
                   Text(
                     title,
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
+                    style: AppTextStyles.text12.copyWith(
                       fontWeight: FontWeight.w500,
-                      color: const Color(0xFF666666),
+                      color: AppColors.black33,
                     ),
                   ),
                   Icon(
                     Icons.arrow_forward_ios,
-                    color: AppColors.strockcolor,
+                    color: AppColors.grayA9,
                     size: 16,
                   ),
                 ],

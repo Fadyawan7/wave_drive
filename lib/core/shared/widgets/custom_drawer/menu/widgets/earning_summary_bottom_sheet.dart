@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:wave_drive/core/shared/extensions/alignment_extension.dart';
+import 'package:wave_drive/core/shared/extensions/padding_extension.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 
@@ -26,7 +28,7 @@ class _EarningsSummaryBottomSheetState
     double yourEarning = income - deductions - commission;
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -38,20 +40,16 @@ class _EarningsSummaryBottomSheetState
         mainAxisSize: MainAxisSize.min,
         children: [
           // Top handle bar
-          Center(
-            child: Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: const Color(0xFFDDDDDD),
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ),
           const Gap(16),
 
           // Title
-          Text("Earnings Summary", style: AppTextStyles.text14),
+          Text(
+            "Earnings Summary",
+            style: AppTextStyles.text18.copyWith(
+              fontWeight: FontWeight.w500,
+              color: AppColors.black33,
+            ),
+          ).centerLeft,
 
           const Gap(16),
 
@@ -75,7 +73,7 @@ class _EarningsSummaryBottomSheetState
             spacing: 80,
             children: [
               IconButton(
-                icon: Icon(Icons.arrow_back_ios, color: AppColors.primarycolor),
+                icon: Icon(Icons.arrow_back_ios, color: AppColors.black),
                 onPressed: () => Navigator.pop(context),
               ),
               Text(
@@ -87,16 +85,22 @@ class _EarningsSummaryBottomSheetState
                 ),
               ),
             ],
-          ),
+          ).paddingLeft(16),
 
           const Gap(16),
 
           // INCOME DETAILS
-          _buildSummaryRow("Income", "${income}kr"),
+          _buildSummaryRow("Income", "${income}kr").paddingHorizontal(16),
           const Gap(12),
-          _buildSummaryRow("Deductions", "${deductions}kr"),
+          _buildSummaryRow(
+            "Deductions",
+            "${deductions}kr",
+          ).paddingHorizontal(16),
           const Gap(12),
-          _buildSummaryRow("Wave Commission", "${commission}kr"),
+          _buildSummaryRow(
+            "Wave Commission",
+            "${commission}kr",
+          ).paddingHorizontal(16),
 
           const Gap(16),
 
@@ -105,7 +109,11 @@ class _EarningsSummaryBottomSheetState
           const Gap(16),
 
           // TOTAL
-          _buildSummaryRow("Your Earning", "${yourEarning}kr", isTotal: true),
+          _buildSummaryRow(
+            "Your Earning",
+            "${yourEarning}kr",
+            isTotal: true,
+          ).paddingHorizontal(16),
 
           const Gap(46),
         ],

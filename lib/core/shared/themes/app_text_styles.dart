@@ -38,6 +38,7 @@ class AppTextStyles {
   static TextStyle text28 = _defaultTextStyle.copyWith(fontSize: 28);
 
   static TextStyle text32 = _defaultTextStyle.copyWith(fontSize: 32);
+  static TextStyle text38 = _defaultTextStyle.copyWith(fontSize: 38);
 
   static TextStyle textBold6 = _defaultTextStyle.copyWith(
     fontSize: 6,

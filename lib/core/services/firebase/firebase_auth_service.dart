@@ -1,15 +1,15 @@
 // import 'package:firebase_app_installations/firebase_app_installations.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+ import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wave_drive/core/shared/utils/app_logger.dart';
 
-import '../../../shared/utils/app_logger.dart';
 
 class FirebaseAuthService {
   final _firebaseAuth = FirebaseAuth.instance;
   // final _installations = FirebaseInstallations.instance;
 
   // Future<String> getFID() async {
-  //   return _installations.getId();
-  // }
+  // //   return _installations.getId();
+  // // }
 
   User? getCurrentUser() {
     final user = _firebaseAuth.currentUser;
@@ -78,4 +78,7 @@ class FirebaseAuthService {
       return null;
     }
   }
+
+
+
 }

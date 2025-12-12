@@ -4,16 +4,22 @@ import 'package:gap/gap.dart';
 import 'package:styled_text/tags/styled_text_tag.dart';
 import 'package:styled_text/widgets/styled_text.dart';
 import 'package:styled_text/tags/styled_text_tag_action.dart';
+import 'package:wave_drive/core/cubits/user/user_cubit.dart';
+import 'package:wave_drive/core/routes/app_navigator.dart';
+import 'package:wave_drive/core/services/firebase/consts.dart';
 
 import 'package:wave_drive/core/shared/extensions/alignment_extension.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 import 'package:wave_drive/core/shared/utils/app_logger.dart';
+import 'package:wave_drive/core/shared/utils/check_user_completed_info.dart';
 import 'package:wave_drive/core/shared/widgets/app_overlay.dart';
 import 'package:wave_drive/core/shared/widgets/appbar/main_app_bar.dart';
 import 'package:wave_drive/core/shared/widgets/base/base_screen.dart';
 import 'package:wave_drive/core/shared/widgets/forms/textfields/pin_text_field.dart';
 import 'package:wave_drive/core/shared/widgets/timer_count_down.dart';
+import 'package:wave_drive/injector_setup.dart';
+import 'package:wave_drive/modules/auth/Signup/cubit/signup_cubit.dart';
 import 'package:wave_drive/modules/auth/Signup/personel_info_view.dart';
 
 class SignupOtpScreen extends StatefulWidget {
@@ -27,6 +33,9 @@ class _SignupOtpScreenState extends BaseScreen<SignupOtpScreen> {
   final _coutndownCtrl = CountdownController();
   final _otpError = ValueNotifier<String?>(null);
   final _otpController = TextEditingController();
+    final SignupCubit _cubit = injector<SignupCubit>();
+
+  final _userCubit = injector<UserCubit>();
 
   @override
   void initState() {
@@ -131,19 +140,41 @@ class _SignupOtpScreenState extends BaseScreen<SignupOtpScreen> {
   }
 
   Future<void> _verifyOTP(String otp) async {
-    loading(true);
+   loading(true);
 
-    await Future.delayed(const Duration(seconds: 5));
+    final result = await _cubit.varifiyNumberOtp(otp: otp);
 
     loading(false);
 
-    if (mounted) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => PersonelInfoView()),
-      );
-      // AppNavigator.push(context, NameInputRoute());
+    if (result.status == SocialLoginStatus.failed ||
+        result.status == SocialLoginStatus.cancelled) {
+      final message = result.errorCode ?? "Invalid OTP";
+      _otpError.value = message;
+      return;
     }
+
+    if (_userCubit.currentUser == null) {
+      return;
+    }
+    
+
+    
+
+    // if (mounted) {
+    //   Navigator.push(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => PersonelInfoView()),
+    //   );
+    //   // AppNavigator.push(context, NameInputRoute());
+    // }
+
+
+    //  if (context.mounted) {
+    //   isUserCompletedInfo(_userCubit.currentUser)
+    //       ? AppNavigator.replaceAll(context, const DashboardRoute())
+    //       : AppNavigator.replaceAll(context, const NameInputRoute());
+    // }
+    
   }
 
   Future<void> _resendOTP() async {

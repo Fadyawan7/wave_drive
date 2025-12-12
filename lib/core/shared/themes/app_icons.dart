@@ -7,6 +7,7 @@ class AppIcons {
     static const String category = 'assets/icons/category.svg';
     static const String clock = 'assets/icons/clock.svg';
     static const String percentageIc = 'assets/images/percentage_icon.png';
+    static const String cross = 'assets/icons/cross.svg';
 
 
 

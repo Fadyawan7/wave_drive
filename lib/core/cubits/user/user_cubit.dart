@@ -1,29 +1,136 @@
+import 'dart:io';
 
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:freezed_annotation/freezed_annotation.dart';
-// import 'package:wave_drive/core/data/models/auth/user_model.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-// import 'package:wave_drive/core/shared/constants/enums.dart';
+import 'package:wave_drive/core/data/models/auth/user_model.dart';
+import 'package:wave_drive/core/data/network/dio/helpers/api_helper.dart';
+import 'package:wave_drive/core/data/network/dio/update_profile_dto.dart';
+import 'package:wave_drive/core/data/repositories/user_repository.dart';
+import 'package:wave_drive/core/services/firebase/firebase_auth_service.dart';
+import 'package:wave_drive/core/shared/constants/constants.dart';
+import 'package:wave_drive/core/shared/constants/enums.dart';
+import 'package:wave_drive/core/shared/utils/app_logger.dart';
+import 'package:wave_drive/injector_setup.dart';
 
-// part 'user_cubit.freezed.dart';
+part 'user_cubit.freezed.dart';
 
-// part 'user_state.dart';
+part 'user_state.dart';
 
-// class UserCubit extends Cubit<UserState> {
-//   UserCubit() : super(const UserState());
+class UserCubit extends Cubit<UserState> {
+  UserCubit() : super(const UserState());
+
+  final _userRepository = injector<UserRepository>();
+  final _firebaseAuth = injector<FirebaseAuthService>();
+
+  UserModel? get currentUser => state.currentUser;
+
+  void setCurrentUser(UserModel user) {
+    emit(state.copyWith(currentUser: user));
+  }
+
+  Future<void> loadProfile() async {
+    emit(state.copyWith(updateProfileState: AppLoadState.loading));
+
+    final response = await _userRepository.getProfile();
+
+    if (response is ApiError) {
+      emit(
+        state.copyWith(
+          updateProfileState: AppLoadState.error,
+          errorMessageUpdateProfile: response.error ?? "Something went wrong",
+        ),
+      );
+      return;
+    }
+
+    emit(
+      state.copyWith(
+        updateProfileState: AppLoadState.success,
+        currentUser: response.data,
+      ),
+    );
+  }
+
+  Future<void> updateUserInfo({
+    File? avatar,
+    String? nickname,
+    String? birthday,
+    String? country,
+    String? email,
+    String? gender,
+    String? bio,
+    String? phone,
+    //
+    String? firstName,
+    String? lastName,
+  }) async {
+    String birthdayConvert = "";
+    if (birthday != null) {
+      final inputFormat = DateFormat(appDateTimeFormat);
+      final birthDayFormat = inputFormat.parse(birthday);
+
+      final outputFormat = DateFormat(serverDateTimeFormat);
+      birthdayConvert = outputFormat.format(birthDayFormat);
+    }
+
+    String? avatarUrl;
+    if (avatar != null) {
+      final uploadResponse = await _userRepository.uploadAvatar(avatar);
+      _userRepository.uploadProgress.addListener(() {
+        AppLogger.d(
+          "avatar upload progress is ${_userRepository.uploadProgress.value}",
+        );
+      });
+
+      avatarUrl = uploadResponse.data?.url;
+    }
+
+    if (email != null && email.isNotEmpty) {
+      _firebaseAuth.updateInfo(email: email, name: nickname ?? "");
+    }
+
+    final result = await _userRepository.updateProfile(
+      UpdateProfileDTO(
+        firstName: firstName,
+        lastName: lastName,
+        picture: avatarUrl,
+        name: nickname,
+        birthDay: birthdayConvert.isNotEmpty ? birthdayConvert : null,
+        country: country,
+        email: email,
+        gender: gender,
+        biography: bio,
+        phone: phone,
+      ),
+    );
+
+    if (result is ApiError) {
+      AppLogger.e("updateInfoUser error: ${result.error}");
+      emit(
+        state.copyWith(
+          updateProfileState: AppLoadState.error,
+          errorMessageUpdateProfile: result.error!,
+        ),
+      );
+      return;
+    }
+
+    if (result.data == null) {
+      AppLogger.e("updateInfoUser error: user null");
+      emit(state.copyWith(updateProfileState: AppLoadState.error));
+      return;
+    }
+
+    emit(
+      state.copyWith(
+        updateProfileState: AppLoadState.success,
+        currentUser: result.data,
+      ),
+    );
+  }
 
 
 
-
-
-
-
-//   User? get currentUser => state.currentUser;
-
-//   void setCurrentUser(User user) {
-//     emit(state.copyWith(currentUser: user));
-//   }
-
-
-
-// }
+}

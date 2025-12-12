@@ -10,6 +10,8 @@ class AppColors {
   static const whiteFB = Color(0xffFBFBFB);
   static const white4A = Color(0xffD0D0D0);
   static const red12 = Color(0xffFB3C12);
+  static const blueFF = Color(0xffAED6FF);
+  static const gray8F = Color(0xff8F8F8F);
 
   //////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////
@@ -31,7 +33,6 @@ class AppColors {
   static const inputboxcolor = Color(0xffF8F8F8);
   static const strockcolor = Color(0xffE7E7E7);
   static const boxbgcolor = Color(0xffE7F3FF);
-  static const liteprimarycolor = Color(0xffAED6FF);
   static const redcolor = Colors.red;
   static const chatboxcolor = Color(0xffF0F1F6);
   static const bgdrawer = Color(0xffFEFEFE);
@@ -404,7 +405,6 @@ class AppColors {
   static const cyanEE = Color.fromARGB(255, 96, 236, 238);
   static const cyanEF = Color(0xff02EBEF);
   static const green5A = Color(0xff24B65A);
-  static const blueFF = Color(0xff0094FF);
   static const pinkB0 = Color(0xffF316B0);
   static const purpleF8 = Color(0xffBAACF8);
   static const black68 = Color(0xFF686868);

@@ -62,7 +62,7 @@ class DriverScoreView extends StatelessWidget {
                   horizontal: 12,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.liteprimarycolor,
+                  color: AppColors.blueFF,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(

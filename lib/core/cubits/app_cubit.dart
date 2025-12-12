@@ -1,19 +1,30 @@
+import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:wave_drive/core/data/network/dio/dio_providers.dart';
+import 'package:wave_drive/core/services/location_service.dart';
+import 'package:wave_drive/core/services/permission_handler_service.dart';
+import 'package:wave_drive/core/shared/constants/enums.dart';
 import 'package:wave_drive/core/shared/utils/app_logger.dart';
 import 'package:wave_drive/core/shared/utils/app_version.dart';
-
+import 'package:wave_drive/core/shared/widgets/dialogs/request_permission_dialog.dart';
+import 'package:wave_drive/injector_setup.dart';
 
 part 'app_state.dart';
 part 'app_cubit.freezed.dart';
 
 class AppCubit extends Cubit<AppState> {
-  AppCubit() : super(const AppState());
+  AppCubit() : super(const AppState(locationState: LocationState()));
+  final _locationService = injector<LocationService>();
+
+  StreamSubscription<Position>? _stream;
 
   // final _authCubit = injector<AuthCubit>();
-  // final _dioProvider = injector<DioProvider>();
-
+  final _dioProvider = injector<DioProvider>();
 
   /// This function will call when entering the splash screen
   Future<void> initializeApp() async {
@@ -33,17 +44,29 @@ class AppCubit extends Cubit<AppState> {
 
   Future<void> initDioProvider() async {
     final version = await getAppVersion();
-    //final wifiip = await getWifiIP();
     // final position = await getCurrentLocation();
-    // final deviceId = await SecureStorageHelper.getUniqueId();
 
     AppLogger.d("Current app version: $version");
-    //  AppLogger.d("Current ip: $wifiip");
-    // AppLogger.d("Current latlng: ${position.latitude} ${position.longitude}");
-    // AppLogger.d("Device id: $deviceId");
-    // _dioProvider.setHeaderVersion(version);
-    //_dioProvider.setDeviceIpHeader(wifiip);
+    _dioProvider.setHeaderVersion(version);
     // _dioProvider.setLatLngHeaders(position.latitude, position.longitude);
-    // _dioProvider.setDeviceId(deviceId);
+  }
+
+  Future<void> startTracking() async {
+    _stream = _locationService.getLocationStream().listen((position) async {
+      // _dioProvider.setLatLngHeaders(position.latitude, position.longitude);
+
+      AppLogger.d(
+        "user location is ${position.latitude} ${position.longitude}",
+      );
+      final address = await _locationService.convertPositionToAddress(position);
+
+      emit(state.copyWith.locationState(position: position, address: address));
+    });
+  }
+
+  @override
+  Future<void> close() {
+    _stream?.cancel();
+    return super.close();
   }
 }

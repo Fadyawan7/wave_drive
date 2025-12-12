@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_images.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
+import 'package:wave_drive/core/shared/widgets/appbar/main_app_bar.dart';
 // files
 import 'ride_history.dart';
 
@@ -18,23 +19,22 @@ class _EarnMoreViewState extends State<EarnMoreView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Earn More', style: AppTextStyles.text10),
-        centerTitle: true,
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back_ios)),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
+      appBar: MainAppBar(
+        titleWidget: Text(
+          "Earn more",
+          style: AppTextStyles.text18.copyWith(fontWeight: FontWeight.w500),
+        ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20),
+        padding: EdgeInsets.only(left: 16, right: 16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Gap(30),
+            Gap(24),
             Container(
-              height: 70,
-              width: double.infinity,
-              color: AppColors.liteprimarycolor,
+              decoration: BoxDecoration(
+                color: AppColors.blueFF.withValues(alpha: 3),
+                borderRadius: BorderRadius.circular(4),
+              ),
               child: ListTile(
                 leading: Image.asset(
                   AppImages.earnedCard,
@@ -42,10 +42,19 @@ class _EarnMoreViewState extends State<EarnMoreView> {
                   height: 20,
                   width: 32,
                 ),
-                title: Text('0.00 KR', style: AppTextStyles.text10),
+                title: Text(
+                  '0.00 KR',
+                  style: AppTextStyles.text18.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.black33,
+                  ),
+                ),
                 subtitle: Text(
                   'Earned this work',
-                  style: AppTextStyles.text10,
+                  style: AppTextStyles.text14.copyWith(
+                    fontWeight: FontWeight.w300,
+                    color: AppColors.black33,
+                  ),
                 ),
               ),
             ),
@@ -68,16 +77,20 @@ class _EarnMoreViewState extends State<EarnMoreView> {
                     height: 20,
                     width: 32,
                   ),
-                  Text(
-                    'Scheduled Rides requests',
-                    style: AppTextStyles.text10.copyWith(
-                      color: AppColors.blackcolor,
+                  Expanded(
+                    child: Text(
+                      'Scheduled Rides requests',
+                      style: AppTextStyles.text16.copyWith(
+                        color: AppColors.black33,
+                        fontWeight: FontWeight.w300,
+                      ),
+                      textAlign: TextAlign.start,
                     ),
                   ),
-                  Spacer(),
+
                   Icon(
                     Icons.arrow_forward_ios_outlined,
-                    color: AppColors.graycolor,
+                    color: AppColors.grayA9,
                   ),
                 ],
               ),

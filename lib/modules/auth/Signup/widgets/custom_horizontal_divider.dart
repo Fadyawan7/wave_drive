@@ -34,8 +34,8 @@ class CustomHorizontalDivider extends StatelessWidget {
                 color: isActive
                     ? AppColors.primarycolor
                     : isSemiActive
-                        ? AppColors.liteprimarycolor
-                        : AppColors.inputboxcolor,
+                    ? AppColors.blueFF
+                    : AppColors.inputboxcolor,
                 margin: EdgeInsets.symmetric(horizontal: index == 1 ? 5 : 5),
               ),
             );

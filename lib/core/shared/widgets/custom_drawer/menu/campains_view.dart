@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
+import 'package:wave_drive/core/shared/widgets/appbar/main_app_bar.dart';
 
 class CampaignsView extends StatelessWidget {
   const CampaignsView({super.key});
@@ -10,23 +11,16 @@ class CampaignsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primarycolor,
-      appBar: AppBar(
-        backgroundColor: AppColors.primarycolor,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        centerTitle: true,
-        title: const Text(
+      backgroundColor: AppColors.primary,
+      appBar: MainAppBar(
+        leadingColor: AppColors.white,
+        backgroundColor: AppColors.primary,
+        titleWidget: Text(
           "Campaigns",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
+          style: AppTextStyles.text18.copyWith(
+            color: AppColors.white,
+
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),
@@ -39,8 +33,8 @@ class CampaignsView extends StatelessWidget {
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(32),
-                  topRight: Radius.circular(32),
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
                 ),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
@@ -50,33 +44,31 @@ class CampaignsView extends StatelessWidget {
                   // Title
                   Text(
                     "Cures bonuses",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFF666666),
+                    style: AppTextStyles.text16.copyWith(
+                      color: AppColors.gray8F,
                     ),
                   ),
                   SizedBox(height: 12),
                   // Amount
                   Text(
                     "0.00Kr",
-                    style: AppTextStyles.text10,
+                    style: AppTextStyles.text38.copyWith(
+                      color: AppColors.primary,
+                    ),
                   ),
                   SizedBox(height: 12),
                   // Subtitle
                   Text(
                     "Bonuses are paid out together with earnings",
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFF999999),
+                    style: AppTextStyles.text14.copyWith(
+                      color: AppColors.gray8F,
+                      fontWeight: FontWeight.w300,
                     ),
                   ),
                   SizedBox(height: 20),
                   // Link
-                  Text("View previous campaigns",
-                      style: AppTextStyles.text14),
+                  Text("View previous campaigns", style: AppTextStyles.text14),
                 ],
               ),
             ),

@@ -17,6 +17,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.backgroundColor,
     this.surfaceTintColor,
     this.centertitle,
+    this.leadingColor,
     this.gradient, // 👈 New field
   });
 
@@ -27,6 +28,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double elevation;
   final Widget? leading;
   final double? scrolledUnderElevation;
+  final Color? leadingColor;
   final List<Widget>? actions;
   final Color? backgroundColor;
   final Color? surfaceTintColor;
@@ -42,6 +44,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return CustomAppBar(
       centertitle: centertitle,
+      leadingColor: leadingColor,
       elevation: elevation,
       backgroundColor: backgroundColor,
       scrolledUnderElevation: scrolledUnderElevation,
@@ -67,6 +70,7 @@ class CustomAppBar extends StatelessWidget {
     this.titleWidget,
     this.title,
     this.backgroundColor,
+    this.leadingColor = AppColors.black,
     this.surfaceTintColor,
     this.centertitle,
     this.gradient, // 👈 New field
@@ -81,6 +85,7 @@ class CustomAppBar extends StatelessWidget {
   final Widget? titleWidget;
   final String? title;
   final Color? backgroundColor;
+  final Color? leadingColor;
   final Color? surfaceTintColor;
   final Gradient? gradient; // 👈 New field
 
@@ -115,10 +120,7 @@ class CustomAppBar extends StatelessWidget {
                         child: IconButton(
                           splashRadius: 18,
                           splashColor: AppColors.stroke.withOpacity(.2),
-                          icon: const Icon(
-                            Icons.arrow_back_ios,
-                            color: AppColors.black,
-                          ),
+                          icon: Icon(Icons.arrow_back_ios, color: leadingColor),
                           onPressed: () {
                             AppNavigator.pop(context);
                           },

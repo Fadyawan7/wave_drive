@@ -239,3 +239,29 @@ enum TransferType {
   final String text;
   final String value;
 }
+
+
+
+enum LoginMethod {
+  google,
+  apple,
+  phone;
+
+  const LoginMethod();
+
+  bool get isGoogle => this == LoginMethod.google;
+}
+
+enum CardType {
+  master(value: "Mastercard"),
+  visa(value: "Visa"),
+  other(value: "Other"),
+  discover(value: "Discover"),
+  americanexpress(value: "American Express");
+
+  const CardType({
+    required this.value,
+  });
+
+  final String value;
+}

@@ -170,7 +170,7 @@ class _OtpViewState extends BaseScreen<OtpView> {
     loading(false);
 
     if (mounted) {
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => DashboardView()),
       );

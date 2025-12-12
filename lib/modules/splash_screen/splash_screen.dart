@@ -1,11 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:wave_drive/core/cubits/app_cubit.dart';
+import 'package:wave_drive/core/cubits/user/user_cubit.dart';
+import 'package:wave_drive/core/routes/app_navigator.dart';
+import 'package:wave_drive/core/services/permission_handler_service.dart';
 
 import 'package:wave_drive/core/shared/themes/themes.dart';
+import 'package:wave_drive/core/shared/utils/check_user_completed_info.dart';
+import 'package:wave_drive/core/shared/widgets/dialogs/request_permission_dialog.dart';
 import 'package:wave_drive/core/shared/widgets/images/app_image.dart';
-import 'package:wave_drive/modules/auth/Signup/signup_view.dart';
+import 'package:wave_drive/injector_setup.dart';
 import 'package:wave_drive/modules/auth/login_signup_view.dart';
-import 'package:wave_drive/modules/dashboad/dashboard_view.dart';
 
 @RoutePage()
 class SplashScreen extends StatefulWidget {
@@ -17,6 +22,9 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
+  final _appCubit = injector<AppCubit>();
+  final _permissionService = injector<PermissionHandlerService>();
+
   late AnimationController animationController;
   late Animation<double> handAnimation;
 
@@ -45,14 +53,7 @@ class _SplashScreenState extends State<SplashScreen>
       CurvedAnimation(parent: animationController, curve: Curves.easeInOut),
     );
 
-    Future.delayed(const Duration(seconds: 2), () {
-      animationController.stop();
-      //  AppNavigator.replaceAll(context, SignupRoute());//
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => LoginSignupView()),
-      );
-    });
+    _openAppFlow();
 
     super.initState();
   }
@@ -136,5 +137,57 @@ class _SplashScreenState extends State<SplashScreen>
         ),
       ),
     );
+  }
+
+  Future<void> _openAppFlow() async {
+    // await _requestLocationPermission(context);
+    // await _appCubit.initDioProvider();
+
+    await _appCubit.initDioProvider();
+    await _appCubit.initializeApp();
+    _navigate();
+
+    // Future.delayed(const Duration(seconds: 2), () {
+    //   animationController.stop();
+    //  ;
+    //   Navigator.push(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => LoginSignupView()),
+    //   );
+    // });
+  }
+
+  Future<void> _navigate() async {
+    final userCubit = injector<UserCubit>();
+
+    if (userCubit.state.isLoggedIn) {
+      if (context.mounted) {
+        // isUserCompletedInfo(userCubit.currentUser) ||
+        //         (userCubit.currentUser?.method.isGoogle ?? false)
+        //     ? AppNavigator.replaceAll(context, const DashboardRoute())
+        //     : isCreatedName(userCubit.currentUser)
+        //     ? AppNavigator.replaceAll(context, const EmailInputRoute())
+        //     : AppNavigator.replaceAll(context, const NameInputRoute());
+      }
+    } else {
+    //  AppNavigator.replaceAll(context, const SignupRoute());
+    }
+  }
+
+  Future<void> _requestLocationPermission(BuildContext context) async {
+    await _permissionService.requestMissingLocationPermission();
+
+    if (!await _permissionService.hasLocationPermission()) {
+      if (context.mounted) {
+        RequestPermissionDialog.show(
+          context,
+          title: '"WAVE" would like to access your location',
+          description:
+              'Granting location access allows this app to show your live location. Please enable location permissions in your device settings.',
+        );
+      }
+      return;
+    }
+    _appCubit.startTracking();
   }
 }

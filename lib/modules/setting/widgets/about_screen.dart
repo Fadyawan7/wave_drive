@@ -1,0 +1,25 @@
+import 'package:flutter/material.dart';
+import 'package:wave_drive/core/shared/themes/themes.dart';
+import 'package:wave_drive/core/shared/widgets/appbar/main_app_bar.dart';
+import 'package:wave_drive/core/shared/widgets/gap.dart';
+
+class AboutScreen extends StatefulWidget {
+  const AboutScreen({super.key});
+
+  @override
+  State<AboutScreen> createState() => _AboutScreenState();
+}
+
+class _AboutScreenState extends State<AboutScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      appBar: MainAppBar(title: "About", leadingColor: AppColors.black),
+
+      body: Padding(
+        padding: EdgeInsets.only(left: 16, right: 16, bottom: 30),
+        child: SingleChildScrollView(child: Column(children: [Gap(24)])),
+      ),
+    );
+  }
+}

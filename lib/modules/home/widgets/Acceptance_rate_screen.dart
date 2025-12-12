@@ -49,7 +49,7 @@ class AcceptanceRateView extends StatelessWidget {
         children: [
           // ---------------- HEADER ----------------
           Container(
-            color: AppColors.liteprimarycolor,
+            color: AppColors.blueFF,
             padding: const EdgeInsets.symmetric(vertical: 24),
             child: Column(
               children: [

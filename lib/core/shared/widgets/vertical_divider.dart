@@ -4,7 +4,7 @@ import 'package:wave_drive/core/shared/themes/app_colors.dart';
 class AppVerticalDivider extends StatelessWidget {
   const AppVerticalDivider({super.key, 
     this.gap = 10,
-    this.color = AppColors.gray,
+    this.color = AppColors.grayF8,
     this.height = 20.0,
   });
   final double gap;

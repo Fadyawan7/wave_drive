@@ -48,7 +48,7 @@ class AcceptanceRateView extends StatelessWidget {
           // Acceptance Rate Summary
           // -----------------------------------
           Container(
-            color: AppColors.liteprimarycolor,
+            color: AppColors.blueFF,
             padding: const EdgeInsets.symmetric(vertical: 24),
             child: Column(
               children: [

@@ -1,11 +1,11 @@
 // Removed dart:io import for web compatibility
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:talker_dio_logger/talker_dio_logger.dart';
 import 'package:wave_drive/core/configs/app_config.dart';
 import 'package:wave_drive/core/data/network/dio/interceptors/auth_interceptors.dart';
 import 'package:wave_drive/core/shared/utils/app_logger.dart';
 import 'package:wave_drive/core/shared/utils/platform_utils.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:talker_dio_logger/talker_dio_logger.dart';
 
 class DioProvider {
   Dio? dio;
@@ -31,6 +31,7 @@ class DioProvider {
   }
 
   void setLatLngHeaders(double latitude, double longitude) {
+
     dio!.options.headers['latitude'] = latitude.toString();
     dio!.options.headers['longitude'] = longitude.toString();
   }
