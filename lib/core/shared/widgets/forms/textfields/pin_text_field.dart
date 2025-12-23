@@ -6,7 +6,7 @@ import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 class PinTextField extends StatelessWidget {
   const PinTextField({
     super.key,
-    this.length = 4,
+    this.length = 6,
     this.hasError = false,
     this.errorText,
     this.onCompleted,
@@ -26,7 +26,6 @@ class PinTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultPinTheme = PinTheme(
-      margin: EdgeInsets.symmetric(horizontal: 6),
       width: 56,
       height: 56,
       textStyle: AppTextStyles.textMed20.copyWith(color: AppColors.black33),

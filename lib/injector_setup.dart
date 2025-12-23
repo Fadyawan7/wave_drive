@@ -15,7 +15,7 @@ import 'package:wave_drive/core/services/firebase/authenticate/phone_auth_servic
 import 'package:wave_drive/core/services/firebase/firebase_auth_service.dart';
 import 'package:wave_drive/core/services/location_service.dart';
 import 'package:wave_drive/core/services/permission_handler_service.dart';
-import 'package:wave_drive/modules/auth/Signup/cubit/signup_cubit.dart';
+import 'package:wave_drive/modules/auth/signup/cubit/signup_cubit.dart';
 import 'package:wave_drive/modules/dashboad/cubit/dashboard_cubit.dart';
 
 // Services

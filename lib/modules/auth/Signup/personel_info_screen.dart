@@ -1,8 +1,12 @@
 // packages
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:gap/gap.dart';
+import 'package:wave_drive/core/cubits/user/user_cubit.dart';
+import 'package:wave_drive/core/routes/app_router.gr.dart';
+import 'package:wave_drive/core/routes/routes.dart';
 import 'package:wave_drive/core/shared/extensions/alignment_extension.dart';
 import 'package:wave_drive/core/shared/mixins/mixins.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
@@ -13,23 +17,28 @@ import 'package:wave_drive/core/shared/widgets/buttons/primary_button.dart';
 import 'package:wave_drive/core/shared/widgets/drop_downs/app_dropdown.dart';
 import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_fill_text_field.dart';
 import 'package:wave_drive/core/shared/widgets/language_field/language_field.dart';
-import 'package:wave_drive/modules/auth/Signup/register_category_view.dart';
+import 'package:wave_drive/injector_setup.dart';
 
-import 'widgets/custom_horizontal_divider.dart';
+import 'package:wave_drive/modules/auth/signup/widgets/custom_horizontal_divider.dart';
 
-class PersonelInfoView extends StatefulWidget {
-  const PersonelInfoView({super.key});
+@RoutePage()
+class PersonelInfoScreen extends StatefulWidget {
+  const PersonelInfoScreen({super.key});
 
   @override
-  State<PersonelInfoView> createState() => _PersonelInfoViewState();
+  State<PersonelInfoScreen> createState() => _PersonelInfoViewState();
 }
 
-class _PersonelInfoViewState extends BaseScreen<PersonelInfoView>
+class _PersonelInfoViewState extends BaseScreen<PersonelInfoScreen>
     with FormMixin {
+  final _userCubit = injector<UserCubit>();
+
   @override
   Widget buildBody(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(
+        leadingColor: AppColors.black,
+
         titleWidget: Text(
           "Sign Up",
           style: AppTextStyles.text18.copyWith(fontWeight: FontWeight.w500),
@@ -42,21 +51,21 @@ class _PersonelInfoViewState extends BaseScreen<PersonelInfoView>
 
           child: Column(
             children: [
-              Gap(24),
+              const Gap(24),
 
               // language field
-              LanguageField(),
-              Gap(24),
+              const LanguageField(),
+              const Gap(24),
               // cutom divider
-              CustomHorizontalDivider(activeSections: 0),
-              Gap(24),
+              const CustomHorizontalDivider(activeSections: 0),
+              const Gap(24),
               Text(
                 'Personel Information',
                 style: AppTextStyles.text18.copyWith(
                   fontWeight: FontWeight.w500,
                 ),
               ).centerLeft,
-              Gap(10),
+              const Gap(10),
               Text(
                 'Only your first name and vehicle to clients during the booking.',
                 style: AppTextStyles.text12.copyWith(
@@ -65,21 +74,21 @@ class _PersonelInfoViewState extends BaseScreen<PersonelInfoView>
                 ),
               ).centerLeft,
 
-              Gap(24),
+              const Gap(24),
               FormBuilderFillTextField(
                 name: 'fName',
                 hintText: "First name",
                 validator: requiredValidators,
               ),
 
-              Gap(18),
+              const Gap(18),
               FormBuilderFillTextField(
                 name: 'lName',
                 hintText: "Last name",
                 validator: requiredValidators,
               ),
 
-              Gap(18),
+              const Gap(18),
               FormBuilderFillTextField(
                 name: 'cnic',
                 hintText: "National ID",
@@ -87,7 +96,7 @@ class _PersonelInfoViewState extends BaseScreen<PersonelInfoView>
                 inputType: TextInputType.number,
               ),
 
-              Gap(8),
+              const Gap(8),
 
               Text(
                 "Your social security number or country,s alternative (e,g BVN)",
@@ -97,7 +106,7 @@ class _PersonelInfoViewState extends BaseScreen<PersonelInfoView>
                 ),
               ),
 
-              Gap(18),
+              const Gap(18),
 
               // CustomTextField(
               //   requiredValidators: requiredValidators,
@@ -107,21 +116,22 @@ class _PersonelInfoViewState extends BaseScreen<PersonelInfoView>
               //   obscureText: false,
               // ),
               AppDropdownField(
-                name: "langoage",
+                name: "language",
                 validator: requiredValidators,
                 hint: "Language",
-                items: ["English", "Urdu", "Arabic"],
+                items: const ["English", "Urdu", "Arabic"],
               ),
 
-              Gap(18),
+              const Gap(18),
 
               FormBuilderFillTextField(
                 name: 'referal_code',
                 hintText: "Referral code",
-                validator: requiredValidators, inputType: TextInputType.number,
+                validator: requiredValidators,
+                inputType: TextInputType.number,
               ),
 
-              Gap(8),
+              const Gap(8),
 
               Text(
                 "If someone referred you, biter their code ",
@@ -130,7 +140,7 @@ class _PersonelInfoViewState extends BaseScreen<PersonelInfoView>
                   color: AppColors.grayA9,
                 ),
               ).centerLeft,
-              Gap(30),
+              const Gap(30),
               PrimaryButton(text: "Next", onPressed: _onSubmit),
             ],
           ),
@@ -143,23 +153,31 @@ class _PersonelInfoViewState extends BaseScreen<PersonelInfoView>
     FocusScope.of(context).unfocus();
     final isFormValid = formKey.currentState!.saveAndValidate();
     if (!isFormValid) return;
-    // final formFields = formKey.currentState!.value;
-    // final fName = formFields["fName"] as String;
-    // final lName = formFields["lName"] as String;
-    // final idCard = formFields["id_card"] as String;
-    // final language = formFields["language"] as String;
-    // final referalCode = formFields["referal_code"] as String?;
+    final formFields = formKey.currentState!.value;
+    final fName = formFields["fName"] as String;
+    final lName = formFields["lName"] as String;
+    final idCard = formFields["cnic"] as String;
+    final language = formFields["language"] as String;
+    final referalCode = formFields["referal_code"] as String?;
 
     loading(true);
+    await _userCubit.updateUserInfo(
+      firstName: fName,
+      lastName: lName,
+      idCard: idCard,
+      language: language,
+      referance: referalCode,
+    );
 
-    await Future.delayed(const Duration(seconds: 2));
     loading(false);
+    final isError = _userCubit.state.updateProfileState.isError;
+    if (isError) {
+      toastError(_userCubit.state.errorMessageUpdateProfile);
+      return;
+    }
 
     if (mounted) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => RegisterCategoryView()),
-      );
+      AppNavigator.push(context, const LegalPriceRoute());
     }
   }
 }
@@ -197,7 +215,7 @@ class CustomTextField extends StatelessWidget {
             color: AppColors.black33,
           ),
         ),
-        Gap(12),
+        const Gap(12),
         FormBuilderFillTextField(
           inputFormatters: inputFormatters,
           name: name,

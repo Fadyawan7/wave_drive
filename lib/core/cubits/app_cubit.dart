@@ -1,29 +1,28 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:wave_drive/core/cubits/auth/auth_cubit.dart';
 import 'package:wave_drive/core/data/network/dio/dio_providers.dart';
 import 'package:wave_drive/core/services/location_service.dart';
-import 'package:wave_drive/core/services/permission_handler_service.dart';
 import 'package:wave_drive/core/shared/constants/enums.dart';
 import 'package:wave_drive/core/shared/utils/app_logger.dart';
 import 'package:wave_drive/core/shared/utils/app_version.dart';
-import 'package:wave_drive/core/shared/widgets/dialogs/request_permission_dialog.dart';
 import 'package:wave_drive/injector_setup.dart';
 
 part 'app_state.dart';
 part 'app_cubit.freezed.dart';
 
 class AppCubit extends Cubit<AppState> {
+
+
   AppCubit() : super(const AppState(locationState: LocationState()));
   final _locationService = injector<LocationService>();
 
   StreamSubscription<Position>? _stream;
 
-  // final _authCubit = injector<AuthCubit>();
+  final _authCubit = injector<AuthCubit>();
   final _dioProvider = injector<DioProvider>();
 
   /// This function will call when entering the splash screen
@@ -31,7 +30,7 @@ class AppCubit extends Cubit<AppState> {
     try {
       await Future.wait([
         //  _requestAndLoadPermission(),
-        // _authCubit.checkAuthenticate(),
+         _authCubit.checkAuthenticate(),
 
         /// PUSH NOTIFICATION
         //  injector<FirebaseNotificationService>().init()

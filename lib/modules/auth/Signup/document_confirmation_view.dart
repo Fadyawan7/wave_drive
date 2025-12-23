@@ -11,7 +11,7 @@ import 'package:wave_drive/core/shared/widgets/appbar/main_app_bar.dart';
 import 'package:wave_drive/core/shared/widgets/avatar/app_file_picker.dart';
 import 'package:wave_drive/core/shared/widgets/base/base_screen.dart';
 import 'package:wave_drive/core/shared/widgets/buttons/primary_button.dart';
-import 'package:wave_drive/modules/auth/Signup/license_expires_view.dart';
+import 'package:wave_drive/modules/auth/signup/license_expires_view.dart';
 
 class DocumentConfirmationView extends StatefulWidget {
   const DocumentConfirmationView({super.key});

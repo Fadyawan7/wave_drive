@@ -1,24 +1,63 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wave_drive/core/cubits/auth/auth_cubit.dart';
-import 'package:wave_drive/core/data/models/auth/siginin_dto.dart';
 import 'package:wave_drive/core/data/network/dio/sign_up_phone_dto.dart';
 import 'package:wave_drive/core/services/firebase/authenticate/phone_auth_service.dart';
 import 'package:wave_drive/core/services/firebase/consts.dart';
 import 'package:wave_drive/core/shared/utils/app_logger.dart';
-import 'package:wave_drive/core/shared/widgets/base/base_cubit.dart';
 import 'package:wave_drive/injector_setup.dart';
 
-part 'signup_state.dart';
-part 'signup_cubit.freezed.dart';
+part 'signin_state.dart';
+part 'signin_cubit.freezed.dart';
 
-class SignupCubit extends BaseCubit<SignupState> {
-  final _phoneAuthService = injector<PhoneAuthService>();
+
+
+enum SigninStep {
+  login('Login'),
+  verify('OTP Verification');
+
+  const SigninStep(this.appbarTitle);
+
+  final String appbarTitle;
+}
+
+class SigninCubit extends Cubit<SigninState> {
+  SigninCubit() : super(const SigninState());
+
   final _authCubit = injector<AuthCubit>();
+  final _phoneAuthService = injector<PhoneAuthService>();
 
-  SignupCubit() : super(SignupState());
+
+  void changeStep(SigninStep step) => emit(state.copyWith(step: step));
+
+  Future<({bool isSuccess, String? errorText})> sendEmailOtp(
+    String email,
+  ) async {
+    final result = await _authCubit.checkEmailExist(email);
+    if (!result.isExist) {
+      return (isSuccess: false, errorText: "Emial not exist");
+    }
+    final response = await _authCubit.sendEmailOtp(email);
+
+    if (!response.isSuccess) {
+      return (isSuccess: false, errorText: result.errorText ?? "Server error");
+    }
+
+    return (isSuccess: true, errorText: null);
+  }
+
+  Future<({bool isSuccess, String? errorText})> varifyOtp(String otp) async {
+    await _authCubit.varifyEmailOtp(otp);
+
+    if (_authCubit.state.signInSocialState.isError) {
+      return (isSuccess: false, errorText: _authCubit.state.errorMessage);
+    }
+
+    return (isSuccess: true, errorText: null);
+  }
 
   Future<(bool success, String? errorMessage)> sendOtpNumber(
     String phoneNumber,
@@ -26,6 +65,14 @@ class SignupCubit extends BaseCubit<SignupState> {
     final completer = Completer<(bool, String?)>();
 
     try {
+      final result = await _authCubit.checkPhoneNumberExist(phoneNumber);
+      if (!result.isExist) {
+        completer.complete((
+          false,
+          result.errorText ?? "Phone number not exist",
+        ));
+      }
+
       await _phoneAuthService.verifyPhoneNumber(
         phoneNumber: phoneNumber,
 
@@ -63,7 +110,9 @@ class SignupCubit extends BaseCubit<SignupState> {
     }
   }
 
-  Future<SocialLoginResponse> varifiyNumberOtp({required String otp}) async {
+  Future<({bool success, String? errorMessage})> varifiyNumberOtp({
+    required String otp,
+  }) async {
     final credential = PhoneAuthProvider.credential(
       verificationId: state.varificationId!,
       smsCode: otp,
@@ -78,31 +127,14 @@ class SignupCubit extends BaseCubit<SignupState> {
     if (!(response.status == SocialLoginStatus.failed ||
         response.status == SocialLoginStatus.cancelled)) {
       final uid = response.userCredential?.user?.uid;
-      final dto = SignInDTO(
-        uid: uid!,
-        method: 'phone',
-        email: state.email!,
-        city: state.city!,
-        country: state.country!,
-        phone: state.phoneNumber!,
-      );
-      await _authCubit.register(dto);
+
+      await _authCubit.signIn(uid!);
       final isError = _authCubit.state.signInSocialState.isError;
       if (isError) {
-        return SocialLoginResponse(
-          status: SocialLoginStatus.failed,
-          errorCode: _authCubit.state.errorMessage,
-        );
+        return (success: false, errorMessage: _authCubit.state.errorMessage);
       }
     }
 
-    return response;
-  }
-
-
-
-
-  void setCityCountry(String country, String city, String email) {
-    emit(state.copyWith(city: city, country: country, email: email));
+    return (success: true, errorMessage: null);
   }
 }

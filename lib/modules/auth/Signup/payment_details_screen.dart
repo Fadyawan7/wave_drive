@@ -1,9 +1,14 @@
 // packages
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:gap/gap.dart';
+import 'package:wave_drive/core/cubits/user/user_cubit.dart';
+import 'package:wave_drive/core/data/network/dio/payment_info_dto.dart';
+import 'package:wave_drive/core/routes/app_router.gr.dart';
+import 'package:wave_drive/core/routes/routes.dart';
 import 'package:wave_drive/core/shared/mixins/form_mixin.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
@@ -17,22 +22,24 @@ import 'package:wave_drive/core/shared/widgets/language_field/language_field.dar
 import 'package:wave_drive/core/shared/widgets/rounded_button/rounded_border_button.dart';
 import 'package:wave_drive/core/shared/widgets/rounded_button/rounded_button.dart';
 import 'package:wave_drive/core/shared/widgets/textfield/text_field.dart';
-import 'package:wave_drive/modules/auth/Signup/document_confirmation_view.dart';
+import 'package:wave_drive/injector_setup.dart';
+import 'package:wave_drive/modules/auth/signup/document_confirmation_view.dart';
 
-import 'sigup_success_view.dart';
-import 'widgets/custom_horizontal_divider.dart';
+import 'package:wave_drive/modules/auth/signup/widgets/custom_horizontal_divider.dart';
 
-class PaymentDetailsView extends StatefulWidget {
-  PaymentDetailsView({super.key});
+@RoutePage()
+class PaymentDetailsScreen extends StatefulWidget {
+  const PaymentDetailsScreen({super.key});
 
   @override
-  State<PaymentDetailsView> createState() => _PaymentDetailsViewState();
+  State<PaymentDetailsScreen> createState() => _PaymentDetailsViewState();
 }
 
-class _PaymentDetailsViewState extends BaseScreen<PaymentDetailsView>
+class _PaymentDetailsViewState extends BaseScreen<PaymentDetailsScreen>
     with FormMixin {
   bool isCheckedFirst = false;
   final _scrollController = ScrollController();
+  final _userCubit = injector<UserCubit>();
 
   // final PaymentDetailController controller = Get.put(PaymentDetailController());
   @override
@@ -79,7 +86,7 @@ class _PaymentDetailsViewState extends BaseScreen<PaymentDetailsView>
               name: "billing_type",
               validator: requiredValidators,
               hint: "Billing type",
-              items: ["Company", "Individual"],
+              items: const ["Company", "Individual"],
             ),
 
             const Gap(18),
@@ -90,7 +97,7 @@ class _PaymentDetailsViewState extends BaseScreen<PaymentDetailsView>
               validator: requiredValidators,
             ),
 
-            Gap(6),
+            const Gap(6),
 
             _buildDescription('Full, leqal company name'),
             const Gap(18),
@@ -108,9 +115,9 @@ class _PaymentDetailsViewState extends BaseScreen<PaymentDetailsView>
               validator: requiredValidators,
             ),
 
-            Gap(6),
+            const Gap(6),
             _buildDescription('Com parry,s registration code'),
-            Gap(6),
+            const Gap(6),
             AppCheckbox(
               label: 'VAT Liability',
               style: AppTextStyles.text16.copyWith(color: AppColors.black33),
@@ -138,7 +145,7 @@ class _PaymentDetailsViewState extends BaseScreen<PaymentDetailsView>
               validator: requiredValidators,
             ),
 
-            Gap(12),
+            const Gap(12),
 
             _buildDocumentSection(
               title: 'Bank statement',
@@ -151,31 +158,31 @@ class _PaymentDetailsViewState extends BaseScreen<PaymentDetailsView>
               name: '',
             ),
 
-            Gap(24),
+            const Gap(24),
 
             FormBuilderFillTextField(
               name: 'swift_no',
               hintText: "Bank name or BIC/SWIFT",
               validator: requiredValidators,
             ),
-            Gap(6),
+            const Gap(6),
             _buildDescription('If unknown use bank name '),
-            Gap(6),
+            const Gap(6),
 
             _buildSectionTitle('Tax identification numbers'),
-            Gap(6),
+            const Gap(6),
 
             _buildDescription(
               'Please provide all your Tax Identification Numbers. What are Tax Identification Numbers? ',
             ),
-            Gap(6),
+            const Gap(6),
 
             FormBuilderFillTextField(
               name: 'text_no',
               hintText: "12345678900987mva",
               validator: requiredValidators,
             ),
-            Gap(12),
+            const Gap(12),
 
             FormBuilderCountryPicker(
               name: 'country',
@@ -194,12 +201,12 @@ class _PaymentDetailsViewState extends BaseScreen<PaymentDetailsView>
               isRequired: !Platform.isIOS,
             ),
 
-            Gap(6),
+            const Gap(6),
 
             _buildDescription('Add other Tax number '),
-            Gap(24),
+            const Gap(24),
             FormBuilderCountryPicker(
-              name: 'country',
+              name: 'countryofBirth',
               validator: Platform.isIOS ? null : countryValidators,
               hintText: 'Country of birth',
               onSearching: (searching) {
@@ -229,9 +236,24 @@ class _PaymentDetailsViewState extends BaseScreen<PaymentDetailsView>
     FocusScope.of(context).unfocus();
     final isFormValid = formKey.currentState!.saveAndValidate();
     if (!isFormValid) return;
+    if (!isCheckedFirst) {
+      toast(
+        'Please accept the Terms of Service and Privacy Policy to continue',
+      );
+      return;
+    }
 
-    // final formFields = formKey.currentState!.value;
-    // final fName = formFields["fName"] as String;
+    final formFields = formKey.currentState!.value;
+    final billingType = formFields["billing_type"] as String;
+    final companyName = formFields["company_name"] as String;
+    final address = formFields["address"] as String;
+    final regCode = formFields["reg_code"] as String;
+    final ownerName = formFields["owner_name"] as String;
+    final accNumber = formFields["acc_number"] as String;
+    final swiftNo = formFields["swift_no"] as String;
+    final textNo = formFields["text_no"] as String;
+    final country = formFields["country"] as String;
+    final countryofBirth = formFields["countryofBirth"] as String;
     // final lName = formFields["lName"] as String;
     // final idCard = formFields["id_card"] as String;
     // final language = formFields["language"] as String;
@@ -239,14 +261,35 @@ class _PaymentDetailsViewState extends BaseScreen<PaymentDetailsView>
 
     loading(true);
 
-    await Future.delayed(const Duration(seconds: 2));
+    final dto = PaymentInfoDto(
+      billingType: billingType,
+      companyName: companyName,
+      fullLegalCompanyName: companyName,
+      address: address,
+      registrationCode: regCode,
+      vatLiability: isCheckedFirst,
+      bankAccountHolderName: ownerName,
+      bankAccountNumber: accNumber,
+      bankNameOrBIC: swiftNo,
+      countryOfBirth: countryofBirth,
+      taxIdentificationNumbers: [
+        TaxIdentificationNumber(country: country, number: textNo),
+      ],
+    );
+    await _userCubit.uploadPaymentInfo(dto);
+
     loading(false);
+    final isError = _userCubit.state.updateProfileState.isError;
+    if (isError) {
+      toastError(_userCubit.state.errorMessageUpdateProfile);
+      return;
+    }
 
     if (mounted) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SuccessScreen()),
-      );
+      AppNavigator.replaceAllAndPush(context, [
+        const SignupOtpRoute(),
+        const SignupSuccessRoute(),
+      ]);
     }
   }
 

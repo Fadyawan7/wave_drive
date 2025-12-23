@@ -6,7 +6,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:wave_drive/core/data/models/auth/user_model.dart';
 import 'package:wave_drive/core/data/network/dio/helpers/api_helper.dart';
+import 'package:wave_drive/core/data/network/dio/payment_info_dto.dart';
 import 'package:wave_drive/core/data/network/dio/update_profile_dto.dart';
+import 'package:wave_drive/core/data/network/dio/update_vehicle_info_dto.dart';
 import 'package:wave_drive/core/data/repositories/user_repository.dart';
 import 'package:wave_drive/core/services/firebase/firebase_auth_service.dart';
 import 'package:wave_drive/core/shared/constants/constants.dart';
@@ -65,6 +67,10 @@ class UserCubit extends Cubit<UserState> {
     //
     String? firstName,
     String? lastName,
+    //
+    String? idCard,
+    String? language,
+    String? referance,
   }) async {
     String birthdayConvert = "";
     if (birthday != null) {
@@ -103,6 +109,9 @@ class UserCubit extends Cubit<UserState> {
         gender: gender,
         biography: bio,
         phone: phone,
+        language: language,
+        nationalId: idCard,
+        referralCode: referance,
       ),
     );
 
@@ -117,12 +126,6 @@ class UserCubit extends Cubit<UserState> {
       return;
     }
 
-    if (result.data == null) {
-      AppLogger.e("updateInfoUser error: user null");
-      emit(state.copyWith(updateProfileState: AppLoadState.error));
-      return;
-    }
-
     emit(
       state.copyWith(
         updateProfileState: AppLoadState.success,
@@ -131,6 +134,91 @@ class UserCubit extends Cubit<UserState> {
     );
   }
 
+  Future<void> updateVehicleInfo(UpdateVehicleDTO dto) async {
+    final result = await _userRepository.updateVehicleInfo(dto);
 
+    if (result is ApiError) {
+      AppLogger.e("updateInfoUser error: ${result.error}");
+      emit(
+        state.copyWith(
+          updateProfileState: AppLoadState.error,
+          errorMessageUpdateProfile: result.error!,
+        ),
+      );
+      return;
+    }
 
+    emit(
+      state.copyWith(
+        updateProfileState: AppLoadState.success,
+       
+      ),
+    );
+  }
+
+  Future<void> uploadPaymentInfo(PaymentInfoDto dto) async {
+    final result = await _userRepository.uploadPaymentInfo(dto);
+
+    if (result is ApiError) {
+      AppLogger.e("updateInfoUser error: ${result.error}");
+      emit(
+        state.copyWith(
+          updateProfileState: AppLoadState.error,
+          errorMessageUpdateProfile: result.error!,
+        ),
+      );
+      return;
+    }
+
+    emit(
+      state.copyWith(
+        updateProfileState: AppLoadState.success,
+        
+      ),
+    );
+  }
+
+  Future<void> uploadDucoments({
+    required File taxiOperatingLicense,
+    required File roofLight,
+    required File vehicleInsuranceDocumentation,
+    required File profilePicture,
+    required File driversLicense,
+    required String driversLicenseNumber,
+    required File taxiDrivingLicense,
+    required File companyRegistrationCertificate,
+    required File bankStatement,
+    required String documentExpires,
+  }) async {
+    final result = await _userRepository.uploadDucoments(
+      taxiOperatingLicense: taxiOperatingLicense,
+      roofLight: roofLight,
+      vehicleInsuranceDocumentation: vehicleInsuranceDocumentation,
+      profilePicture: profilePicture,
+      driversLicense: driversLicense,
+      driversLicenseNumber: driversLicenseNumber,
+      taxiDrivingLicense: taxiDrivingLicense,
+      companyRegistrationCertificate: companyRegistrationCertificate,
+      bankStatement: bankStatement,
+      documentExpires: documentExpires,
+    );
+
+    if (result is ApiError) {
+      AppLogger.e("updateInfoUser error: ${result.error}");
+      emit(
+        state.copyWith(
+          updateProfileState: AppLoadState.error,
+          errorMessageUpdateProfile: result.error!,
+        ),
+      );
+      return;
+    }
+
+    emit(
+      state.copyWith(
+        updateProfileState: AppLoadState.success,
+       
+      ),
+    );
+  }
 }

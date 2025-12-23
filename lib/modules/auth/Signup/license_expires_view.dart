@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:gap/gap.dart';
+import 'package:wave_drive/core/routes/app_navigator.dart';
+import 'package:wave_drive/core/routes/app_router.gr.dart';
 import 'package:wave_drive/core/shared/extensions/alignment_extension.dart';
 import 'package:wave_drive/core/shared/mixins/form_mixin.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
@@ -10,7 +12,7 @@ import 'package:wave_drive/core/shared/widgets/appbar/main_app_bar.dart';
 import 'package:wave_drive/core/shared/widgets/base/base_screen.dart';
 import 'package:wave_drive/core/shared/widgets/buttons/primary_button.dart';
 import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_fill_date_picker.dart';
-import 'package:wave_drive/modules/auth/Signup/payment_details_view.dart';
+import 'package:wave_drive/modules/auth/signup/payment_details_screen.dart';
 
 class LicenseExpiresView extends StatefulWidget {
   LicenseExpiresView({super.key});
@@ -95,10 +97,7 @@ class _LicenseExpiresViewState extends BaseScreen<LicenseExpiresView>
     loading(false);
 
     if (mounted) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => PaymentDetailsView()),
-      );
-    }
-  }
+           AppNavigator.replaceAll(context,   PaymentDetailsRoute());
+
+  }}
 }

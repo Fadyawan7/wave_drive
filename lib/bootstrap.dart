@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +15,6 @@ final navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> bootstrap() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
 
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
@@ -31,10 +29,10 @@ Future<void> bootstrap() async {
   // database = await LocalDatabase.create();
 
   // Init firebase
- await Firebase.initializeApp();
+  await Firebase.initializeApp();
 
   // Init localization
-   EasyLocalization.logger.enableBuildModes = [];
+  EasyLocalization.logger.enableBuildModes = [];
 
   await EasyLocalization.ensureInitialized();
 
@@ -42,12 +40,10 @@ Future<void> bootstrap() async {
   await initializeDependencies();
 
   // Local storage
- // await HiveStorage.init();
-  Bloc.observer = AppBlocObserver(); 
+  // await HiveStorage.init();
+  Bloc.observer = AppBlocObserver();
 
- 
-
-   if (AppConfig.flavor == Environment.development) {
+  if (AppConfig.flavor == Environment.development) {
     runApp(
       EasyLocalization(
         supportedLocales: const [Locale('en')],

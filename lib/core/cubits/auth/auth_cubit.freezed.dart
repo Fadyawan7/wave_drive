@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AuthState {
 
- bool get isLoggedIn; AppLoadState get signInState; AppLoadState get signInSocialState; AppLoadState get completeProfileState; AppLoadState get completeCreatePassword; AppLoadState get deleteAccountState; int? get statusCodeSignInWithPassword; String get errorMessage;
+ String? get email; String? get uid; String? get varificationId; String? get phoneNumber; bool get isLoggedIn; AppLoadState get signInState; AppLoadState get signInSocialState; AppLoadState get completeProfileState; AppLoadState get completeCreatePassword; AppLoadState get deleteAccountState; int? get statusCodeSignInWithPassword; String get errorMessage;
 /// Create a copy of AuthState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $AuthStateCopyWith<AuthState> get copyWith => _$AuthStateCopyWithImpl<AuthState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthState&&(identical(other.isLoggedIn, isLoggedIn) || other.isLoggedIn == isLoggedIn)&&(identical(other.signInState, signInState) || other.signInState == signInState)&&(identical(other.signInSocialState, signInSocialState) || other.signInSocialState == signInSocialState)&&(identical(other.completeProfileState, completeProfileState) || other.completeProfileState == completeProfileState)&&(identical(other.completeCreatePassword, completeCreatePassword) || other.completeCreatePassword == completeCreatePassword)&&(identical(other.deleteAccountState, deleteAccountState) || other.deleteAccountState == deleteAccountState)&&(identical(other.statusCodeSignInWithPassword, statusCodeSignInWithPassword) || other.statusCodeSignInWithPassword == statusCodeSignInWithPassword)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthState&&(identical(other.email, email) || other.email == email)&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.varificationId, varificationId) || other.varificationId == varificationId)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.isLoggedIn, isLoggedIn) || other.isLoggedIn == isLoggedIn)&&(identical(other.signInState, signInState) || other.signInState == signInState)&&(identical(other.signInSocialState, signInSocialState) || other.signInSocialState == signInSocialState)&&(identical(other.completeProfileState, completeProfileState) || other.completeProfileState == completeProfileState)&&(identical(other.completeCreatePassword, completeCreatePassword) || other.completeCreatePassword == completeCreatePassword)&&(identical(other.deleteAccountState, deleteAccountState) || other.deleteAccountState == deleteAccountState)&&(identical(other.statusCodeSignInWithPassword, statusCodeSignInWithPassword) || other.statusCodeSignInWithPassword == statusCodeSignInWithPassword)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoggedIn,signInState,signInSocialState,completeProfileState,completeCreatePassword,deleteAccountState,statusCodeSignInWithPassword,errorMessage);
+int get hashCode => Object.hash(runtimeType,email,uid,varificationId,phoneNumber,isLoggedIn,signInState,signInSocialState,completeProfileState,completeCreatePassword,deleteAccountState,statusCodeSignInWithPassword,errorMessage);
 
 @override
 String toString() {
-  return 'AuthState(isLoggedIn: $isLoggedIn, signInState: $signInState, signInSocialState: $signInSocialState, completeProfileState: $completeProfileState, completeCreatePassword: $completeCreatePassword, deleteAccountState: $deleteAccountState, statusCodeSignInWithPassword: $statusCodeSignInWithPassword, errorMessage: $errorMessage)';
+  return 'AuthState(email: $email, uid: $uid, varificationId: $varificationId, phoneNumber: $phoneNumber, isLoggedIn: $isLoggedIn, signInState: $signInState, signInSocialState: $signInSocialState, completeProfileState: $completeProfileState, completeCreatePassword: $completeCreatePassword, deleteAccountState: $deleteAccountState, statusCodeSignInWithPassword: $statusCodeSignInWithPassword, errorMessage: $errorMessage)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $AuthStateCopyWith<$Res>  {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) _then) = _$AuthStateCopyWithImpl;
 @useResult
 $Res call({
- bool isLoggedIn, AppLoadState signInState, AppLoadState signInSocialState, AppLoadState completeProfileState, AppLoadState completeCreatePassword, AppLoadState deleteAccountState, int? statusCodeSignInWithPassword, String errorMessage
+ String? email, String? uid, String? varificationId, String? phoneNumber, bool isLoggedIn, AppLoadState signInState, AppLoadState signInSocialState, AppLoadState completeProfileState, AppLoadState completeCreatePassword, AppLoadState deleteAccountState, int? statusCodeSignInWithPassword, String errorMessage
 });
 
 
@@ -62,9 +62,13 @@ class _$AuthStateCopyWithImpl<$Res>
 
 /// Create a copy of AuthState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isLoggedIn = null,Object? signInState = null,Object? signInSocialState = null,Object? completeProfileState = null,Object? completeCreatePassword = null,Object? deleteAccountState = null,Object? statusCodeSignInWithPassword = freezed,Object? errorMessage = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? email = freezed,Object? uid = freezed,Object? varificationId = freezed,Object? phoneNumber = freezed,Object? isLoggedIn = null,Object? signInState = null,Object? signInSocialState = null,Object? completeProfileState = null,Object? completeCreatePassword = null,Object? deleteAccountState = null,Object? statusCodeSignInWithPassword = freezed,Object? errorMessage = null,}) {
   return _then(_self.copyWith(
-isLoggedIn: null == isLoggedIn ? _self.isLoggedIn : isLoggedIn // ignore: cast_nullable_to_non_nullable
+email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String?,uid: freezed == uid ? _self.uid : uid // ignore: cast_nullable_to_non_nullable
+as String?,varificationId: freezed == varificationId ? _self.varificationId : varificationId // ignore: cast_nullable_to_non_nullable
+as String?,phoneNumber: freezed == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
+as String?,isLoggedIn: null == isLoggedIn ? _self.isLoggedIn : isLoggedIn // ignore: cast_nullable_to_non_nullable
 as bool,signInState: null == signInState ? _self.signInState : signInState // ignore: cast_nullable_to_non_nullable
 as AppLoadState,signInSocialState: null == signInSocialState ? _self.signInSocialState : signInSocialState // ignore: cast_nullable_to_non_nullable
 as AppLoadState,completeProfileState: null == completeProfileState ? _self.completeProfileState : completeProfileState // ignore: cast_nullable_to_non_nullable
@@ -157,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoggedIn,  AppLoadState signInState,  AppLoadState signInSocialState,  AppLoadState completeProfileState,  AppLoadState completeCreatePassword,  AppLoadState deleteAccountState,  int? statusCodeSignInWithPassword,  String errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? email,  String? uid,  String? varificationId,  String? phoneNumber,  bool isLoggedIn,  AppLoadState signInState,  AppLoadState signInSocialState,  AppLoadState completeProfileState,  AppLoadState completeCreatePassword,  AppLoadState deleteAccountState,  int? statusCodeSignInWithPassword,  String errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AuthState() when $default != null:
-return $default(_that.isLoggedIn,_that.signInState,_that.signInSocialState,_that.completeProfileState,_that.completeCreatePassword,_that.deleteAccountState,_that.statusCodeSignInWithPassword,_that.errorMessage);case _:
+return $default(_that.email,_that.uid,_that.varificationId,_that.phoneNumber,_that.isLoggedIn,_that.signInState,_that.signInSocialState,_that.completeProfileState,_that.completeCreatePassword,_that.deleteAccountState,_that.statusCodeSignInWithPassword,_that.errorMessage);case _:
   return orElse();
 
 }
@@ -178,10 +182,10 @@ return $default(_that.isLoggedIn,_that.signInState,_that.signInSocialState,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoggedIn,  AppLoadState signInState,  AppLoadState signInSocialState,  AppLoadState completeProfileState,  AppLoadState completeCreatePassword,  AppLoadState deleteAccountState,  int? statusCodeSignInWithPassword,  String errorMessage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? email,  String? uid,  String? varificationId,  String? phoneNumber,  bool isLoggedIn,  AppLoadState signInState,  AppLoadState signInSocialState,  AppLoadState completeProfileState,  AppLoadState completeCreatePassword,  AppLoadState deleteAccountState,  int? statusCodeSignInWithPassword,  String errorMessage)  $default,) {final _that = this;
 switch (_that) {
 case _AuthState():
-return $default(_that.isLoggedIn,_that.signInState,_that.signInSocialState,_that.completeProfileState,_that.completeCreatePassword,_that.deleteAccountState,_that.statusCodeSignInWithPassword,_that.errorMessage);case _:
+return $default(_that.email,_that.uid,_that.varificationId,_that.phoneNumber,_that.isLoggedIn,_that.signInState,_that.signInSocialState,_that.completeProfileState,_that.completeCreatePassword,_that.deleteAccountState,_that.statusCodeSignInWithPassword,_that.errorMessage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +202,10 @@ return $default(_that.isLoggedIn,_that.signInState,_that.signInSocialState,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoggedIn,  AppLoadState signInState,  AppLoadState signInSocialState,  AppLoadState completeProfileState,  AppLoadState completeCreatePassword,  AppLoadState deleteAccountState,  int? statusCodeSignInWithPassword,  String errorMessage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? email,  String? uid,  String? varificationId,  String? phoneNumber,  bool isLoggedIn,  AppLoadState signInState,  AppLoadState signInSocialState,  AppLoadState completeProfileState,  AppLoadState completeCreatePassword,  AppLoadState deleteAccountState,  int? statusCodeSignInWithPassword,  String errorMessage)?  $default,) {final _that = this;
 switch (_that) {
 case _AuthState() when $default != null:
-return $default(_that.isLoggedIn,_that.signInState,_that.signInSocialState,_that.completeProfileState,_that.completeCreatePassword,_that.deleteAccountState,_that.statusCodeSignInWithPassword,_that.errorMessage);case _:
+return $default(_that.email,_that.uid,_that.varificationId,_that.phoneNumber,_that.isLoggedIn,_that.signInState,_that.signInSocialState,_that.completeProfileState,_that.completeCreatePassword,_that.deleteAccountState,_that.statusCodeSignInWithPassword,_that.errorMessage);case _:
   return null;
 
 }
@@ -213,9 +217,13 @@ return $default(_that.isLoggedIn,_that.signInState,_that.signInSocialState,_that
 
 
 class _AuthState implements AuthState {
-  const _AuthState({this.isLoggedIn = false, this.signInState = AppLoadState.initial, this.signInSocialState = AppLoadState.initial, this.completeProfileState = AppLoadState.initial, this.completeCreatePassword = AppLoadState.initial, this.deleteAccountState = AppLoadState.initial, this.statusCodeSignInWithPassword, this.errorMessage = ""});
+  const _AuthState({this.email, this.uid, this.varificationId, this.phoneNumber, this.isLoggedIn = false, this.signInState = AppLoadState.initial, this.signInSocialState = AppLoadState.initial, this.completeProfileState = AppLoadState.initial, this.completeCreatePassword = AppLoadState.initial, this.deleteAccountState = AppLoadState.initial, this.statusCodeSignInWithPassword, this.errorMessage = ""});
   
 
+@override final  String? email;
+@override final  String? uid;
+@override final  String? varificationId;
+@override final  String? phoneNumber;
 @override@JsonKey() final  bool isLoggedIn;
 @override@JsonKey() final  AppLoadState signInState;
 @override@JsonKey() final  AppLoadState signInSocialState;
@@ -235,16 +243,16 @@ _$AuthStateCopyWith<_AuthState> get copyWith => __$AuthStateCopyWithImpl<_AuthSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthState&&(identical(other.isLoggedIn, isLoggedIn) || other.isLoggedIn == isLoggedIn)&&(identical(other.signInState, signInState) || other.signInState == signInState)&&(identical(other.signInSocialState, signInSocialState) || other.signInSocialState == signInSocialState)&&(identical(other.completeProfileState, completeProfileState) || other.completeProfileState == completeProfileState)&&(identical(other.completeCreatePassword, completeCreatePassword) || other.completeCreatePassword == completeCreatePassword)&&(identical(other.deleteAccountState, deleteAccountState) || other.deleteAccountState == deleteAccountState)&&(identical(other.statusCodeSignInWithPassword, statusCodeSignInWithPassword) || other.statusCodeSignInWithPassword == statusCodeSignInWithPassword)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthState&&(identical(other.email, email) || other.email == email)&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.varificationId, varificationId) || other.varificationId == varificationId)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.isLoggedIn, isLoggedIn) || other.isLoggedIn == isLoggedIn)&&(identical(other.signInState, signInState) || other.signInState == signInState)&&(identical(other.signInSocialState, signInSocialState) || other.signInSocialState == signInSocialState)&&(identical(other.completeProfileState, completeProfileState) || other.completeProfileState == completeProfileState)&&(identical(other.completeCreatePassword, completeCreatePassword) || other.completeCreatePassword == completeCreatePassword)&&(identical(other.deleteAccountState, deleteAccountState) || other.deleteAccountState == deleteAccountState)&&(identical(other.statusCodeSignInWithPassword, statusCodeSignInWithPassword) || other.statusCodeSignInWithPassword == statusCodeSignInWithPassword)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoggedIn,signInState,signInSocialState,completeProfileState,completeCreatePassword,deleteAccountState,statusCodeSignInWithPassword,errorMessage);
+int get hashCode => Object.hash(runtimeType,email,uid,varificationId,phoneNumber,isLoggedIn,signInState,signInSocialState,completeProfileState,completeCreatePassword,deleteAccountState,statusCodeSignInWithPassword,errorMessage);
 
 @override
 String toString() {
-  return 'AuthState(isLoggedIn: $isLoggedIn, signInState: $signInState, signInSocialState: $signInSocialState, completeProfileState: $completeProfileState, completeCreatePassword: $completeCreatePassword, deleteAccountState: $deleteAccountState, statusCodeSignInWithPassword: $statusCodeSignInWithPassword, errorMessage: $errorMessage)';
+  return 'AuthState(email: $email, uid: $uid, varificationId: $varificationId, phoneNumber: $phoneNumber, isLoggedIn: $isLoggedIn, signInState: $signInState, signInSocialState: $signInSocialState, completeProfileState: $completeProfileState, completeCreatePassword: $completeCreatePassword, deleteAccountState: $deleteAccountState, statusCodeSignInWithPassword: $statusCodeSignInWithPassword, errorMessage: $errorMessage)';
 }
 
 
@@ -255,7 +263,7 @@ abstract mixin class _$AuthStateCopyWith<$Res> implements $AuthStateCopyWith<$Re
   factory _$AuthStateCopyWith(_AuthState value, $Res Function(_AuthState) _then) = __$AuthStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isLoggedIn, AppLoadState signInState, AppLoadState signInSocialState, AppLoadState completeProfileState, AppLoadState completeCreatePassword, AppLoadState deleteAccountState, int? statusCodeSignInWithPassword, String errorMessage
+ String? email, String? uid, String? varificationId, String? phoneNumber, bool isLoggedIn, AppLoadState signInState, AppLoadState signInSocialState, AppLoadState completeProfileState, AppLoadState completeCreatePassword, AppLoadState deleteAccountState, int? statusCodeSignInWithPassword, String errorMessage
 });
 
 
@@ -272,9 +280,13 @@ class __$AuthStateCopyWithImpl<$Res>
 
 /// Create a copy of AuthState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isLoggedIn = null,Object? signInState = null,Object? signInSocialState = null,Object? completeProfileState = null,Object? completeCreatePassword = null,Object? deleteAccountState = null,Object? statusCodeSignInWithPassword = freezed,Object? errorMessage = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? email = freezed,Object? uid = freezed,Object? varificationId = freezed,Object? phoneNumber = freezed,Object? isLoggedIn = null,Object? signInState = null,Object? signInSocialState = null,Object? completeProfileState = null,Object? completeCreatePassword = null,Object? deleteAccountState = null,Object? statusCodeSignInWithPassword = freezed,Object? errorMessage = null,}) {
   return _then(_AuthState(
-isLoggedIn: null == isLoggedIn ? _self.isLoggedIn : isLoggedIn // ignore: cast_nullable_to_non_nullable
+email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String?,uid: freezed == uid ? _self.uid : uid // ignore: cast_nullable_to_non_nullable
+as String?,varificationId: freezed == varificationId ? _self.varificationId : varificationId // ignore: cast_nullable_to_non_nullable
+as String?,phoneNumber: freezed == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
+as String?,isLoggedIn: null == isLoggedIn ? _self.isLoggedIn : isLoggedIn // ignore: cast_nullable_to_non_nullable
 as bool,signInState: null == signInState ? _self.signInState : signInState // ignore: cast_nullable_to_non_nullable
 as AppLoadState,signInSocialState: null == signInSocialState ? _self.signInSocialState : signInSocialState // ignore: cast_nullable_to_non_nullable
 as AppLoadState,completeProfileState: null == completeProfileState ? _self.completeProfileState : completeProfileState // ignore: cast_nullable_to_non_nullable

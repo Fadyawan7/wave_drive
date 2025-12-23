@@ -6,7 +6,7 @@ import 'package:wave_drive/core/shared/widgets/appbar/main_app_bar.dart';
 import 'package:wave_drive/core/shared/widgets/buttons/primary_button.dart';
 import 'package:wave_drive/core/shared/widgets/buttons/primary_outlined_button.dart';
 import 'package:wave_drive/core/shared/widgets/gap.dart';
-import 'package:wave_drive/modules/auth/Signup/document_confirmation_view.dart';
+import 'package:wave_drive/modules/auth/signup/document_confirmation_view.dart';
 
 class UploadLicenseView extends StatelessWidget {
   UploadLicenseView({super.key});

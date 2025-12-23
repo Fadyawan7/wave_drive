@@ -1,8 +1,12 @@
 import 'dart:io';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:gap/gap.dart';
+import 'package:wave_drive/core/cubits/user/user_cubit.dart';
+import 'package:wave_drive/core/data/network/dio/update_vehicle_info_dto.dart';
+import 'package:wave_drive/core/routes/app_router.gr.dart';
+import 'package:wave_drive/core/routes/routes.dart';
 import 'package:wave_drive/core/shared/extensions/alignment_extension.dart';
 import 'package:wave_drive/core/shared/mixins/mixins.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
@@ -15,20 +19,23 @@ import 'package:wave_drive/core/shared/widgets/buttons/primary_outlined_button.d
 import 'package:wave_drive/core/shared/widgets/drop_downs/app_dropdown.dart';
 import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_fill_text_field.dart';
 import 'package:wave_drive/core/shared/widgets/language_field/language_field.dart';
-import 'package:wave_drive/modules/auth/Signup/personel_info_view.dart';
-import 'package:wave_drive/modules/auth/Signup/register_doc_view.dart';
+import 'package:wave_drive/injector_setup.dart';
+import "package:wave_drive/modules/auth/signup/register_doc_screen.dart";
 
-import 'widgets/custom_horizontal_divider.dart';
+import 'package:wave_drive/modules/auth/signup/widgets/custom_horizontal_divider.dart';
 
-class PriceDetailsView extends StatefulWidget {
-  const PriceDetailsView({super.key});
+@RoutePage()
+class LegalPriceScreen extends StatefulWidget {
+  const LegalPriceScreen({super.key});
 
   @override
-  State<PriceDetailsView> createState() => _PriceDetailsViewState();
+  State<LegalPriceScreen> createState() => _PriceDetailsViewState();
 }
 
-class _PriceDetailsViewState extends BaseScreen<PriceDetailsView>
+class _PriceDetailsViewState extends BaseScreen<LegalPriceScreen>
     with FormMixin {
+  final _userCubit = injector<UserCubit>();
+
   String? selectedManufacturer;
   String? selectedModel;
   String? selectedYear;
@@ -106,6 +113,24 @@ class _PriceDetailsViewState extends BaseScreen<PriceDetailsView>
               ).centerLeft,
               const Gap(24),
 
+              Text(
+                'I want to join wave as:*',
+                style: AppTextStyles.text16.copyWith(color: AppColors.black33),
+              ).centerLeft,
+              const Gap(10),
+
+              AppDropdownField(
+                validator: requiredValidators,
+                name: "type",
+                hint: "Select as",
+                items: const [
+                  "Driver working under a fleet owner",
+                  "Self-employed driver with own vehicle",
+                ],
+              ),
+
+              const Gap(18),
+
               FormBuilderFillTextField(
                 name: 'plate',
                 hintText: "License plate",
@@ -136,7 +161,7 @@ class _PriceDetailsViewState extends BaseScreen<PriceDetailsView>
                 validator: requiredValidators,
                 hint: 'Vehicle model',
 
-                items: ["C-Class", "E-Class", "GLA"],
+                items: const ["C-Class", "E-Class", "GLA"],
                 onChanged: (String? value) {},
                 name: 'model',
               ),
@@ -153,9 +178,9 @@ class _PriceDetailsViewState extends BaseScreen<PriceDetailsView>
                 validator: requiredValidators,
                 hint: 'Vehicle year',
 
-                items: ["2024", "2025"],
+                items: const ["2024", "2025"],
                 onChanged: (String? value) {},
-                name: 'model',
+                name: 'vehicle_year',
               ),
 
               const Gap(18),
@@ -187,75 +212,76 @@ class _PriceDetailsViewState extends BaseScreen<PriceDetailsView>
                   );
                 },
               ),
+
               // _buildColorDropdown(),
-              const Gap(18),
+              // const Gap(18),
 
-              _buildDocumentSection(
-                title: 'Taxi Operating License',
-                description:
-                    'In order to drive taxi in Norway you (or the fleet owner you are working with) must have a so called taxi operating license. Please upload your taxi operating license in this section so that we can approve your application. Read more about taxi operating lenience. here',
-                buttonText: 'Upload A File',
-                file: taxiLicense,
-                onPressed: () {
-                  setState(() => taxiLicense = File('dummy_license.png'));
-                },
-                onDelete: () {
-                  setState(() => taxiLicense = null);
-                },
-                onFileChanged: (File p1) {},
-                name: "file1",
-              ),
-              const Gap(18),
+              // _buildDocumentSection(
+              //   title: 'Taxi Operating License',
+              //   description:
+              //       'In order to drive taxi in Norway you (or the fleet owner you are working with) must have a so called taxi operating license. Please upload your taxi operating license in this section so that we can approve your application. Read more about taxi operating lenience. here',
+              //   buttonText: 'Upload A File',
+              //   file: taxiLicense,
+              //   onPressed: () {
+              //     setState(() => taxiLicense = File('dummy_license.png'));
+              //   },
+              //   onDelete: () {
+              //     setState(() => taxiLicense = null);
+              //   },
+              //   onFileChanged: (File p1) {},
+              //   name: "file1",
+              // ),
+              // const Gap(18),
 
-              _buildDocumentSection(
-                title: 'Taximeter',
-                description: 'Add a picture of your taximeter.',
-                buttonText: 'Upload A File',
-                file: taxiMeter,
-                onPressed: () {
-                  setState(() => taxiMeter = File('dummy_meter.png'));
-                },
-                onDelete: () {
-                  setState(() => taxiMeter = null);
-                },
-                onFileChanged: (File p1) {},
-                name: '',
-              ).centerLeft,
-              const Gap(18),
+              // _buildDocumentSection(
+              //   title: 'Taximeter',
+              //   description: 'Add a picture of your taximeter.',
+              //   buttonText: 'Upload A File',
+              //   file: taxiMeter,
+              //   onPressed: () {
+              //     setState(() => taxiMeter = File('dummy_meter.png'));
+              //   },
+              //   onDelete: () {
+              //     setState(() => taxiMeter = null);
+              //   },
+              //   onFileChanged: (File p1) {},
+              //   name: '',
+              // ).centerLeft,
+              // const Gap(18),
 
-              _buildDocumentSection(
-                title: 'Roof Light',
-                description:
-                    'Please provide a picture of a roof light as required in Norway after 1/1/2023.',
-                buttonText: 'Upload A File',
-                file: taxiLight,
-                onPressed: () {
-                  setState(() => taxiLight = File('dummy_light.png'));
-                },
-                onDelete: () {
-                  setState(() => taxiLight = null);
-                },
-                onFileChanged: (File p1) {},
-                name: '',
-              ),
-              const Gap(18),
+              // _buildDocumentSection(
+              //   title: 'Roof Light',
+              //   description:
+              //       'Please provide a picture of a roof light as required in Norway after 1/1/2023.',
+              //   buttonText: 'Upload A File',
+              //   file: taxiLight,
+              //   onPressed: () {
+              //     setState(() => taxiLight = File('dummy_light.png'));
+              //   },
+              //   onDelete: () {
+              //     setState(() => taxiLight = null);
+              //   },
+              //   onFileChanged: (File p1) {},
+              //   name: '',
+              // ),
+              // const Gap(18),
 
-              _buildDocumentSection(
-                title: 'Vehicle insurance documentation',
-                description: 'Please provide a copy of your vehicle insurance.',
-                buttonText: 'Upload A File',
-                file: vehicleInsurance,
-                onPressed: () {
-                  setState(
-                    () => vehicleInsurance = File('dummy_insurance.png'),
-                  );
-                },
-                onDelete: () {
-                  setState(() => vehicleInsurance = null);
-                },
-                onFileChanged: (File p1) {},
-                name: '',
-              ),
+              // _buildDocumentSection(
+              //   title: 'Vehicle insurance documentation',
+              //   description: 'Please provide a copy of your vehicle insurance.',
+              //   buttonText: 'Upload A File',
+              //   file: vehicleInsurance,
+              //   onPressed: () {
+              //     setState(
+              //       () => vehicleInsurance = File('dummy_insurance.png'),
+              //     );
+              //   },
+              //   onDelete: () {
+              //     setState(() => vehicleInsurance = null);
+              //   },
+              //   onFileChanged: (File p1) {},
+              //   name: '',
+              // ),
               const Gap(30),
 
               PrimaryButton(text: "Next", onPressed: _onSubmit),
@@ -277,23 +303,37 @@ class _PriceDetailsViewState extends BaseScreen<PriceDetailsView>
     FocusScope.of(context).unfocus();
     final isFormValid = formKey.currentState!.saveAndValidate();
     if (!isFormValid) return;
-    // final formFields = formKey.currentState!.value;
-    // final fName = formFields["fName"] as String;
-    // final lName = formFields["lName"] as String;
-    // final idCard = formFields["id_card"] as String;
-    // final language = formFields["language"] as String;
-    // final referalCode = formFields["referal_code"] as String?;
+    final formFields = formKey.currentState!.value;
+    final type = formFields["type"] as String;
+    final plate = formFields["plate"] as String;
+    final licenceNumber = formFields["licence_number"] as String;
+    final manufacturer = formFields["manufacturer"] as String;
+    final model = formFields["model"] as String;
+    final vehicleYear = formFields["vehicle_year"] as String;
+    final color = formFields["color"] as String;
 
     loading(true);
 
-    await Future.delayed(const Duration(seconds: 2));
+    final dto = UpdateVehicleDTO(
+      joinAs: type,
+      licensePlate: plate,
+      vehicleTransportNumber: licenceNumber,
+      vehicleModel: model,
+      vehicleManufacturer: manufacturer,
+      vehicleYear: vehicleYear,
+      vehicleColor: color,
+    );
+    await _userCubit.updateVehicleInfo(dto);
+
     loading(false);
+    final isError = _userCubit.state.updateProfileState.isError;
+    if (isError) {
+      toastError(_userCubit.state.errorMessageUpdateProfile);
+      return;
+    }
 
     if (mounted) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => RegisterDocView()),
-      );
+      AppNavigator.push(context, const RegisterDocRoute());
     }
   }
 
@@ -334,4 +374,8 @@ class _PriceDetailsViewState extends BaseScreen<PriceDetailsView>
       ],
     );
   }
+
+
+
+
 }

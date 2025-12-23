@@ -1,13 +1,18 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:wave_drive/core/routes/app_router.gr.dart';
+import 'package:wave_drive/core/routes/routes.dart';
 import 'package:wave_drive/core/shared/themes/themes.dart';
 import 'package:wave_drive/core/shared/widgets/buttons/primary_button.dart';
 import 'package:wave_drive/core/shared/widgets/buttons/primary_outlined_button.dart';
-import 'package:wave_drive/modules/auth/Login/login_view.dart';
-import 'package:wave_drive/modules/auth/Signup/signup_view.dart';
 
-class LoginSignupView extends StatelessWidget {
-  const LoginSignupView({super.key});
+
+
+
+@RoutePage()
+class LoginSignupScreen extends StatelessWidget {
+  const LoginSignupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +28,6 @@ class LoginSignupView extends StatelessWidget {
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   'WAVE Driver',
@@ -38,27 +42,22 @@ class LoginSignupView extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
 
                 PrimaryButton(
                   text: "Login",
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginView()),
-                    );
+                   AppNavigator.popAndPush(context,const LoginRoute() );
                   },
                 ),
-                Gap(20),
+                const Gap(20),
 
                 PrimaryOutlinedButton(
                   text: "Sign Up",
 
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignupView()),
-                    );
+                     AppNavigator.popAndPush(context,const SignupRoute() );
+                   
                   },
                 ),
               ],

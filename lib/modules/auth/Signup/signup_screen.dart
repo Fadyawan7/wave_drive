@@ -1,9 +1,11 @@
-// packages
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:gap/gap.dart';
+import 'package:wave_drive/core/routes/app_router.gr.dart';
+import 'package:wave_drive/core/routes/routes.dart';
 import 'package:wave_drive/core/shared/extensions/alignment_extension.dart';
 import 'package:wave_drive/core/shared/mixins/form_mixin.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
@@ -11,32 +13,27 @@ import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 import 'package:wave_drive/core/shared/widgets/appbar/main_app_bar.dart';
 import 'package:wave_drive/core/shared/widgets/base/base_screen.dart';
 import 'package:wave_drive/core/shared/widgets/buttons/primary_button.dart';
-import 'package:wave_drive/core/shared/widgets/drop_downs/app_dropdown.dart';
 import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_country_picker.dart';
 import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_fill_text_field.dart';
 import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_phone_textfield.dart';
 import 'package:wave_drive/injector_setup.dart';
-import 'package:wave_drive/modules/auth/Signup/cubit/signup_cubit.dart';
-import 'package:wave_drive/modules/auth/Signup/personel_info_view.dart';
-import 'package:wave_drive/modules/auth/Signup/signup_otp_screen.dart';
-// componenets
+import 'package:wave_drive/modules/auth/signup/cubit/signup_cubit.dart';
 
-import 'widgets/select_city_widget.dart';
-import 'widgets/terms_checkbox_widget.dart';
+import 'package:wave_drive/modules/auth/signup/widgets/terms_checkbox_widget.dart';
 
-class SignupView extends StatefulWidget {
-  SignupView({super.key});
+@RoutePage()
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<SignupView> createState() => _SignupViewState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
+class _SignupScreenState extends BaseScreen<SignupScreen> with FormMixin {
   final _scrollController = ScrollController();
-    final _cubit = injector<SignupCubit>();
+  final _cubit = injector<SignupCubit>();
+  bool isAccepted = false;
 
-
-  // final SignupPhoneController phoneController =
   @override
   Widget buildBody(BuildContext context) {
     return Scaffold(
@@ -69,7 +66,6 @@ class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
                 name: 'email',
                 hintText: "Email address",
                 validator: emailValidators,
-                obscureText: false,
 
                 prefixIcon: const Icon(Icons.lock, color: AppColors.blackcolor),
               ),
@@ -84,16 +80,6 @@ class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
 
               const Gap(18),
 
-              FormBuilderFillTextField(
-                name: 'password',
-                hintText: "Password",
-                validator: confirmPasswordValidators,
-                obscureText: true,
-
-                prefixIcon: const Icon(Icons.lock, color: AppColors.blackcolor),
-              ),
-
-              const Gap(18),
               FormBuilderCountryPicker(
                 name: 'country',
                 validator: Platform.isIOS ? null : countryValidators,
@@ -112,42 +98,24 @@ class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
               ),
               const Gap(18),
 
-              // select city drop down
-              // CityDropdown(),
-              AppDropdownField(
-                validator: requiredValidators,
-
-                hint: 'City',
-
-                items: const [
-                  "Karachi",
-                  "Lahore",
-                  "Islamabad",
-                  "Rawalpindi",
-                  "Multan",
-                  "Faisalabad",
-                  "Peshawar",
-                  "Quetta",
-                  "Sialkot",
-                  "Gujranwala",
-                  "Bahawalpur",
-                  "Sukkur",
-                  "Hyderabad",
-                  "Abbottabad",
-                  "Mardan",
-                  "Jhang",
-                  "Sheikhupura",
-                  "Rahim Yar Khan",
-                  "Dera Ghazi Khan",
-                  "Okara",
-                ],
-                onChanged: (String? value) {},
+              FormBuilderFillTextField(
                 name: 'city',
+                hintText: "City",
+                validator: requiredValidators,
               ),
 
               const Gap(18),
+
               // terms
-              TermsCheckbox(),
+              TermsCheckbox(
+                value: isAccepted,
+                onChanged: (newValue) {
+                  setState(() {
+                    isAccepted = newValue;
+                  });
+                },
+              ),
+
               const Gap(18),
 
               const Text(
@@ -171,13 +139,19 @@ class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
     FocusScope.of(context).unfocus();
     final isFormValid = formKey.currentState!.saveAndValidate();
     if (!isFormValid) return;
+
+    if (!isAccepted) {
+      toast(
+        'Please accept the Terms of Service and Privacy Policy to continue',
+      );
+      return;
+    }
     final formFields = formKey.currentState!.value;
-    final password = formFields["password"] as String;
     final email = formFields["email"] as String;
     final phone = formFields["phone"] as String;
     final country = formFields["country"] as String;
     final city = formFields["country"] as String;
-    _cubit.setCityCountry(country,city,email);
+    _cubit.setCityCountry(country, city, email);
 
     loading(true);
 
@@ -185,18 +159,17 @@ class _SignupViewState extends BaseScreen<SignupView> with FormMixin {
     loading(false);
 
     if (!resulst.$1) {
-      toastError(
-        resulst.$2 ?? "Something went wrong. Please try again later!",
-      );
+      toastError(resulst.$2 ?? "Something went wrong. Please try again later!");
       return;
     }
-    
 
     if (mounted) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SignupOtpScreen()),
-      );
+      AppNavigator.push(context, const SignupOtpRoute());
     }
   }
 }
+
+
+
+
+

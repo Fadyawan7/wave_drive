@@ -4,6 +4,11 @@ part of 'auth_cubit.dart';
 abstract class AuthState with _$AuthState {
   const factory AuthState({
     
+    String? email,
+
+    String? uid,
+    String? varificationId,
+    String? phoneNumber,
     @Default(false) bool isLoggedIn,
     @Default(AppLoadState.initial) AppLoadState signInState,
     @Default(AppLoadState.initial) AppLoadState signInSocialState,

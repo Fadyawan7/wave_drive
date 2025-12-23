@@ -18,17 +18,142 @@ class _AuthAPIService implements AuthAPIService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<SignInResponse> signIn(SignInDTO signInDto) async {
+  Future<HttpResponse<dynamic>> register(SignInDTO signInDto) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(signInDto.toJson());
+    final _options = _setStreamType<HttpResponse<dynamic>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/register',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<SignInResponse> signIn(String uid) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {'uid': uid};
     final _options = _setStreamType<SignInResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/driver/auth',
+            '/signin',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late SignInResponse _value;
+    try {
+      _value = SignInResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<CheckExistResponse> checkPhoneNumberExist(String phone) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {'phone': phone};
+    final _options = _setStreamType<CheckExistResponse>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/auth/is-phone-exist',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CheckExistResponse _value;
+    try {
+      _value = CheckExistResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<CheckExistResponse> checkEmailExist(String email) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {'email': email};
+    final _options = _setStreamType<CheckExistResponse>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/auth/is-email-exist',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CheckExistResponse _value;
+    try {
+      _value = CheckExistResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<HttpResponse<dynamic>> sendEmailOtp(String email) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {'email': email};
+    final _options = _setStreamType<HttpResponse<dynamic>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/auth/send-email-otp',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<SignInResponse> varifyEmailOtp(String otp, String email) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {'otp': otp, 'email': email};
+    final _options = _setStreamType<SignInResponse>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/auth/varify-email-otp',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -122,7 +247,7 @@ class _UserAPIService implements UserAPIService {
       Options(method: 'PATCH', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/user/update-profile',
+            '/user/profile',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -137,6 +262,167 @@ class _UserAPIService implements UserAPIService {
       rethrow;
     }
     return _value;
+  }
+
+  @override
+  Future<HttpResponse<dynamic>> updateVehicleInfo(
+    UpdateVehicleDTO updateProfileDTO,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(updateProfileDTO.toJson());
+    final _options = _setStreamType<HttpResponse<dynamic>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/user/vehicle',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<dynamic>> uploadDucoments(
+    File taxiOperatingLicense,
+    File roofLight,
+    File vehicleInsuranceDocumentation,
+    File profilePicture,
+    File driversLicense,
+    String driversLicenseNumber,
+    File taxiDrivingLicense,
+    File companyRegistrationCertificate,
+    File bankStatement,
+    String documentExpires,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    _data.files.add(
+      MapEntry(
+        'taxiOperatingLicense',
+        MultipartFile.fromFileSync(
+          taxiOperatingLicense.path,
+          filename: taxiOperatingLicense.path
+              .split(Platform.pathSeparator)
+              .last,
+        ),
+      ),
+    );
+    _data.files.add(
+      MapEntry(
+        'roofLight',
+        MultipartFile.fromFileSync(
+          roofLight.path,
+          filename: roofLight.path.split(Platform.pathSeparator).last,
+        ),
+      ),
+    );
+    _data.files.add(
+      MapEntry(
+        'vehicleInsuranceDocumentation',
+        MultipartFile.fromFileSync(
+          vehicleInsuranceDocumentation.path,
+          filename: vehicleInsuranceDocumentation.path
+              .split(Platform.pathSeparator)
+              .last,
+        ),
+      ),
+    );
+    _data.files.add(
+      MapEntry(
+        'profilePicture',
+        MultipartFile.fromFileSync(
+          profilePicture.path,
+          filename: profilePicture.path.split(Platform.pathSeparator).last,
+        ),
+      ),
+    );
+    _data.files.add(
+      MapEntry(
+        'driversLicense',
+        MultipartFile.fromFileSync(
+          driversLicense.path,
+          filename: driversLicense.path.split(Platform.pathSeparator).last,
+        ),
+      ),
+    );
+    _data.fields.add(MapEntry('driversLicenseNumber', driversLicenseNumber));
+    _data.files.add(
+      MapEntry(
+        'taxiDrivingLicense',
+        MultipartFile.fromFileSync(
+          taxiDrivingLicense.path,
+          filename: taxiDrivingLicense.path.split(Platform.pathSeparator).last,
+        ),
+      ),
+    );
+    _data.files.add(
+      MapEntry(
+        'companyRegistrationCertificate',
+        MultipartFile.fromFileSync(
+          companyRegistrationCertificate.path,
+          filename: companyRegistrationCertificate.path
+              .split(Platform.pathSeparator)
+              .last,
+        ),
+      ),
+    );
+    _data.files.add(
+      MapEntry(
+        'bankStatement',
+        MultipartFile.fromFileSync(
+          bankStatement.path,
+          filename: bankStatement.path.split(Platform.pathSeparator).last,
+        ),
+      ),
+    );
+    _data.fields.add(MapEntry('documentExpires', documentExpires));
+    final _options = _setStreamType<HttpResponse<dynamic>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/user/documents',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<dynamic>> uploadPaymentInfo(PaymentInfoDto dto) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(dto.toJson());
+    final _options = _setStreamType<HttpResponse<dynamic>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/user/payment',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
@@ -179,7 +465,7 @@ class _ImageAPIService implements ImageAPIService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<UploadImageResponse> uploadImage(
+  Future<UploadImageResponse> uploadFile(
     File image,
     void Function(int, int) sendProgress,
   ) async {
@@ -189,7 +475,7 @@ class _ImageAPIService implements ImageAPIService {
     final _data = FormData();
     _data.files.add(
       MapEntry(
-        'image',
+        'file',
         MultipartFile.fromFileSync(
           image.path,
           filename: image.path.split(Platform.pathSeparator).last,
@@ -205,7 +491,7 @@ class _ImageAPIService implements ImageAPIService {
           )
           .compose(
             _dio.options,
-            '/image',
+            '/upload-file',
             queryParameters: queryParameters,
             data: _data,
             onSendProgress: sendProgress,

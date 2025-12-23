@@ -1,18 +1,23 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:wave_drive/core/routes/app_navigator.dart';
+import 'package:wave_drive/core/routes/app_router.gr.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 import 'package:wave_drive/core/shared/widgets/language_field/language_field.dart';
-import 'package:wave_drive/modules/dashboad/dashboard_view.dart';
 
-class SuccessScreen extends StatefulWidget {
-  const SuccessScreen({super.key});
+
+
+@RoutePage()
+class SignupSuccessScreen extends StatefulWidget {
+  const SignupSuccessScreen({super.key});
 
   @override
-  State<SuccessScreen> createState() => _SuccessScreenState();
+  State<SignupSuccessScreen> createState() => _SuccessScreenState();
 }
 
-class _SuccessScreenState extends State<SuccessScreen>
+class _SuccessScreenState extends State<SignupSuccessScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
@@ -38,10 +43,7 @@ class _SuccessScreenState extends State<SuccessScreen>
     _animationController.forward();
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const DashboardView()),
-        );
+        AppNavigator.replaceAll(context,   PaymentDetailsRoute());
       }
     });
   }

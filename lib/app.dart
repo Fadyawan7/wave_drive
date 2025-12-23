@@ -12,7 +12,6 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:wave_drive/core/cubits/app_cubit.dart';
 import 'package:wave_drive/core/routes/app_router.dart';
-import 'package:wave_drive/core/routes/bloc_observer.dart';
 import 'package:wave_drive/core/routes/router_observer.dart';
 import 'package:wave_drive/core/shared/themes/theme_data.dart';
 import 'package:wave_drive/core/shared/utils/app_logger.dart';
@@ -86,15 +85,6 @@ class App extends StatelessWidget {
       ),
     );
 
-    // return MaterialApp(
-    //   debugShowCheckedModeBanner: false,
-    //   title: 'Wave Drive',
-    //   supportedLocales: const [Locale('en', '')],
-    //   theme:
-
-    //   Themes.lightTheme,
-
-    //   home: const SplashScreen(),
-    // );
+    
   }
 }

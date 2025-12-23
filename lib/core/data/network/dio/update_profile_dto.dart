@@ -18,10 +18,16 @@ class UpdateProfileDTO {
   //
   String? firstName;
   String? lastName;
+  String? nationalId;
+  String? language;
+  String? referralCode;
 
   UpdateProfileDTO({
-        this.firstName,
-        this.lastName,
+    this.firstName,
+    this.lastName,
+    this.referralCode,
+    this.language,
+    this.nationalId,
 
     //
     this.picture,
@@ -61,16 +67,20 @@ class UpdateProfileDTO {
         pushNotificationToken: json["pushNotificationToken"] as String?,
         firebaseUid: json["firebaseUid"] as String?,
         //
-                firstName: json["firstName"] as String,
+        firstName: json["firstName"] as String,
         lastName: json["lastName"] as String,
-
-
+        referralCode: json["referralCode"] as String,
+        nationalId: json["nationalId"] as String,
+        language: json["language"] as String,
       );
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (firstName != null) data["firstName"] = firstName;
     if (lastName != null) data["lastName"] = lastName;
+    if (referralCode != null) data["referralCode"] = referralCode;
+    if (language != null) data["language"] = language;
+    if (nationalId != null) data["nationalId"] = nationalId;
     //
     if (picture != null) data["picture"] = picture;
     if (roomTitle != null) data["roomTitle"] = roomTitle;

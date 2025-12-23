@@ -22,11 +22,35 @@
           }
         },
         {
+          "client_id": "754863962278-4cvhpr3u7u0fau4kmflaut2ll08b6kri.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wave.driver.dev",
+            "certificate_hash": "d42dd55024f0103ec7e9f649b0e37d63ba8a4649"
+          }
+        },
+        {
           "client_id": "754863962278-6ipk36fi8gne6n471mnanbepitlr4ipu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.wave.driver.dev",
             "certificate_hash": "0b77ec554bdc94798a14941c088a96f2d7852287"
+          }
+        },
+        {
+          "client_id": "754863962278-badvl08ng86ui765tba5uk3c8vt82t5p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wave.driver.dev",
+            "certificate_hash": "5644257a0ceb381d5d0239eeaa20dbc13cd4b1cb"
+          }
+        },
+        {
+          "client_id": "754863962278-lmodck8t30g0srun4ekc38u17cu5n64q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wave.driver.dev",
+            "certificate_hash": "d0d0a197cff57df4d66dcd5504934836e6a1df5e"
           }
         },
         {

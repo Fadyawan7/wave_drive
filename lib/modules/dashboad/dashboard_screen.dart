@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,14 +10,17 @@ import 'package:wave_drive/modules/home/help_view.dart';
 import 'package:wave_drive/modules/home/home_view.dart';
 import 'package:wave_drive/modules/home/travels_view.dart';
 
-class DashboardView extends StatefulWidget {
-  const DashboardView({super.key});
+
+
+@RoutePage()
+class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({super.key});
 
   @override
   _DashboardViewState createState() => _DashboardViewState();
 }
 
-class _DashboardViewState extends State<DashboardView> {
+class _DashboardViewState extends State<DashboardScreen> {
   final _cubit = injector<DashboardCubit>();
 
   void _handleBackPress() {

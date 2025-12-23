@@ -249,7 +249,6 @@ enum LoginMethod {
 
   const LoginMethod();
 
-  bool get isGoogle => this == LoginMethod.google;
 }
 
 enum CardType {

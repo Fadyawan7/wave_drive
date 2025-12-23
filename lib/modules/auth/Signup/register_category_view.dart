@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:gap/gap.dart';
+import 'package:wave_drive/core/routes/app_navigator.dart';
+import 'package:wave_drive/core/routes/app_router.gr.dart';
 import 'package:wave_drive/core/shared/extensions/alignment_extension.dart';
 import 'package:wave_drive/core/shared/mixins/mixins.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
@@ -12,7 +14,6 @@ import 'package:wave_drive/core/shared/widgets/buttons/primary_button.dart';
 import 'package:wave_drive/core/shared/widgets/buttons/primary_outlined_button.dart';
 import 'package:wave_drive/core/shared/widgets/drop_downs/app_dropdown.dart';
 import 'package:wave_drive/core/shared/widgets/language_field/language_field.dart';
-import 'package:wave_drive/modules/auth/Signup/price_details_view.dart';
 
 // widgets
 import 'widgets/custom_horizontal_divider.dart';
@@ -75,7 +76,7 @@ class _RegisterCategoryViewState extends BaseScreen<RegisterCategoryView>
                 validator: requiredValidators,
                 name: "type",
                 hint: "Select as",
-                items: [
+                items: const [
                   "Driver working under a fleet owner",
                   "Self-employed driver with own vehicle",
                 ],
@@ -110,10 +111,7 @@ class _RegisterCategoryViewState extends BaseScreen<RegisterCategoryView>
     loading(false);
 
     if (mounted) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => PriceDetailsView()),
-      );
+      AppNavigator.replaceAll(context,   PaymentDetailsRoute());
     }
   }
 }

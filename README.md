@@ -4,7 +4,7 @@
 
 ## Prerequisites
 
-- Flutter version: 3.35.2
+- Flutter version: 3.35.1
 - Dart version: 3.9.0
 
 

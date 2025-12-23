@@ -4,10 +4,10 @@ part of '../api_service.dart';
 abstract class ImageAPIService {
   factory ImageAPIService(Dio dio, {String? baseUrl}) = _ImageAPIService;
 
-  @POST('/image')
+  @POST('/upload-file')
   @MultiPart()
-  Future<UploadImageResponse> uploadImage(
-    @Part(name: 'image') File image,
+  Future<UploadImageResponse> uploadFile(
+    @Part(name: 'file') File image,
     @SendProgress() ProgressCallback sendProgress,
   );
 

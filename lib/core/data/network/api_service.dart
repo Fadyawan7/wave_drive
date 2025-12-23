@@ -5,7 +5,10 @@ import 'package:retrofit/retrofit.dart';
 import 'package:wave_drive/core/data/models/auth/siginin_dto.dart';
 import 'package:wave_drive/core/data/models/auth/sign_in_response.dart';
 import 'package:wave_drive/core/data/models/auth/user_model.dart';
+import 'package:wave_drive/core/data/models/user/check_phone_number_exist.dart';
+import 'package:wave_drive/core/data/network/dio/payment_info_dto.dart';
 import 'package:wave_drive/core/data/network/dio/update_profile_dto.dart';
+import 'package:wave_drive/core/data/network/dio/update_vehicle_info_dto.dart';
 import 'package:wave_drive/core/data/network/dio/upload/upload_image_response.dart';
 
 // part 'api_service.g.dart';
