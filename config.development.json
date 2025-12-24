@@ -1,6 +1,7 @@
 {
     "FLAVOR": "development",
     "BASE_URL": "https://api.wave.as/driver",
+    "SOCKET_URL": "https://socket.wave.as",
   
     "BASE_URL_IOS": "https://api.rblive.app"
     

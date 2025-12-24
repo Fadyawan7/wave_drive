@@ -29,8 +29,8 @@ bool isUserCompletedOnlyInfo(UserModel? user) {
   try {
     return user.firstName.isNotNullOrEmpty &&
         user.lastName.isNotNullOrEmpty &&
-        user.nationalId.isNotNullOrEmpty &&
-        user.language.isNotNullOrEmpty &&
+        // user.nationalId.isNotNullOrEmpty &&
+        // user.language.isNotNullOrEmpty &&
 
          (user.driverDocument == null) &&
         (user.vehicle == null) &&
@@ -52,8 +52,8 @@ bool isUserCompletedVehicleInfo(UserModel? user) {
   try {
     return user.firstName.isNotNullOrEmpty &&
         user.lastName.isNotNullOrEmpty &&
-        user.nationalId.isNotNullOrEmpty &&
-        user.language.isNotNullOrEmpty &&
+        // user.nationalId.isNotNullOrEmpty &&
+        // user.language.isNotNullOrEmpty &&
        
         (user.vehicle != null) ;
       
@@ -74,8 +74,8 @@ bool isUserCompletedDocumentInfo(UserModel? user) {
   try {
     return user.firstName.isNotNullOrEmpty &&
         user.lastName.isNotNullOrEmpty &&
-        user.nationalId.isNotNullOrEmpty &&
-        user.language.isNotNullOrEmpty &&
+        // user.nationalId.isNotNullOrEmpty &&
+        // user.language.isNotNullOrEmpty &&
        
         (user.driverDocument != null) &&
         (user.vehicle != null) ;
@@ -86,23 +86,6 @@ bool isUserCompletedDocumentInfo(UserModel? user) {
 }
 
 
-bool isUserCompletedPaymentInfo(UserModel? user) {
-  if (user == null) {
-    return false;
-  }
-
-  try {
-    return user.firstName.isNotNullOrEmpty &&
-        user.lastName.isNotNullOrEmpty &&
-        user.nationalId.isNotNullOrEmpty &&
-        user.language.isNotNullOrEmpty &&
-       
-        (user.paymentDetail != null) ;
-      
-  } catch (_) {
-    return false;
-  }
-}
 
 
 

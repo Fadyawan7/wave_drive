@@ -2,11 +2,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wave_drive/core/cubits/socket/socket_cubit.dart';
 import 'package:wave_drive/core/shared/extensions/extensions.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 import 'package:wave_drive/core/shared/widgets/bottom_sheet/category_bottom_sheet.dart';
 import 'package:wave_drive/core/shared/widgets/bottom_sheet/driver_preference_bottom_sheet.dart';
 import 'package:wave_drive/core/shared/widgets/custom_drawer/custom_drawer.dart';
+import 'package:wave_drive/injector_setup.dart';
 import 'widgets/bottom_sheet_widget.dart';
 import 'widgets/online_status_toggle.dart';
 
@@ -19,6 +21,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   // final drawerService = DrawerServices();
+  final _socketCubit = injector<SocketCubit>();
 
   final Completer<GoogleMapController> _controller = Completer();
   static const CameraPosition _kCameraposition = CameraPosition(
@@ -52,11 +55,17 @@ class _HomeViewState extends State<HomeView> {
             top: 40,
             left: 16,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 _menuButton(),
                 const Gap(40),
-                OnlineStatusToggle(isOnline: true, onTap: () {}),
+                OnlineStatusToggle(
+                  isOnline: true,
+                  onTap: (status) {
+                    _socketCubit.emitEvent("changeStatus", {
+                      "isOnline": status,
+                    });
+                  },
+                ),
               ],
             ),
           ),
@@ -89,9 +98,10 @@ class _HomeViewState extends State<HomeView> {
                         DriverPreferenceBotonSheet.show(
                           context,
                           onTakePhoto: () {},
-                          onChoosePhoto: () {}, onChooseCategory: () { 
+                          onChoosePhoto: () {},
+                          onChooseCategory: () {
                             CategoryBotonSheet.show(context);
-                           },
+                          },
                         );
                       },
                     ),

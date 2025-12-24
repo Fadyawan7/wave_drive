@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:wave_drive/core/cubits/auth/auth_cubit.dart';
+import 'package:wave_drive/core/cubits/socket/socket_cubit.dart';
 import 'package:wave_drive/core/data/network/dio/dio_providers.dart';
 import 'package:wave_drive/core/services/location_service.dart';
 import 'package:wave_drive/core/shared/constants/enums.dart';
@@ -24,6 +26,7 @@ class AppCubit extends Cubit<AppState> {
 
   final _authCubit = injector<AuthCubit>();
   final _dioProvider = injector<DioProvider>();
+  final _socketCubit = injector<SocketCubit>();
 
   /// This function will call when entering the splash screen
   Future<void> initializeApp() async {
@@ -43,16 +46,20 @@ class AppCubit extends Cubit<AppState> {
 
   Future<void> initDioProvider() async {
     final version = await getAppVersion();
-    // final position = await getCurrentLocation();
 
     AppLogger.d("Current app version: $version");
     _dioProvider.setHeaderVersion(version);
-    // _dioProvider.setLatLngHeaders(position.latitude, position.longitude);
   }
 
   Future<void> startTracking() async {
     _stream = _locationService.getLocationStream().listen((position) async {
-      // _dioProvider.setLatLngHeaders(position.latitude, position.longitude);
+      
+      _dioProvider.setLatLngHeaders(position.latitude, position.longitude);
+
+      _socketCubit.emitEvent("changeLocation", {
+        "latitude":position.latitude,
+        "longitude":position.longitude
+      });
 
       AppLogger.d(
         "user location is ${position.latitude} ${position.longitude}",

@@ -122,7 +122,7 @@ class _EnterOTPStepState extends BaseScreen<EnterOTPStep> {
   }
 
   Future<void> _verifyOTP(String otp) async {
-        final userCubit = injector<UserCubit>();
+    final userCubit = injector<UserCubit>();
 
     loading(true);
 
@@ -134,19 +134,14 @@ class _EnterOTPStepState extends BaseScreen<EnterOTPStep> {
       return;
     }
 
-       if (context.mounted) {
-        isUserCompletedInfo(userCubit.currentUser) ||
-                (userCubit.currentUser?.method.isGoogle ?? false)
-            ? AppNavigator.replaceAll(context, const DashboardRoute())
-            : isCreatedName(userCubit.currentUser)
-            ? AppNavigator.replaceAll(context, const EmailInputRoute())
-            : AppNavigator.replaceAll(context, const NameInputRoute());
-      }
-   
-
-
     if (mounted) {
-      AppNavigator.replaceAll(context, const DashboardRoute());
+      isUserCompletedFullInfo(userCubit.currentUser)
+          ? AppNavigator.replaceAll(context, const DashboardRoute())
+          : isUserCompletedDocumentInfo(userCubit.currentUser)
+          ? AppNavigator.replaceAll(context, const PaymentDetailsRoute())
+          : isUserCompletedVehicleInfo(userCubit.currentUser)
+          ? AppNavigator.replaceAll(context, const LegalPriceRoute())
+          : AppNavigator.replaceAll(context, const PersonelInfoRoute());
     }
   }
 

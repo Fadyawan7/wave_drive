@@ -14,10 +14,10 @@ class AppConfig {
       const String.fromEnvironment('GOOGLE_AUTH_CLINT_ID');
 
   static String get baseUrl => const String.fromEnvironment('BASE_URL');
+  static String get socketIoUrl => const String.fromEnvironment('SOCKET_URL');
   static String get mexcUrl => const String.fromEnvironment('MEXC_API');
   static String get imageUrl => const String.fromEnvironment('IMAGE_URL');
-  static String get socketIoUrl =>
-      const String.fromEnvironment('SOCKET_IO_URL');
+
   static String get baseUrlIOS => const String.fromEnvironment('BASE_URL_IOS');
   static String get twitterApiKey =>
       const String.fromEnvironment('TWITTER_API_KEY');

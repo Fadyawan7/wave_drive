@@ -51,7 +51,7 @@ class RequestPermissionDialog {
               text: 'Cancel',
               fitText: false,
               onPressed: () => AppNavigator.pop(context),
-              color: AppColors.gray,
+             
               borderWidth: 1,
               textStyle: AppTextStyles.text16.copyWith(color: AppColors.gray),
             ),

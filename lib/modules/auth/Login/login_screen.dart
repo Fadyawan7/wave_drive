@@ -7,6 +7,7 @@ import 'package:gap/gap.dart';
 import 'package:styled_text/tags/styled_text_tag.dart';
 import 'package:styled_text/tags/styled_text_tag_action.dart';
 import 'package:styled_text/widgets/styled_text.dart';
+import 'package:wave_drive/core/cubits/user/user_cubit.dart';
 import 'package:wave_drive/core/routes/app_navigator.dart';
 import 'package:wave_drive/core/routes/app_router.gr.dart';
 import 'package:wave_drive/core/shared/extensions/alignment_extension.dart';
@@ -14,6 +15,7 @@ import 'package:wave_drive/core/shared/mixins/form_mixin.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 import 'package:wave_drive/core/shared/utils/app_logger.dart';
+import 'package:wave_drive/core/shared/utils/check_user_completed_info.dart';
 import 'package:wave_drive/core/shared/widgets/app_overlay.dart';
 import 'package:wave_drive/core/shared/widgets/appbar/main_app_bar.dart';
 import 'package:wave_drive/core/shared/widgets/base/base_screen.dart';
@@ -23,7 +25,9 @@ import 'package:wave_drive/core/shared/widgets/forms/form_builders/form_builder_
 import 'package:wave_drive/core/shared/widgets/forms/textfields/pin_text_field.dart';
 import 'package:wave_drive/core/shared/widgets/tab_bar/custom_selection_tab_bar.dart';
 import 'package:wave_drive/core/shared/widgets/timer_count_down.dart';
+import 'package:wave_drive/injector_setup.dart';
 import 'package:wave_drive/modules/auth/Login/cubit/signin_cubit.dart';
+import 'package:wave_drive/modules/auth/signup/document_confirmation_view.dart';
 
 part 'widgets/enter_otp_step.dart';
 part 'widgets/enter_email_number_step.dart';

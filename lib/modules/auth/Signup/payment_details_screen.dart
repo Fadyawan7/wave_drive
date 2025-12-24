@@ -147,18 +147,17 @@ class _PaymentDetailsViewState extends BaseScreen<PaymentDetailsScreen>
 
             const Gap(12),
 
-            _buildDocumentSection(
-              title: 'Bank statement',
-              description: 'Please provide a picture of your bank statement',
-              buttonText: 'Upload A File',
+            // _buildDocumentSection(
+            //   title: 'Bank statement',
+            //   description: 'Please provide a picture of your bank statement',
+            //   buttonText: 'Upload A File',
 
-              onPressed: () {},
-              onDelete: () {},
-              onFileChanged: (File p1) {},
-              name: '',
-            ),
-
-            const Gap(24),
+            //   onPressed: () {},
+            //   onDelete: () {},
+            //   onFileChanged: (File p1) {},
+            //   name: '',
+            // ),
+            const Gap(12),
 
             FormBuilderFillTextField(
               name: 'swift_no',

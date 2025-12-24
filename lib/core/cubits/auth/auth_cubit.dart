@@ -13,9 +13,9 @@ import 'package:wave_drive/core/services/firebase/authenticate/apple_auth_servic
 import 'package:wave_drive/core/services/firebase/authenticate/google_auth_service.dart';
 import 'package:wave_drive/core/services/firebase/consts.dart';
 import 'package:wave_drive/core/services/firebase/firebase_auth_service.dart';
+import 'package:wave_drive/core/services/socketIo/socket_service.dart';
 
 import 'package:wave_drive/core/shared/constants/enums.dart';
-import 'package:wave_drive/core/shared/extensions/extensions.dart';
 import 'package:wave_drive/core/shared/utils/app_logger.dart';
 import 'package:wave_drive/core/shared/utils/check_user_completed_info.dart';
 import 'package:wave_drive/injector_setup.dart';
@@ -33,6 +33,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   final _userRepository = injector<UserRepository>();
   final _userCubit = injector<UserCubit>();
+  final _socketService = injector<SocketService>();
 
   Future<void> socialFirebaseLogin(SocialType type) async {
     try {
@@ -133,6 +134,8 @@ class AuthCubit extends Cubit<AuthState> {
 
     _dioProvider.setHeaderToken(signInResponse.accessToken!);
 
+    _configSocketIo(signInResponse.accessToken!);
+
     final response = await _userRepository.getProfile();
     if (response is ApiSuccess) {
       final user = response.data!;
@@ -154,6 +157,8 @@ class AuthCubit extends Cubit<AuthState> {
     if (accessToken != null && accessToken.isNotEmpty) {
       _dioProvider.setHeaderToken(accessToken);
 
+      _configSocketIo(accessToken);
+
       final result = await _userRepository.getProfile();
       if (result is ApiError) {
         await _clearUserInStorage();
@@ -161,15 +166,14 @@ class AuthCubit extends Cubit<AuthState> {
       }
 
       final user = (result as ApiSuccess).data as UserModel;
-       final isCompletedProfile = isUserCompletedFullInfo(user);
+      final isCompletedProfile = isUserCompletedFullInfo(user);
 
-        if (isCompletedProfile) {
-      _userCubit.setCurrentUser(user);
-      emit(state.copyWith(isLoggedIn: true));
-
+      if (isCompletedProfile) {
+        _userCubit.setCurrentUser(user);
+        emit(state.copyWith(isLoggedIn: true));
       } else {
-         await _clearUserInStorage();
-       }
+        await _clearUserInStorage();
+      }
     }
   }
 
@@ -251,6 +255,7 @@ class AuthCubit extends Cubit<AuthState> {
     SecureStorageHelper.setOAuthToken(accessToken: signInResponse.accessToken!);
 
     _dioProvider.setHeaderToken(signInResponse.accessToken!);
+    _configSocketIo(signInResponse.accessToken!);
 
     final response = await _userRepository.getProfile();
     if (response is ApiSuccess) {
@@ -284,10 +289,15 @@ class AuthCubit extends Cubit<AuthState> {
   ) async {
     final response = await _authRepository.checkPhoneNumberExist(phone);
 
-    if (response is ApiSuccess && (response.data?.exist??false) ) {
-      return (isExist: true, errorText:null);
+    if (response is ApiSuccess && (response.data?.exist ?? false)) {
+      return (isExist: true, errorText: null);
     }
 
     return (isExist: false, errorText: "${response.error}");
+  }
+
+  void _configSocketIo(String accessToken) {
+    _socketService.setHeaderToken(accessToken);
+    _socketService.connect();
   }
 }

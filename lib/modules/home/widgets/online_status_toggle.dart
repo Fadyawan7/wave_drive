@@ -4,7 +4,7 @@ import 'package:wave_drive/core/shared/themes/app_colors.dart' show AppColors;
 
 class OnlineStatusToggle extends StatefulWidget {
   final bool isOnline;
-  final VoidCallback onTap;
+  final void Function(bool) onTap; // pass updated status
 
   const OnlineStatusToggle({
     super.key,
@@ -29,10 +29,10 @@ class _OnlineStatusToggleState extends State<OnlineStatusToggle> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        widget.onTap();
         setState(() {
-          _isOnline = !_isOnline;
+          _isOnline = !_isOnline; // toggle
         });
+        widget.onTap(_isOnline); // return updated value
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -52,9 +52,7 @@ class _OnlineStatusToggleState extends State<OnlineStatusToggle> {
                 shape: BoxShape.circle,
               ),
             ),
-
             const Gap(8),
-
             // Status text
             Text(
               _isOnline ? "Online" : "Offline",
@@ -64,9 +62,7 @@ class _OnlineStatusToggleState extends State<OnlineStatusToggle> {
                 fontSize: 16,
               ),
             ),
-
             const Gap(12),
-
             // Switch
             Container(
               width: 60,
