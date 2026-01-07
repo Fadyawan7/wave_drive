@@ -1,238 +1,202 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wave_drive/core/data/models/ride_request/ride_request_model.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
 import 'package:wave_drive/core/shared/widgets/rounded_button/rounded_button.dart';
-import 'package:wave_drive/modules/home/widgets/bottom_trevel_details_sheet.dart';
+import 'package:wave_drive/core/shared/widgets/timer_count_down.dart';
+import 'package:wave_drive/modules/main_wrapper.dart';
+import 'package:wave_drive/modules/ride/cubit/ride_cubit.dart';
 
 class UserRequestBottomsheet extends StatefulWidget {
-  const UserRequestBottomsheet({super.key});
+  final RideRequestModel ride;
+  const UserRequestBottomsheet({super.key, required this.ride});
 
   @override
   State<UserRequestBottomsheet> createState() => _UserRequestBottomsheetState();
 }
 
 class _UserRequestBottomsheetState extends State<UserRequestBottomsheet> {
+  final int totalSeconds = 200;
+
   @override
   Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-      initialChildSize: 0.5,
-      minChildSize: 0.3,
-      maxChildSize: 0.55,
-      builder: (context, scrollController) {
-        return ListView(
-          controller: scrollController,
-          children: [
-            _buildTimerSection(context),
+    final double screenWidth = MediaQuery.of(context).size.width;
 
-            Container(
-              color: Colors.white,
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        width: double.infinity,
+
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, -4))],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            //  _buildTimerSection(context),
+            // Background bar
+            Countdown(
+              seconds: totalSeconds,
+              build: (_, count) {
+                final double progressFraction = 1 - (count / totalSeconds); // grows left -> right
+                return Stack(
+                  alignment: Alignment.centerLeft,
+                  children: [
+                    // Background bar
+                    Container(
+                      height: 63,
+                      width: screenWidth,
+                      decoration: BoxDecoration(
+                        color: const Color(0xffAED6FF).withOpacity(0.29), // background color
+                        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                      ),
+                    ),
+
+                    // Dynamic progress bar
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        height: 63,
+                        width: screenWidth * progressFraction,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF002D72),
+                          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                        ),
+                      ),
+                    ),
+
+                    // Countdown text aligned left with padding
+                    Padding(
+                      padding: const EdgeInsets.only(left: 24),
+                      child: Text(
+                        'Accept in ${count.toStringAsFixed(0)}',
+                        style: AppTextStyles.text16.copyWith(fontWeight: FontWeight.w400, color: Colors.white),
+                      ),
+                    ),
+                  ],
+                );
+              },
+              onFinished: () {
+                context.read<RideCubit>().clearRide();
+                // Timer finished action
+                Navigator.pop(context);
+              },
+            ),
+
+            Padding(
               padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [_buildTripInfo(), _buildLocationDetails()],
-              ),
+              child: Column(children: [_buildTripInfo(), _buildLocationDetails(context)]),
             ),
           ],
-        );
-      },
-    );
-  }
-
-  // ---------------------------------------------------------
-  Widget _buildTimerSection(BuildContext context) {
-    return Material(
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Container(
-            height: 63,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              color: Color(0xFFDBE6F4),
-              // borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-            ),
-          ),
-
-          // STATIC PROGRESS BAR (50%)
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              height: 63,
-              width: MediaQuery.of(context).size.width * 0.5,
-              decoration: const BoxDecoration(
-                color: Color(0xFF002D72),
-                // borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-              ),
-            ),
-          ),
-
-          // TEXT
-          Text(
-            "Accept in 00:10",
-            style: AppTextStyles.text10.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
 
   // ---------------------------------------------------------
   Widget _buildTripInfo() {
-    return Material(
-      color: AppColors.white,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildInfoText('13 min'),
-          SizedBox(
-            height: 25,
-            child: Center(
-              child: Container(width: 1, color: AppColors.strockcolor),
-            ),
-          ),
-          _buildInfoText('9.0 km'),
-          SizedBox(
-            height: 25,
-            child: Center(
-              child: Container(width: 1, color: AppColors.strockcolor),
-            ),
-          ),
-          _buildInfoText('83 kr'),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        _buildInfoText('${widget.ride.distance} min'),
+        _divider(),
+        _buildInfoText('${widget.ride.distance} km'),
+        _divider(),
+        _buildInfoText('${widget.ride.fare} kr'),
+      ],
     );
   }
 
   Widget _buildInfoText(String title) {
-    return Material(
-      color: AppColors.white,
-      child: Text(
-        title,
-        style: AppTextStyles.text10.copyWith(
-          color: AppColors.primarycolor,
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
+    return Text(
+      title,
+      style: AppTextStyles.text10.copyWith(color: AppColors.primarycolor, fontSize: 20, fontWeight: FontWeight.w600),
     );
   }
 
+  Widget _divider() {
+    return const SizedBox(height: 25, child: VerticalDivider(color: AppColors.strockcolor, thickness: 1));
+  }
+
   // ---------------------------------------------------------
-  Widget _buildLocationDetails() {
-    return Material(
-      color: AppColors.white,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 10),
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
+  Widget _buildLocationDetails(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Column(
+                children: [
+                  const Icon(Icons.trip_origin, color: AppColors.primarycolor, size: 18),
+                  Container(width: 1, height: 50, color: AppColors.strockcolor),
+                  const Icon(Icons.location_on, color: AppColors.primarycolor, size: 22),
+                ],
+              ),
+              const Gap(12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(
-                      Icons.trip_origin,
-                      color: AppColors.primarycolor,
-                      size: 18,
-                    ),
-                    Container(
-                      width: 1,
-                      height: 50,
-                      color: AppColors.strockcolor,
-                    ),
-                    Icon(
-                      Icons.location_on,
-                      color: AppColors.primarycolor,
-                      size: 22,
-                    ),
+                    Text("Pickup point", style: AppTextStyles.text10),
+                    Text(widget.ride.pickLocation.address??"", style: GoogleFonts.poppins(fontSize: 14)),
+                    const Divider(),
+                    Text("Dropout point", style: AppTextStyles.text10),
+                    Text(widget.ride.dropLocation.address??"", style: GoogleFonts.poppins(fontSize: 14)),
                   ],
                 ),
-                const Gap(12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Pickup point",
-                        style: AppTextStyles.text10,
-                      ),
-                      Text(
-                        "Osterhau's Gate 21E, Oslo, 0183",
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          color: AppColors.blackcolor,
-                        ),
-                      ),
-                      const Gap(4),
-                      const Divider(color: AppColors.strockcolor, thickness: 1),
-                      const Gap(4),
-                      Text(
-                        "Dropout point",
-                        style: AppTextStyles.text10,
-                      ),
-                      Text(
-                        "Byggmästaregatan 13, Malmö 211 30",
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          color: AppColors.blackcolor,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
+          ),
 
-            const Gap(16),
+          const Gap(16),
+          _buildRatingInfo(),
+          const Gap(20),
 
-            // Rating Section
-            _buildRatingInfo(),
-            const Gap(20),
-
-            // Accept Button (STATIC)
-            RoundedButton(
-              title: 'Accept',
-              onpress: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => TravelDetailsBottomSheet(),
-                  ),
-                );
-              },
-              buttonColor: AppColors.primarycolor,
-            ),
-          ],
-        ),
+          RoundedButton(title: 'Accept', onpress: () {
+            context.read<RideCubit>().onAcceptRide();
+          }, buttonColor: AppColors.primarycolor),
+        ],
       ),
     );
   }
 
   Widget _buildRatingInfo() {
-    return Material(
-      color: AppColors.white,
-      child: Row(
-        children: [
-          Text(
-            "Wave - 5.0",
-            style: AppTextStyles.text10.copyWith(
-              color: AppColors.primarycolor,
-              fontWeight: FontWeight.w300,
-            ),
-          ),
-          const Gap(4),
-          const Icon(Icons.star, size: 16, color: Colors.orange),
-          const Gap(4),
-          const Text(
-            "(3 Reviews)",
-            style: TextStyle(color: Colors.grey, fontSize: 14),
-          ),
-        ],
-      ),
+    return Row(
+      children: [
+        Text(
+          "Wave - 5.0",
+          style: AppTextStyles.text10.copyWith(color: AppColors.primarycolor, fontWeight: FontWeight.w300),
+        ),
+        const Gap(4),
+        const Icon(Icons.star, size: 16, color: Colors.orange),
+        const Gap(4),
+        const Text("(3 Reviews)", style: TextStyle(color: Colors.grey)),
+      ],
     );
   }
+
+
+
+Future<String> getAddress(LatLng latLng) async {
+  final List<Placemark> placemarks =
+      await placemarkFromCoordinates(
+        latLng.latitude,
+        latLng.longitude,
+      );
+
+  final place = placemarks.first;
+
+  return '${place.street}, ${place.locality}, ${place.country}';
+}
+
+
+
 }

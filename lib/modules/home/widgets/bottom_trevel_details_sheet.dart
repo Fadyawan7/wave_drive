@@ -1,14 +1,45 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // packages
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wave_drive/core/routes/routes.dart';
+
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
+import 'package:wave_drive/core/shared/themes/app_icons.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
+import 'package:wave_drive/core/shared/widgets/bottom_sheet/default_bottom_sheet.dart';
+import 'package:wave_drive/core/shared/widgets/dialogs/confirm_dialog.dart';
+import 'package:wave_drive/core/shared/widgets/images/app_image.dart';
 import 'package:wave_drive/core/shared/widgets/rounded_button/rounded_icon_button.dart';
 import 'package:wave_drive/modules/home/widgets/cancel_reason_bottom_sheet.dart';
+import 'package:wave_drive/modules/ride/cubit/ride_cubit.dart';
 
-class TravelDetailsBottomSheet extends StatelessWidget {
-  TravelDetailsBottomSheet({super.key});
+class TravelDetailsBottonSheet {
+  static Future<T?> show<T>(
+    BuildContext context, {
+    bool barrierDismissible = true,
+
+    required String pickAddress,
+    required String dropAddress,
+  }) {
+    return DefaultBottomSheet.show<T>(
+      boarder: 12,
+      context,
+      barrierDismissible: barrierDismissible,
+      showDivider: false,
+
+      child: TravelDetails(pickAddress: pickAddress, dropAddress: dropAddress),
+    );
+  }
+}
+
+class TravelDetails extends StatelessWidget {
+  final String pickAddress;
+  final String dropAddress;
+
+  const TravelDetails({super.key, required this.pickAddress, required this.dropAddress});
 
   // final UserRequestController controller = Get.find();
   @override
@@ -32,7 +63,7 @@ class TravelDetailsBottomSheet extends StatelessWidget {
 
           // Cancel Order
           _buildCancelOption(context),
-          Divider(thickness: 1, color: AppColors.strockcolor),
+          const Divider(thickness: 1, color: AppColors.strockcolor),
 
           // Action options
           _buildActionOptions(),
@@ -41,7 +72,6 @@ class TravelDetailsBottomSheet extends StatelessWidget {
           // Stop New Requests Button
           RoundedIconButton(
             title: "Stop new requests",
-            textColor: AppColors.whitecolor,
             onpress: () {
               // Get.toNamed('start_ride_view');
             },
@@ -52,25 +82,18 @@ class TravelDetailsBottomSheet extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return Material(
-      color: AppColors.white,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            "Travel details",
-            style: AppTextStyles.text10.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text("Travel details", style: AppTextStyles.text20.copyWith(fontWeight: FontWeight.w600)),
+        GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const AppImage(path: AppIcons.cross, color: AppColors.black),
+        ),
+        //  IconButton(icon: const Icon(Icons.close), onPressed: () {}),
+      ],
     );
   }
 
@@ -78,17 +101,12 @@ class TravelDetailsBottomSheet extends StatelessWidget {
     return Material(
       color: AppColors.white,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Column(
             children: [
-              Icon(Icons.trip_origin, color: AppColors.graycolor, size: 20),
+              const Icon(Icons.trip_origin, color: AppColors.graycolor, size: 20),
               Container(height: 40, width: 1, color: AppColors.strockcolor),
-              const Icon(
-                Icons.location_on,
-                color: AppColors.primarycolor,
-                size: 22,
-              ),
+              const Icon(Icons.location_on, color: AppColors.primarycolor, size: 22),
             ],
           ),
           const Gap(12),
@@ -97,24 +115,12 @@ class TravelDetailsBottomSheet extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Pickup point", style: AppTextStyles.text10),
-                Text(
-                  "Osterhau's Gate 21E, Oslo, 0183",
-                  style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    color: AppColors.blackcolor,
-                  ),
-                ),
+                Text(pickAddress, style: GoogleFonts.poppins(fontSize: 14, color: AppColors.blackcolor)),
                 const Gap(4),
-                Divider(thickness: 1, color: AppColors.strockcolor),
+                const Divider(thickness: 1, color: AppColors.strockcolor),
                 const Gap(4),
                 Text("Dropoff point", style: AppTextStyles.text10),
-                Text(
-                  "Byggmästaregatan 13, Malmö 211 30",
-                  style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    color: AppColors.blackcolor,
-                  ),
-                ),
+                Text(dropAddress, style: GoogleFonts.poppins(fontSize: 14, color: AppColors.blackcolor)),
               ],
             ),
           ),
@@ -131,16 +137,24 @@ class TravelDetailsBottomSheet extends StatelessWidget {
         leading: const Icon(Icons.close, color: Colors.red),
         title: Text(
           "Cancel Order",
-          style: GoogleFonts.poppins(
-            fontSize: 16,
-            color: Colors.red,
-            fontWeight: FontWeight.w500,
-          ),
+          style: GoogleFonts.poppins(fontSize: 16, color: Colors.red, fontWeight: FontWeight.w500),
         ),
         onTap: () {
-          Navigator.push(
+          Navigator.pop(context);
+          CancelReasonBottomSheet.show(
             context,
-            MaterialPageRoute(builder: (context) => CancelReasonBottomSheet()),
+            onCancal: () {
+              ConfirmDialog.show(
+                onConfirm: (){
+                 context.read<RideCubit>().onCancleRide();
+                },
+                title: 'Cancel the trip?',
+                isVerticalActions: true,
+
+                description:
+                    "Cancellation of the trip may affect your driver points. Are you sure you want to cancel? ",
+              );
+            },
           );
         },
       ),
@@ -157,11 +171,7 @@ class TravelDetailsBottomSheet extends StatelessWidget {
             leading: const Icon(Icons.person),
             title: Text(
               "Contact Sven",
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                letterSpacing: 0,
-              ),
+              style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0),
             ),
             onTap: () {
               // Get.toNamed('chat_view');
@@ -173,11 +183,7 @@ class TravelDetailsBottomSheet extends StatelessWidget {
             leading: const Icon(Icons.navigation),
             title: Text(
               "Google Maps",
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                letterSpacing: 0,
-              ),
+              style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0),
             ),
 
             onTap: () {},
@@ -188,11 +194,7 @@ class TravelDetailsBottomSheet extends StatelessWidget {
             leading: const Icon(Icons.camera_alt),
             title: Text(
               "Way bill",
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                letterSpacing: 0,
-              ),
+              style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0),
             ),
             onTap: () {
               // Get.toNamed('travel_log_detail_view');

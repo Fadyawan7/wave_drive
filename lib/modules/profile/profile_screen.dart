@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
@@ -12,6 +13,10 @@ import 'package:wave_drive/modules/profile/widgets/security_screen.dart';
 import 'package:wave_drive/modules/profile/widgets/app_setting_screen.dart';
 import 'package:wave_drive/modules/profile/widgets/about_screen.dart';
 
+
+
+
+@RoutePage()
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 

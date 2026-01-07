@@ -30,10 +30,7 @@ class BottomSheetWidget extends StatelessWidget {
                   width: 50,
                   height: 5,
 
-                  decoration: BoxDecoration(
-                    color: AppColors.grayD9,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
+                  decoration: BoxDecoration(color: AppColors.grayD9, borderRadius: BorderRadius.circular(5)),
                 ),
               ),
               Gap(16),
@@ -52,12 +49,7 @@ class BottomSheetWidget extends StatelessWidget {
                 title: "Acceptance Rate",
                 value: "99%",
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AcceptanceRateView(),
-                    ),
-                  );
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AcceptanceRateView()));
                 },
               ),
             ],
@@ -72,11 +64,7 @@ class BottomSheetWidget extends StatelessWidget {
       spacing: 8,
       children: [
         Expanded(
-          child: _infoCard(
-            title: "Today's earnings",
-            value: "0.00 Kr",
-            onTap: () {},
-          ),
+          child: _infoCard(title: "Today's earnings", value: "0.00 Kr", onTap: () {}),
         ),
 
         Expanded(
@@ -84,10 +72,7 @@ class BottomSheetWidget extends StatelessWidget {
             title: "Driver Score",
             value: "98%",
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => DriverScoreView()),
-              );
+              Navigator.push(context, MaterialPageRoute(builder: (context) => DriverScoreView()));
             },
           ),
         ),
@@ -96,12 +81,7 @@ class BottomSheetWidget extends StatelessWidget {
   }
 
   // Helper Card
-  Widget _infoCard({
-    required String title,
-    required String value,
-
-    required VoidCallback onTap,
-  }) {
+  Widget _infoCard({required String title, required String value, required VoidCallback onTap}) {
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -109,10 +89,7 @@ class BottomSheetWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(2),
-          border: Border.all(
-            color: AppColors.white4A.withValues(alpha: .3),
-            width: 1,
-          ),
+          border: Border.all(color: AppColors.white4A.withValues(alpha: .3), width: 1),
           boxShadow: [
             BoxShadow(
               color: AppColors.gray9E.withOpacity(0.25),
@@ -136,10 +113,7 @@ class BottomSheetWidget extends StatelessWidget {
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.text12.copyWith(
-                      fontWeight: FontWeight.w300,
-                      color: AppColors.black33,
-                    ),
+                    style: AppTextStyles.text12.copyWith(fontWeight: FontWeight.w300, color: AppColors.black33),
                   ),
                 ),
                 const Gap(8),
@@ -147,10 +121,7 @@ class BottomSheetWidget extends StatelessWidget {
               ],
             ),
             Gap(8),
-            Text(
-              value,
-              style: AppTextStyles.text16.copyWith(color: AppColors.primary),
-            ),
+            Text(value, style: AppTextStyles.text16.copyWith(color: AppColors.primary)),
           ],
         ),
       ),
@@ -165,22 +136,14 @@ class _BuildOfferRideCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const UserRequestBottomsheet(),
-          ),
-        );
+       // Navigator.push(context, MaterialPageRoute(builder: (context) => const UserRequestBottomsheet()));
       },
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(2),
-          border: Border.all(
-            color: AppColors.white4A.withValues(alpha: .3),
-            width: 1,
-          ),
+          border: Border.all(color: AppColors.white4A.withValues(alpha: .3), width: 1),
           boxShadow: [
             BoxShadow(
               color: AppColors.gray9E.withOpacity(0.25),
@@ -192,38 +155,23 @@ class _BuildOfferRideCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            AppImage(
-              path: AppIcons.percentageIc,
-              size: 28,
-              fit: BoxFit.contain,
-            ),
+            AppImage(path: AppIcons.percentageIc, size: 28, fit: BoxFit.contain),
 
             const Gap(12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Get 50kr for 5 rides",
-                    style: AppTextStyles.text16.copyWith(
-                      color: AppColors.primary,
-                    ),
-                  ),
+                  Text("Get 50kr for 5 rides", style: AppTextStyles.text16.copyWith(color: AppColors.primary)),
                   Gap(4),
                   Text(
                     "Start riding today!",
-                    style: AppTextStyles.text14.copyWith(
-                      fontWeight: FontWeight.w300,
-                      color: AppColors.black33,
-                    ),
+                    style: AppTextStyles.text14.copyWith(fontWeight: FontWeight.w300, color: AppColors.black33),
                   ),
                 ],
               ),
             ),
-            Text(
-              "1/5",
-              style: AppTextStyles.text16.copyWith(color: AppColors.primary),
-            ),
+            Text("1/5", style: AppTextStyles.text16.copyWith(color: AppColors.primary)),
           ],
         ),
       ),

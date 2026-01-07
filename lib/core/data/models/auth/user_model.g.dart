@@ -36,6 +36,16 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
 
 UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
   email: json['email'] as String?,
+  driverStatus:
+      $enumDecodeNullable(_$DriverStatusEnumMap, json['driverStatus']) ??
+      DriverStatus.offline,
+  vehicleCategory: $enumDecodeNullable(
+    _$VehicleCategoryEnumMap,
+    json['vehicleCategory'],
+  ),
+  driverStates: json['driverStates'] == null
+      ? null
+      : DriverStates.fromJson(json['driverStates'] as Map<String, dynamic>),
   nationalId: json['nationalId'] as String?,
   language: json['language'] as String?,
   paymentDetail: json['paymentDetail'] == null
@@ -75,6 +85,8 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
   'id': instance.id,
+  'driverStatus': _$DriverStatusEnumMap[instance.driverStatus]!,
+  'vehicleCategory': _$VehicleCategoryEnumMap[instance.vehicleCategory],
   'uid': instance.uid,
   'firstName': instance.firstName,
   'lastName': instance.lastName,
@@ -94,10 +106,25 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
   'vehicle': instance.vehicle,
   'driverDocument': instance.driverDocument,
   'paymentDetail': instance.paymentDetail,
+  'driverStates': instance.driverStates,
   'emailVerifiedAt': instance.emailVerifiedAt?.toIso8601String(),
   'lastLoginAt': instance.lastLoginAt?.toIso8601String(),
   'referralCode': instance.referralCode,
   'deviceId': instance.deviceId,
+};
+
+const _$DriverStatusEnumMap = {
+  DriverStatus.available: 'available',
+  DriverStatus.busy: 'busy',
+  DriverStatus.offline: 'offline',
+};
+
+const _$VehicleCategoryEnumMap = {
+  VehicleCategory.wave: 'wave',
+  VehicleCategory.comfort: 'comfort',
+  VehicleCategory.premium: 'premium',
+  VehicleCategory.electric: 'electric',
+  VehicleCategory.xL: 'xL',
 };
 
 const _$LoginMethodEnumMap = {
@@ -246,3 +273,16 @@ TaxIdentificationNumber _$TaxIdentificationNumberFromJson(
 Map<String, dynamic> _$TaxIdentificationNumberToJson(
   TaxIdentificationNumber instance,
 ) => <String, dynamic>{'number': instance.number, 'country': instance.country};
+
+DriverStates _$DriverStatesFromJson(Map<String, dynamic> json) => DriverStates(
+  score: json['score'] as String?,
+  acceptanceRate: json['acceptanceRate'] as String?,
+  bonus: (json['bonus'] as num?)?.toDouble(),
+);
+
+Map<String, dynamic> _$DriverStatesToJson(DriverStates instance) =>
+    <String, dynamic>{
+      'score': instance.score,
+      'acceptanceRate': instance.acceptanceRate,
+      'bonus': instance.bonus,
+    };

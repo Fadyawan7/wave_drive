@@ -21,6 +21,8 @@ class AppRouter extends RootStackRouter {
     _slide(page: PaymentDetailsRoute.page, path: '/payment-details'),
     _slide(page: RegisterDocRoute.page, path: '/register-doc'),
     _slide(page: SignupSuccessRoute.page, path: '/signup-success'),
+    _slide(page: ProfileRoute.page, path: '/profile'),
+    _slide(page: EarningRoute.page, path: '/earning'),
     _fade(page: DashboardRoute.page, path: '/dashboard'),
   ];
    CustomRoute _fade({required PageInfo page, required String path}) => CustomRoute(

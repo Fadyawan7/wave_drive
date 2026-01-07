@@ -7,12 +7,10 @@ class DriverPreferencesBottomSheet extends StatefulWidget {
   const DriverPreferencesBottomSheet({super.key});
 
   @override
-  State<DriverPreferencesBottomSheet> createState() =>
-      _DriverPreferencesBottomSheetState();
+  State<DriverPreferencesBottomSheet> createState() => _DriverPreferencesBottomSheetState();
 }
 
-class _DriverPreferencesBottomSheetState
-    extends State<DriverPreferencesBottomSheet> {
+class _DriverPreferencesBottomSheetState extends State<DriverPreferencesBottomSheet> {
   bool autoAccept = false; // UI-only toggle state
 
   @override
@@ -32,12 +30,12 @@ class _DriverPreferencesBottomSheetState
           children: [
             Text('Driver preference', style: AppTextStyles.text10),
             const Gap(8),
-            Text('Select reason for cancellation', style: AppTextStyles.text10),
-            const Gap(20),
-            _preferenceTile(
-              'Vehicle',
-              'OJB-451 Toyota Prius Plus 2016',
+            Text(
+              'Select reason for cancellation',
+              style: AppTextStyles.text14.copyWith(fontWeight: FontWeight.w300, color: AppColors.black33),
             ),
+            const Gap(20),
+            _preferenceTile('Vehicle', 'OJB-451 Toyota Prius Plus 2016'),
             _preferenceTile(
               'Categories',
               'Wave',
@@ -46,10 +44,7 @@ class _DriverPreferencesBottomSheetState
                 // Placeholder for navigation
               },
             ),
-            _preferenceTile(
-              'Distance to pickup',
-              'Travel outside this distance will NOT reduce your acceptance rate.',
-            ),
+            _preferenceTile('Distance to pickup', 'Travel outside this distance will NOT reduce your acceptance rate.'),
             const Gap(16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,12 +59,7 @@ class _DriverPreferencesBottomSheetState
     );
   }
 
-  Widget _preferenceTile(
-    String title,
-    String subtitle, {
-    IconData? icon,
-    Function()? onTap,
-  }) {
+  Widget _preferenceTile(String title, String subtitle, {IconData? icon, Function()? onTap}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
@@ -88,8 +78,7 @@ class _DriverPreferencesBottomSheetState
                     ],
                   ),
                 ),
-                if (icon != null)
-                  Icon(icon, size: 16, color: AppColors.graycolor),
+                if (icon != null) Icon(icon, size: 16, color: AppColors.graycolor),
               ],
             ),
           ),
@@ -114,12 +103,7 @@ class _DriverPreferencesBottomSheetState
         decoration: BoxDecoration(
           color: autoAccept ? AppColors.primarycolor : AppColors.whitecolor,
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 4,
-            )
-          ],
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 4)],
         ),
         alignment: autoAccept ? Alignment.centerRight : Alignment.centerLeft,
         child: Container(

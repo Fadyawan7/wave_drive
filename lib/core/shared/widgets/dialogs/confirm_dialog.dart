@@ -3,6 +3,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:wave_drive/core/shared/themes/themes.dart';
 import 'package:wave_drive/core/shared/widgets/border/gradient_box_border.dart';
 import 'package:wave_drive/core/shared/widgets/buttons/primary_button.dart';
+import 'package:wave_drive/core/shared/widgets/buttons/primary_outlined_button.dart';
 import 'package:wave_drive/core/shared/widgets/buttons/secondary_button.dart';
 import 'package:wave_drive/core/shared/widgets/gap.dart';
 import 'package:wave_drive/core/shared/widgets/texts/app_styled_text.dart';
@@ -28,24 +29,12 @@ class ConfirmDialog {
       builder: (context) => Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 24),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        decoration: BoxDecoration(
-          border: GradientBoxBorder(
-            width: 3,
-            gradient: AppColors.gradientbutton,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16)),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              title,
-              textAlign: titleTextAlign,
-              style: titleTextStyle ?? AppTextStyles.textMed20,
-            ),
+            Text(title, textAlign: titleTextAlign, style: titleTextStyle ?? AppTextStyles.textMed20),
             if (description != null) ...[
               const Gap(8),
               AppStyledText(
@@ -68,11 +57,10 @@ class ConfirmDialog {
                   ),
                   if (hasCancelButton) ...[
                     const Gap(12),
-                    SecondaryButton(
-                      color: AppColors.transparent,
+                    PrimaryOutlinedButton(
                       text: cancelText,
                       height: 45,
-                      fitText: false,
+
                       onPressed: () {
                         onCancel?.call();
                         SmartDialog.dismiss();
@@ -154,11 +142,7 @@ class ConfirmLiveDialog {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              title,
-              textAlign: titleTextAlign,
-              style: titleTextStyle ?? AppTextStyles.textMed20,
-            ),
+            Text(title, textAlign: titleTextAlign, style: titleTextStyle ?? AppTextStyles.textMed20),
             if (description != null) ...[
               const Gap(8),
               AppStyledText(

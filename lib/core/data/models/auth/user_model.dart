@@ -10,8 +10,7 @@ class SignupResponse {
 
   SignupResponse({required this.status, required this.message, this.data});
 
-  factory SignupResponse.fromJson(Map<String, dynamic> json) =>
-      _$SignupResponseFromJson(json);
+  factory SignupResponse.fromJson(Map<String, dynamic> json) => _$SignupResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$SignupResponseToJson(this);
 }
@@ -29,8 +28,10 @@ class Data {
 }
 
 @JsonSerializable()
-class UserModel {
+class UserModel  {
   final String id;
+  final DriverStatus driverStatus;
+  final VehicleCategory? vehicleCategory;
   final String uid;
   final String? firstName;
   final String? lastName;
@@ -50,6 +51,7 @@ class UserModel {
   final Vehicle? vehicle;
   final DriverDocument? driverDocument;
   final PaymentDetail? paymentDetail;
+  final DriverStates? driverStates;
 
   ///
   final DateTime? emailVerifiedAt;
@@ -59,6 +61,9 @@ class UserModel {
 
   UserModel({
     this.email,
+    this.driverStatus = DriverStatus.offline,
+    this.vehicleCategory,
+    this.driverStates,
     this.nationalId,
     this.language,
     this.paymentDetail,
@@ -84,11 +89,76 @@ class UserModel {
     this.deviceId,
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) =>
-      _$UserModelFromJson(json);
+
+  UserModel copyWith({
+    String? id,
+    DriverStatus? driverStatus,
+    VehicleCategory? vehicleCategory,
+    String? uid,
+    String? firstName,
+    String? lastName,
+    String? nationalId,
+    String? name,
+    String? email,
+    String? mobile,
+    String? language,
+    String? image,
+    String? type,
+    String? city,
+    String? country,
+    String? latitude,
+    String? longitude,
+    LoginMethod? method,
+    Driver? driver,
+    Vehicle? vehicle,
+    DriverDocument? driverDocument,
+    PaymentDetail? paymentDetail,
+    DriverStates? driverStates,
+    DateTime? emailVerifiedAt,
+    DateTime? lastLoginAt,
+    String? referralCode,
+    int? deviceId,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      driverStatus: driverStatus ?? this.driverStatus,
+      vehicleCategory: vehicleCategory ?? this.vehicleCategory,
+      uid: uid ?? this.uid,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      nationalId: nationalId ?? this.nationalId,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      mobile: mobile ?? this.mobile,
+      language: language ?? this.language,
+      image: image ?? this.image,
+      type: type ?? this.type,
+      city: city ?? this.city,
+      country: country ?? this.country,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      method: method ?? this.method,
+      driver: driver ?? this.driver,
+      vehicle: vehicle ?? this.vehicle,
+      driverDocument: driverDocument ?? this.driverDocument,
+      paymentDetail: paymentDetail ?? this.paymentDetail,
+      driverStates: driverStates ?? this.driverStates,
+      emailVerifiedAt: emailVerifiedAt ?? this.emailVerifiedAt,
+      lastLoginAt: lastLoginAt ?? this.lastLoginAt,
+      referralCode: referralCode ?? this.referralCode,
+      deviceId: deviceId ?? this.deviceId,
+    );
+  }
+  
+
+  factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 }
+
+
+
+
 
 @JsonSerializable()
 class Driver {
@@ -98,13 +168,7 @@ class Driver {
   final String? language;
   final String? referralCode;
 
-  Driver({
-    this.id,
-    this.userId,
-    this.nationalId,
-    this.language,
-    this.referralCode,
-  });
+  Driver({this.id, this.userId, this.nationalId, this.language, this.referralCode});
 
   factory Driver.fromJson(Map<String, dynamic> json) => _$DriverFromJson(json);
 
@@ -135,8 +199,7 @@ class Vehicle {
     this.vehicleColor,
   });
 
-  factory Vehicle.fromJson(Map<String, dynamic> json) =>
-      _$VehicleFromJson(json);
+  factory Vehicle.fromJson(Map<String, dynamic> json) => _$VehicleFromJson(json);
 
   Map<String, dynamic> toJson() => _$VehicleToJson(this);
 }
@@ -175,8 +238,7 @@ class DriverDocument {
     this.updatedAt,
   });
 
-  factory DriverDocument.fromJson(Map<String, dynamic> json) =>
-      _$DriverDocumentFromJson(json);
+  factory DriverDocument.fromJson(Map<String, dynamic> json) => _$DriverDocumentFromJson(json);
 
   Map<String, dynamic> toJson() => _$DriverDocumentToJson(this);
 }
@@ -217,8 +279,7 @@ class PaymentDetail {
     this.updatedAt,
   });
 
-  factory PaymentDetail.fromJson(Map<String, dynamic> json) =>
-      _$PaymentDetailFromJson(json);
+  factory PaymentDetail.fromJson(Map<String, dynamic> json) => _$PaymentDetailFromJson(json);
 
   Map<String, dynamic> toJson() => _$PaymentDetailToJson(this);
 }
@@ -230,8 +291,20 @@ class TaxIdentificationNumber {
 
   TaxIdentificationNumber({this.number, this.country});
 
-  factory TaxIdentificationNumber.fromJson(Map<String, dynamic> json) =>
-      _$TaxIdentificationNumberFromJson(json);
+  factory TaxIdentificationNumber.fromJson(Map<String, dynamic> json) => _$TaxIdentificationNumberFromJson(json);
 
   Map<String, dynamic> toJson() => _$TaxIdentificationNumberToJson(this);
+}
+
+@JsonSerializable()
+class DriverStates {
+  final String? score;
+  final String? acceptanceRate;
+  final double? bonus;
+
+  DriverStates({this.score, this.acceptanceRate,this.bonus});
+
+  factory DriverStates.fromJson(Map<String, dynamic> json) => _$DriverStatesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DriverStatesToJson(this);
 }

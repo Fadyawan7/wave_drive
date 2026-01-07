@@ -173,6 +173,20 @@ enum WeeklyPeriod {
   final String value;
 }
 
+
+enum DayPeriod {
+  today(text: "Today", value: "today"),
+  weekly(text: "Weekly", value: "weekly"),
+  monthly(text: "Monthly", value: "monthly");
+
+  const DayPeriod({required this.text, required this.value});
+
+  final String text;
+  final String value;
+}
+
+
+
 enum MonthlyPeriod {
   thisMonth(text: "This Month", value: "current-month"),
   lastMonth(text: "Last Month", value: "last-month"),
@@ -259,6 +273,47 @@ enum CardType {
   americanexpress(value: "American Express");
 
   const CardType({
+    required this.value,
+  });
+
+  final String value;
+}
+
+
+
+
+
+// driver status
+
+enum VehicleCategory {
+  wave(value: "wave",text: "Wave"),
+  comfort(value: "Comfort",text: "Comfort"),
+  premium(value: "Premium",text: "Premium"),
+  electric(value: "Electric",text: "Electric"),
+  xL(value: "XL",text: "XL");
+
+
+
+  const VehicleCategory({
+    required this.value,
+    required this.text,
+  });
+
+  final String value;
+    final String text;
+
+}
+
+
+ // categories 
+
+enum DriverStatus {
+  available(value: "available"),
+  busy(value: "busy"),
+  offline(value: "offline");
+
+
+  const DriverStatus({
     required this.value,
   });
 

@@ -17,6 +17,8 @@ import 'package:wave_drive/core/shared/themes/theme_data.dart';
 import 'package:wave_drive/core/shared/utils/app_logger.dart';
 import 'package:wave_drive/injector_setup.dart';
 import 'package:wave_drive/modules/dashboad/cubit/dashboard_cubit.dart';
+import 'package:wave_drive/modules/home/cubit/home_cubit.dart';
+import 'package:wave_drive/modules/ride/cubit/ride_cubit.dart';
 
 final botToastBuilder = BotToastInit();
 
@@ -39,6 +41,8 @@ class App extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => injector<AppCubit>()),
         BlocProvider(create: (context) => injector<DashboardCubit>()),
+        BlocProvider(create: (context) => injector<HomeCubit>()),
+        BlocProvider(create: (context) => injector<RideCubit>()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(393, 858),
@@ -49,10 +53,7 @@ class App extends StatelessWidget {
             theme: Themes.lightTheme,
             themeMode: ThemeMode.light,
             routerConfig: injector<AppRouter>().config(
-              navigatorObservers: () => [
-                RouterObserver(),
-                BotToastNavigatorObserver(),
-              ],
+              navigatorObservers: () => [RouterObserver(), BotToastNavigatorObserver()],
             ),
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
@@ -65,15 +66,10 @@ class App extends StatelessWidget {
 
                 return TalkerWrapper(
                   talker: AppLogger.talker,
-                  options: const TalkerWrapperOptions(
-                    enableErrorAlerts: false,
-                    enableExceptionAlerts: false,
-                  ),
+                  options: const TalkerWrapperOptions(enableExceptionAlerts: false),
                   child: Portal(
                     child: MediaQuery(
-                      data: MediaQuery.of(
-                        context,
-                      ).copyWith(textScaler: TextScaler.linear(scale)),
+                      data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(scale)),
                       child: child,
                     ),
                   ),
@@ -84,7 +80,5 @@ class App extends StatelessWidget {
         },
       ),
     );
-
-    
   }
 }

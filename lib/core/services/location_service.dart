@@ -9,7 +9,7 @@ class LocationService {
   Stream<Position> getLocationStream() {
     const settings = LocationSettings(
       accuracy: LocationAccuracy.high,
-      distanceFilter: 10, 
+      distanceFilter: 1, 
     );
 
     return Geolocator.getPositionStream(locationSettings: settings);

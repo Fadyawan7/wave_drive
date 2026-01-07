@@ -18,7 +18,7 @@ class _AutoAcceptScreenState extends State<AutoAcceptScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(
+      appBar: const MainAppBar(
         title: "Auto-Accept",
         leadingColor: AppColors.black,
       ),

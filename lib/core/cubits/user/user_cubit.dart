@@ -28,10 +28,6 @@ class UserCubit extends Cubit<UserState> {
 
   UserModel? get currentUser => state.currentUser;
 
-  void setCurrentUser(UserModel user) {
-    emit(state.copyWith(currentUser: user));
-  }
-
   Future<void> loadProfile() async {
     emit(state.copyWith(updateProfileState: AppLoadState.loading));
 
@@ -47,12 +43,11 @@ class UserCubit extends Cubit<UserState> {
       return;
     }
 
-    emit(
-      state.copyWith(
-        updateProfileState: AppLoadState.success,
-        currentUser: response.data,
-      ),
-    );
+    emit(state.copyWith(updateProfileState: AppLoadState.success, currentUser: response.data));
+  }
+
+  void setCurrentUser(UserModel user) {
+    emit(state.copyWith(currentUser: user));
   }
 
   Future<void> updateUserInfo({
@@ -85,9 +80,7 @@ class UserCubit extends Cubit<UserState> {
     if (avatar != null) {
       final uploadResponse = await _userRepository.uploadAvatar(avatar);
       _userRepository.uploadProgress.addListener(() {
-        AppLogger.d(
-          "avatar upload progress is ${_userRepository.uploadProgress.value}",
-        );
+        AppLogger.d("avatar upload progress is ${_userRepository.uploadProgress.value}");
       });
 
       avatarUrl = uploadResponse.data?.url;
@@ -117,21 +110,11 @@ class UserCubit extends Cubit<UserState> {
 
     if (result is ApiError) {
       AppLogger.e("updateInfoUser error: ${result.error}");
-      emit(
-        state.copyWith(
-          updateProfileState: AppLoadState.error,
-          errorMessageUpdateProfile: result.error!,
-        ),
-      );
+      emit(state.copyWith(updateProfileState: AppLoadState.error, errorMessageUpdateProfile: result.error!));
       return;
     }
 
-    emit(
-      state.copyWith(
-        updateProfileState: AppLoadState.success,
-        currentUser: result.data,
-      ),
-    );
+    emit(state.copyWith(updateProfileState: AppLoadState.success, currentUser: result.data));
   }
 
   Future<void> updateVehicleInfo(UpdateVehicleDTO dto) async {
@@ -139,21 +122,11 @@ class UserCubit extends Cubit<UserState> {
 
     if (result is ApiError) {
       AppLogger.e("updateInfoUser error: ${result.error}");
-      emit(
-        state.copyWith(
-          updateProfileState: AppLoadState.error,
-          errorMessageUpdateProfile: result.error!,
-        ),
-      );
+      emit(state.copyWith(updateProfileState: AppLoadState.error, errorMessageUpdateProfile: result.error!));
       return;
     }
 
-    emit(
-      state.copyWith(
-        updateProfileState: AppLoadState.success,
-       
-      ),
-    );
+    emit(state.copyWith(updateProfileState: AppLoadState.success));
   }
 
   Future<void> uploadPaymentInfo(PaymentInfoDto dto) async {
@@ -161,21 +134,11 @@ class UserCubit extends Cubit<UserState> {
 
     if (result is ApiError) {
       AppLogger.e("updateInfoUser error: ${result.error}");
-      emit(
-        state.copyWith(
-          updateProfileState: AppLoadState.error,
-          errorMessageUpdateProfile: result.error!,
-        ),
-      );
+      emit(state.copyWith(updateProfileState: AppLoadState.error, errorMessageUpdateProfile: result.error!));
       return;
     }
 
-    emit(
-      state.copyWith(
-        updateProfileState: AppLoadState.success,
-        
-      ),
-    );
+    emit(state.copyWith(updateProfileState: AppLoadState.success));
   }
 
   Future<void> uploadDucoments({
@@ -205,20 +168,41 @@ class UserCubit extends Cubit<UserState> {
 
     if (result is ApiError) {
       AppLogger.e("updateInfoUser error: ${result.error}");
-      emit(
-        state.copyWith(
-          updateProfileState: AppLoadState.error,
-          errorMessageUpdateProfile: result.error!,
-        ),
-      );
+      emit(state.copyWith(updateProfileState: AppLoadState.error, errorMessageUpdateProfile: result.error!));
       return;
     }
 
-    emit(
-      state.copyWith(
-        updateProfileState: AppLoadState.success,
-       
-      ),
+    emit(state.copyWith(updateProfileState: AppLoadState.success));
+  }
+
+  void updateCurrentUserField({
+    String? email,
+    String? firstName,
+    String? lastName,
+    String? nickname,
+    String? country,
+    String? phone,
+    String? gender,
+    String? bio,
+    String? picture,
+  }) {
+    final current = state.currentUser;
+
+    if (current == null) return;
+
+    final updatedUser = current.copyWith(
+      email: email ?? current.email,
+      firstName: firstName ?? current.firstName,
+      lastName: lastName ?? current.lastName,
+      name: nickname ?? current.name,
+      country: country ?? current.country,
     );
+
+    emit(state.copyWith(currentUser: updatedUser, updateProfileState: AppLoadState.success));
+
+    // If email changed, update Firebase
+    if (email != null && email.isNotEmpty && email != current.email) {
+      _firebaseAuth.updateInfo(email: email, name: updatedUser.name ?? "");
+    }
   }
 }

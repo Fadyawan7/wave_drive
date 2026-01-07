@@ -5,7 +5,7 @@ import 'package:wave_drive/core/shared/themes/themes.dart';
 class AppToggleTile extends StatefulWidget {
   final bool isOnline;
   final String title;
-  final VoidCallback onTap;
+  final Function(bool) onTap;
 
   const AppToggleTile({
     super.key,
@@ -45,10 +45,11 @@ class _AppToggleTileState extends State<AppToggleTile> {
           // Switch
           GestureDetector(
             onTap: () {
-              widget.onTap();
+              
               setState(() {
                 _isOnline = !_isOnline;
               });
+              widget.onTap(_isOnline);
             },
             child: Container(
               width: 60,

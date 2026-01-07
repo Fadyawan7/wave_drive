@@ -62,8 +62,6 @@ class DeleteDialog {
         return "Delete this video";
       case DeleteType.moment:
         return "Delete this moment";
-      default:
-        return "Delete";
-    }
+      }
   }
 }

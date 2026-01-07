@@ -21,13 +21,14 @@ class SocketService {
   }
 
   void connect() {
+
     try {
       socket = IO.io(
         AppConfig.socketIoUrl,
         IO.OptionBuilder()
             .setTransports(['websocket'])
             .enableAutoConnect()
-            .setExtraHeaders(_token)
+            .setAuth(_token)
             .build(),
       );
 

@@ -3,7 +3,10 @@ part of 'app_cubit.dart';
 @freezed
 abstract class AppState with _$AppState {
   const factory AppState(
-    {required LocationState locationState}
+    {required LocationState locationState
+    
+    ,
+    }
   ) = _AppState;
 }
 

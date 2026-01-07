@@ -2,11 +2,34 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:wave_drive/core/shared/themes/app_colors.dart';
+import 'package:wave_drive/core/shared/themes/app_icons.dart';
 import 'package:wave_drive/core/shared/themes/app_text_styles.dart';
+import 'package:wave_drive/core/shared/widgets/bottom_sheet/default_bottom_sheet.dart';
+import 'package:wave_drive/core/shared/widgets/images/app_image.dart';
 
-class CancelReasonBottomSheet extends StatelessWidget {
-  CancelReasonBottomSheet({super.key});
+class CancelReasonBottomSheet {
+  static Future<T?> show<T>(BuildContext context, {bool barrierDismissible = true, required Function() onCancal}) {
+    return DefaultBottomSheet.show<T>(
+      boarder: 12,
 
+      context,
+      barrierDismissible: barrierDismissible,
+      showDivider: false,
+
+      child: CancelReason(onCancal: onCancal),
+    );
+  }
+}
+
+class CancelReason extends StatefulWidget {
+  final Function() onCancal;
+  const CancelReason({super.key, required this.onCancal});
+
+  @override
+  State<CancelReason> createState() => _CancelReasonState();
+}
+
+class _CancelReasonState extends State<CancelReason> {
   final List<String> reasons = const [
     "Passenger requested cancellation",
     "Rider requested cancellation",
@@ -15,13 +38,12 @@ class CancelReasonBottomSheet extends StatelessWidget {
     "Safety concerns",
     "Other",
   ];
-
   @override
   Widget build(BuildContext context) {
     return Material(
       color: AppColors.white,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -33,33 +55,24 @@ class CancelReasonBottomSheet extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Cancel a ride",
-                  style: AppTextStyles.text10.copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {
+                Text("Cancel a ride", style: AppTextStyles.text10.copyWith(fontWeight: FontWeight.bold, fontSize: 18)),
+                GestureDetector(
+                  onTap: () {
                     Navigator.pop(context);
                   },
-                  icon: const Icon(Icons.close),
+                  child: const AppImage(path: AppIcons.cross, color: AppColors.black),
                 ),
               ],
             ),
             const Gap(4),
             Align(
               alignment: Alignment.centerLeft,
-              child: Text(
-                "Select reason for cancellation",
-                style: AppTextStyles.text10,
-              ),
+              child: Text("Select reason for cancellation", style: AppTextStyles.text10),
             ),
             const Gap(16),
 
             // Reason options
-            ...reasons.map((reason) => _buildReasonOption(reason)).toList(),
+            ...reasons.map((reason) => _buildReasonOption(reason)),
           ],
         ),
       ),
@@ -69,19 +82,22 @@ class CancelReasonBottomSheet extends StatelessWidget {
   Widget _buildReasonOption(String reason) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 12,
+      spacing: 24,
       children: [
-        const Gap(5),
         Material(
           color: Colors.transparent,
           child: InkWell(
             onTap: () {
-              // Get.toNamed('dashboard_view');
+              Navigator.pop(context);
+              widget.onCancal();
             },
-            child: Text(reason, style: AppTextStyles.text10),
+            child: Text(
+              reason,
+              style: AppTextStyles.text16.copyWith(fontWeight: FontWeight.w400, color: AppColors.black33),
+            ),
           ),
         ),
-        Divider(thickness: 1, color: AppColors.strockcolor),
+        const Divider(thickness: 1, color: AppColors.grayF8),
       ],
     );
   }

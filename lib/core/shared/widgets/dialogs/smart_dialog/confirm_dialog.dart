@@ -22,7 +22,7 @@ class SmartConfirmDialog {
     bool isAutoClose = false,
     Function()? onCancel,
     required Function() onConfirm,
-  }) async {
+  })  {
     return SmartDialog.show(
       animationType: SmartAnimationType.fade,
       builder: (BuildContext context) {

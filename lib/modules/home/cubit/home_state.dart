@@ -2,7 +2,11 @@ part of 'home_cubit.dart';
 
 @freezed
 abstract class HomeState with _$HomeState {
-  const factory HomeState({required LocationState locationState}) = _HomeState;
+  const factory HomeState({required LocationState locationState,
+  
+      @Default(<Marker>{}) Set<Marker> markers,
+
+  }) = _HomeState;
 }
 
 @freezed

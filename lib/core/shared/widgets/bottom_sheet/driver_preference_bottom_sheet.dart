@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -12,9 +13,11 @@ class DriverPreferenceBotonSheet {
     BuildContext context, {
     bool barrierDismissible = true,
     required Function() onTakePhoto,
+    required Function(bool) onAutoAccept,
+    required bool autoAccept,
     required Function() onChoosePhoto,
     required Function() onChooseCategory,
-  }) async {
+  }) {
     return DefaultBottomSheet.show<T>(
       boarder: 12,
       context,
@@ -27,21 +30,18 @@ class DriverPreferenceBotonSheet {
           child: Column(
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     "Driver preference",
-                    style: AppTextStyles.text20.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.black33,
-                    ),
+                    style: AppTextStyles.text20.copyWith(fontWeight: FontWeight.w600, color: AppColors.black33),
                   ),
 
                   GestureDetector(
                     onTap: () => AppNavigator.pop(context),
-                    child: AppImage(path: AppIcons.cross, size: 21),
+                    child: const AppImage(path: AppIcons.cross, size: 21),
                   ),
                 ],
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
               ),
               Gap(24),
               _buildItem(
@@ -67,10 +67,15 @@ class DriverPreferenceBotonSheet {
                 onTap: () {
                   AppNavigator.pop(context);
                 },
-                subTitle:
-                    'Travel outside this distance will NOT reduce your acceptance rate.',
+                subTitle: 'Travel outside this distance will NOT reduce your acceptance rate.',
               ),
-              AppToggleTile(isOnline: true, onTap: () {}, title: 'Auto-accept'),
+              AppToggleTile(
+                isOnline: autoAccept,
+                onTap: (autoAccept) {
+                  onAutoAccept(autoAccept);
+                },
+                title: 'Auto-accept',
+              ),
             ],
           ),
         ),
@@ -98,30 +103,18 @@ class DriverPreferenceBotonSheet {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      title,
-                      style: AppTextStyles.text16.copyWith(
-                        color: AppColors.black33,
-                      ),
-                    ),
+                    Text(title, style: AppTextStyles.text16.copyWith(color: AppColors.black33)),
                     const Gap(4),
                     Text(
                       subTitle,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: AppTextStyles.text16.copyWith(
-                        color: AppColors.grayA9,
-                      ),
+                      style: AppTextStyles.text16.copyWith(color: AppColors.grayA9),
                     ),
                   ],
                 ),
               ),
-              if (showIcon)
-                const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 16,
-                  color: AppColors.grayA9,
-                ),
+              if (showIcon) const Icon(Icons.arrow_forward_ios, size: 16, color: AppColors.grayA9),
             ],
           ),
           if (showDivider)

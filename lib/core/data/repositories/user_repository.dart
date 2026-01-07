@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:wave_drive/core/data/models/auth/user_model.dart';
-import 'package:wave_drive/core/data/models/user/check_phone_number_exist.dart';
+import 'package:wave_drive/core/data/models/earning/earning_model.dart';
 import 'package:wave_drive/core/data/network/api_service.dart';
 import 'package:wave_drive/core/data/network/dio/helpers/api_helper.dart';
 import 'package:wave_drive/core/data/network/dio/helpers/safe_api_call.dart';
@@ -31,15 +31,11 @@ class UserRepository {
     );
   }
 
-  Future<ApiResult<UserModel>> updateProfile(
-    UpdateProfileDTO updateProfileDTO,
-  ) {
+  Future<ApiResult<UserModel>> updateProfile(UpdateProfileDTO updateProfileDTO) {
     return safeApiCall(_apiClient.user.updateProfile(updateProfileDTO));
   }
 
-  Future<ApiResult<dynamic>> updateVehicleInfo(
-    UpdateVehicleDTO updateProfileDTO,
-  ) {
+  Future<ApiResult<dynamic>> updateVehicleInfo(UpdateVehicleDTO updateProfileDTO) {
     return safeApiCall(_apiClient.user.updateVehicleInfo(updateProfileDTO));
   }
 
@@ -86,5 +82,12 @@ class UserRepository {
     );
   }
 
+  Future<ApiResult<EarningModelResponse>> getEarning(String pariod) {
+    return safeApiCall(_apiClient.user.getEarning(pariod));
+  }
 
+  Future<List<String>> getCategory() async {
+    final response = await safeApiCall(_apiClient.user.getCategory());
+    return response.data ?? [];
+  }
 }

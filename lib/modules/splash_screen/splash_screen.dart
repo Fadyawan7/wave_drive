@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:wave_drive/core/cubits/app_cubit.dart';
-import 'package:wave_drive/core/cubits/socket/socket_cubit.dart';
 import 'package:wave_drive/core/cubits/user/user_cubit.dart';
 import 'package:wave_drive/core/routes/app_navigator.dart';
 import 'package:wave_drive/core/routes/app_router.gr.dart';
@@ -24,7 +23,6 @@ class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   final _appCubit = injector<AppCubit>();
 
-  final _socketCubit = injector<SocketCubit>();
 
   late AnimationController animationController;
   late Animation<double> handAnimation;
@@ -144,7 +142,6 @@ class _SplashScreenState extends State<SplashScreen>
 
     await _appCubit.initDioProvider();
     await _appCubit.initializeApp();
-    await _socketCubit.init();
 
     
     _navigate();

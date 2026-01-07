@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$HomeState implements DiagnosticableTreeMixin {
 
- LocationState get locationState;
+ LocationState get locationState; Set<Marker> get markers;
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,21 +26,21 @@ $HomeStateCopyWith<HomeState> get copyWith => _$HomeStateCopyWithImpl<HomeState>
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'HomeState'))
-    ..add(DiagnosticsProperty('locationState', locationState));
+    ..add(DiagnosticsProperty('locationState', locationState))..add(DiagnosticsProperty('markers', markers));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&(identical(other.locationState, locationState) || other.locationState == locationState));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&(identical(other.locationState, locationState) || other.locationState == locationState)&&const DeepCollectionEquality().equals(other.markers, markers));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,locationState);
+int get hashCode => Object.hash(runtimeType,locationState,const DeepCollectionEquality().hash(markers));
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'HomeState(locationState: $locationState)';
+  return 'HomeState(locationState: $locationState, markers: $markers)';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $HomeStateCopyWith<$Res>  {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) _then) = _$HomeStateCopyWithImpl;
 @useResult
 $Res call({
- LocationState locationState
+ LocationState locationState, Set<Marker> markers
 });
 
 
@@ -68,10 +68,11 @@ class _$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? locationState = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? locationState = null,Object? markers = null,}) {
   return _then(_self.copyWith(
 locationState: null == locationState ? _self.locationState : locationState // ignore: cast_nullable_to_non_nullable
-as LocationState,
+as LocationState,markers: null == markers ? _self.markers : markers // ignore: cast_nullable_to_non_nullable
+as Set<Marker>,
   ));
 }
 /// Create a copy of HomeState
@@ -165,10 +166,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( LocationState locationState)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( LocationState locationState,  Set<Marker> markers)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default(_that.locationState);case _:
+return $default(_that.locationState,_that.markers);case _:
   return orElse();
 
 }
@@ -186,10 +187,10 @@ return $default(_that.locationState);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( LocationState locationState)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( LocationState locationState,  Set<Marker> markers)  $default,) {final _that = this;
 switch (_that) {
 case _HomeState():
-return $default(_that.locationState);case _:
+return $default(_that.locationState,_that.markers);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -206,10 +207,10 @@ return $default(_that.locationState);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( LocationState locationState)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( LocationState locationState,  Set<Marker> markers)?  $default,) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default(_that.locationState);case _:
+return $default(_that.locationState,_that.markers);case _:
   return null;
 
 }
@@ -221,10 +222,17 @@ return $default(_that.locationState);case _:
 
 
 class _HomeState with DiagnosticableTreeMixin implements HomeState {
-  const _HomeState({required this.locationState});
+  const _HomeState({required this.locationState, final  Set<Marker> markers = const <Marker>{}}): _markers = markers;
   
 
 @override final  LocationState locationState;
+ final  Set<Marker> _markers;
+@override@JsonKey() Set<Marker> get markers {
+  if (_markers is EqualUnmodifiableSetView) return _markers;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableSetView(_markers);
+}
+
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
@@ -237,21 +245,21 @@ _$HomeStateCopyWith<_HomeState> get copyWith => __$HomeStateCopyWithImpl<_HomeSt
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'HomeState'))
-    ..add(DiagnosticsProperty('locationState', locationState));
+    ..add(DiagnosticsProperty('locationState', locationState))..add(DiagnosticsProperty('markers', markers));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&(identical(other.locationState, locationState) || other.locationState == locationState));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&(identical(other.locationState, locationState) || other.locationState == locationState)&&const DeepCollectionEquality().equals(other._markers, _markers));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,locationState);
+int get hashCode => Object.hash(runtimeType,locationState,const DeepCollectionEquality().hash(_markers));
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'HomeState(locationState: $locationState)';
+  return 'HomeState(locationState: $locationState, markers: $markers)';
 }
 
 
@@ -262,7 +270,7 @@ abstract mixin class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Re
   factory _$HomeStateCopyWith(_HomeState value, $Res Function(_HomeState) _then) = __$HomeStateCopyWithImpl;
 @override @useResult
 $Res call({
- LocationState locationState
+ LocationState locationState, Set<Marker> markers
 });
 
 
@@ -279,10 +287,11 @@ class __$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? locationState = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? locationState = null,Object? markers = null,}) {
   return _then(_HomeState(
 locationState: null == locationState ? _self.locationState : locationState // ignore: cast_nullable_to_non_nullable
-as LocationState,
+as LocationState,markers: null == markers ? _self._markers : markers // ignore: cast_nullable_to_non_nullable
+as Set<Marker>,
   ));
 }
 
